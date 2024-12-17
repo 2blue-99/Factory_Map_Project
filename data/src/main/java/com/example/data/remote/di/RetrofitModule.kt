@@ -1,5 +1,6 @@
 package com.example.data.remote.di
 
+import com.example.data.BuildConfig
 import com.example.data.remote.util.NetworkInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -50,6 +51,6 @@ object RetrofitModule {
         .addConverterFactory(GsonConverterFactory.create(gson))
 //        .addConverterFactory(MoshiConverterFactory.create())
         .client(okHttpClient)
-        .baseUrl("https://koreanjson.com/")
+        .baseUrl("https://apis.data.go.kr/B550624/fctryRegistPrdctnInfo/")
         .build()
 }

@@ -45,6 +45,7 @@ inline fun <reified T: Any, R: Any> APIResponseState<T>.toDomainFlow(mapper: (T)
         is APIResponseState.Exception ->
             ResourceState.Exception(this.type)
     }
+    Timber.d("toDomainFlow : $resource ")
     return flow {
         emit(ResourceState.Loading())
         delay(2000)

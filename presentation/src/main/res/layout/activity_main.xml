@@ -45,19 +45,44 @@
             android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.INVISIBLE}"
             />
 
-        <TextView
-            android:textColor="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:textSize="20sp"
-            android:text="@{viewModel.testLiveData.title}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <TextView-->
+<!--            android:textColor="@color/white"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:textSize="20sp"-->
+<!--            android:text="@{viewModel.testLiveData.title}"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="@{() -> viewModel.onClickLogout()}"/>
+            android:orientation="vertical">
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:onClick="@{() -> viewModel.onClickInsert()}"
+                android:text="insert"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:onClick="@{() -> viewModel.onClickDeleteAll()}"
+                android:text="delete"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:onClick="@{() -> viewModel.onClickGetAPI()}"
+                android:text="get"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

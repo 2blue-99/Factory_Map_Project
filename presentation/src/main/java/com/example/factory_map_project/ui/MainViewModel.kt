@@ -2,12 +2,11 @@ package com.example.factory_map_project.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.event.BaseEvent
 import com.example.factory_map_project.util.event.resourceHandler
-import com.example.domain.model.TestData
+import com.example.domain.model.FactoryInfo
 import com.example.domain.repo.DataStoreRepo
 import com.example.domain.usecase.TestDaoUseCase
 import com.example.domain.usecase.TestUseCase
@@ -25,21 +24,16 @@ class MainViewModel @Inject constructor(
     private val dataStoreRepo: DataStoreRepo
 ): BaseViewModel() {
 
-    private var _testLiveData = MutableLiveData<TestData>()
-    val testLiveData: LiveData<TestData> = _testLiveData
+    private var _testLiveData = MutableLiveData<FactoryInfo>()
+    val testLiveData: LiveData<FactoryInfo> = _testLiveData
 
     private var count = 0
 
     init {
         modelScope.launch {
             useCase.test().resourceHandler(_eventFlow) {
-                _testLiveData.value = it
-            }
-        }
-        ioScope.launch {
-            repeat(5){
-                daoUseCase.upsert(new(1))
-                delay(1000)
+                Timber.d("viewModel : $it")
+//                _testLiveData.value = it
             }
         }
         ioScope.launch {
@@ -54,18 +48,18 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun new(count: Int):TestData =
-        TestData(
-            id = 0,
-            title = "${count} test title",
-            content = "test content",
-            createdAt = "test createdAt",
-            updatedAt = "test updatedAt",
-            userId = 0
-        )
+//    private fun new(count: Int):FactoryInfo =
+//        FactoryInfo(
+//            id = 0,
+//            title = "${count} test title",
+//            content = "test content",
+//            createdAt = "test createdAt",
+//            updatedAt = "test updatedAt",
+//            userId = 0
+//        )
 
     fun onClickLogout(){
-        viewModelScope.launch {
+        modelScope.launch {
             // 팝업창 띄어줌
             val isSuccess = awaitEvent(
                 BaseEvent.ShowPopup(content = PopupContent.NETWORK_ERR)
@@ -81,15 +75,41 @@ class MainViewModel @Inject constructor(
     }
 
     fun onClickToast(){
-        viewModelScope.launch {
+        modelScope.launch {
             emitEvent(BaseEvent.ShowToast("Test"))
         }
     }
 
     fun onClickBack(){
-        viewModelScope.launch {
+        modelScope.launch {
             val actionId = requestAPIData()
 //            emitEvent(BaseEvent.MovePage(R.id.testestest))
+        }
+    }
+
+    fun onClickInsert(){
+        ioScope.launch {
+            isLoading.postValue(true)
+            val result = repeat(100000){
+//                daoUseCase.upsert(new(count++))
+            }
+            Timber.d("done")
+            isLoading.postValue(false)
+        }
+    }
+
+    fun onClickDeleteAll(){
+        ioScope.launch {
+            isLoading.postValue(true)
+            daoUseCase.deleteAll()
+            Timber.d("done")
+            isLoading.postValue(false)
+        }
+    }
+
+    fun onClickGetAPI(){
+        modelScope.launch {
+            useCase.test()
         }
     }
 

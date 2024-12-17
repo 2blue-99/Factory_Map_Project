@@ -4,7 +4,7 @@ import com.example.data.local.dao.TestDao
 import com.example.data.remote.TestDataSourceImpl
 import com.example.data.remote.util.Mapper.toEntity
 import com.example.data.remote.util.toDomainFlow
-import com.example.domain.model.TestData
+import com.example.domain.model.FactoryInfo
 import com.example.domain.repo.TestRepository
 import com.example.domain.util.ResourceState
 import kotlinx.coroutines.flow.Flow
@@ -15,19 +15,25 @@ class TestRepositoryImpl @Inject constructor(
     private val dataSource: TestDataSourceImpl,
     private val testDao: TestDao
 ): TestRepository {
-    override suspend fun getTestData(): Flow<ResourceState<TestData>> {
-        return dataSource.getDataSource().toDomainFlow { it.mapper() }
+    override suspend fun getTestData(): Flow<ResourceState<List<FactoryInfo>>> {
+        return dataSource.getDataSource().toDomainFlow {
+            it.
+        }
     }
 
-    override fun getTestDao(): Flow<List<TestData>> {
+    override fun getTestDao(): Flow<List<FactoryInfo>> {
         return testDao.getAllData().map { it.map { data -> data.toDomain() } }
     }
 
-    override fun upsertTestDao(testEntity: TestData) {
+    override fun upsertTestDao(testEntity: FactoryInfo) {
         testDao.upsertData(testEntity.toEntity())
     }
 
     override fun deleteTestDao(id: Int) {
         testDao.deleteData(id)
+    }
+
+    override fun deleteAllDao() {
+        testDao.deleteAllData()
     }
 }

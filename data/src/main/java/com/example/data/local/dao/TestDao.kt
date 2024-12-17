@@ -17,4 +17,7 @@ interface TestDao {
 
     @Query("DELETE FROM test WHERE id = :id")
     fun deleteData(id: Int)
+
+    @Query("DELETE FROM test")
+    fun deleteAllData()
 }

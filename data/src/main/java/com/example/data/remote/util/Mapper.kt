@@ -1,13 +1,13 @@
 package com.example.data.remote.util
 
 import com.example.data.local.entity.TestEntity
-import com.example.domain.model.TestData
+import com.example.domain.model.FactoryInfo
 
 object Mapper {
-    fun TestData.toEntity(): TestEntity {
+    fun FactoryInfo.toEntity(): TestEntity {
         return TestEntity(
-            id = id,
-            firstName = title
+            id = 1,
+            firstName = "title"
         )
     }
 }
