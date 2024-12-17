@@ -40,7 +40,6 @@ inline fun <reified T: Any, R: Any> APIResponseState<T>.toDomainFlow(mapper: (T)
         is APIResponseState.Failure -> ResourceState.Failure(
             code = this.code,
             message = this.message,
-            body = this.body
         )
         is APIResponseState.Exception ->
             ResourceState.Exception(this.type)

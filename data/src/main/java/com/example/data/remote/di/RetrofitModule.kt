@@ -19,8 +19,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
-    private const val DEBUG_TIME_OUT = 10000L
-    private const val RELEASE_TIME_OUT = 10000L
+    private const val DEBUG_TIME_OUT = 20000L
+    private const val RELEASE_TIME_OUT = 20000L
 
     private var gson: Gson = GsonBuilder().setLenient().create()
 

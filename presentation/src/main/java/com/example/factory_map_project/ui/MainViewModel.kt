@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor(
     init {
         modelScope.launch {
             useCase.test().resourceHandler(_eventFlow) {
-                Timber.d("viewModel : $it")
+                Timber.d("viewModel : ${it.size}")
 //                _testLiveData.value = it
             }
         }

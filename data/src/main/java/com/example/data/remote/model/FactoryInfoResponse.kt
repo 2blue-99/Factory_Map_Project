@@ -39,20 +39,6 @@ data class Items(
 )
 
 data class FactoryInfoResponse(
-    @SerializedName("resultCode")
-    val resultCode: String, // 결과코드
-
-    @SerializedName("resultMsg")
-    val resultMsg: String, // 결과메시지
-
-    @SerializedName("numOfRows")
-    val numOfRows: Int, // 한 페이지당 표출 데이터 수
-
-    @SerializedName("pageNo")
-    val pageNo: Int, // 페이지 수
-
-    @SerializedName("totalCount")
-    val totalCount: Int, // 데이터 총 개수
 
     @SerializedName("fctryManageNo")
     val factoryManageNo: String, // 공장관리번호
@@ -82,22 +68,19 @@ data class FactoryInfoResponse(
     val totalEmployees: Int, // 고용인원
 
     @SerializedName("frstFctryRegistDe")
-    val factoryRegistrationDate: String, // 공장 등록일자
+    val factoryRegistrationDate: String?, // 공장 등록일자
 
     @SerializedName("indutyNm")
-    val industryName: String, // 업종명
+    val industryName: String?, // 업종명
 
     @SerializedName("mainProductCn")
-    val mainProduct: String, // 주생산품
+    val mainProduct: String?, // 주생산품
 
     @SerializedName("hmpadr")
     val homepage: String? // 홈페이지 (null 허용)
 ){
     fun mapper(): FactoryInfo {
         return FactoryInfo(
-            resultCode = resultCode,
-            resultMsg = resultMsg,
-            totalCount = totalCount,
             companyName = companyName,
             roadAddress = roadAddress,
             representativeName = representativeName,

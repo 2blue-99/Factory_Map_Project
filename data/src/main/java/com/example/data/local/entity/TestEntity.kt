@@ -11,9 +11,8 @@ data class TestEntity(
 ){
     fun toDomain(): FactoryInfo{
         return FactoryInfo(
-            resultCode = "",
-            resultMsg = "resultMsg",
-            totalCount = 1,
+//            resultCode = "",
+//            resultMsg = "resultMsg",
             companyName = "companyName",
             roadAddress = "roadAddress",
             representativeName = "representativeName",
