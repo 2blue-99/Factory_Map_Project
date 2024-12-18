@@ -18,9 +18,7 @@ class TestRepositoryImpl @Inject constructor(
     override suspend fun getTestData(): Flow<ResourceState<List<FactoryInfo>>> {
         return dataSource.getDataSource().toDomainFlow { data ->
             data.response.body.items.item.map {
-                it.mapper(
-//                    totalCount = data.response.body.totalCount
-                )
+                it.mapper()
             }
         }
     }

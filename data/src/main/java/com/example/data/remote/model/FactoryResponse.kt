@@ -81,14 +81,15 @@ data class FactoryInfoResponse(
 ){
     fun mapper(): FactoryInfo {
         return FactoryInfo(
-            companyName = companyName,
-            roadAddress = roadAddress,
-            representativeName = representativeName,
-            companyPhoneNumber = companyPhoneNumber,
-            totalEmployees = totalEmployees,
-            factoryRegistrationDate = factoryRegistrationDate,
-            industryName = industryName,
-            mainProduct = mainProduct
+            id = 0,
+            companyName = companyName ?: "확인 불가",
+            roadAddress = roadAddress ?: "확인 불가",
+            representativeName = representativeName ?: "확인 불가",
+            companyPhoneNumber = companyPhoneNumber ?: "확인 불가",
+            totalEmployees = totalEmployees ?: -1,
+            factoryRegistrationDate = factoryRegistrationDate ?: "확인 불가",
+            industryName = industryName ?: "확인 불가",
+            mainProduct = mainProduct ?: "확인 불가"
         )
     }
 }

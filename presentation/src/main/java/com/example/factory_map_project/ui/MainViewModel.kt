@@ -11,8 +11,10 @@ import com.example.domain.repo.DataStoreRepo
 import com.example.domain.usecase.TestDaoUseCase
 import com.example.domain.usecase.TestUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -33,7 +35,10 @@ class MainViewModel @Inject constructor(
         modelScope.launch {
             useCase.test().resourceHandler(_eventFlow) {
                 Timber.d("viewModel : ${it.size}")
-//                _testLiveData.value = it
+                ioScope.launch {
+                    it.map { daoUseCase.upsert(it) }
+                    Timber.d("룸 끝났어용")
+                }
             }
         }
         ioScope.launch {
@@ -41,11 +46,11 @@ class MainViewModel @Inject constructor(
                 Timber.d("room : $it")
             }
         }
-        modelScope.launch {
-            dataStoreRepo.dataStoreFlow.collect {
-                Timber.d("data store : $it")
-            }
-        }
+//        modelScope.launch {
+//            dataStoreRepo.dataStoreFlow.collect {
+//                Timber.d("data store : $it")
+//            }
+//        }
     }
 
 //    private fun new(count: Int):FactoryInfo =

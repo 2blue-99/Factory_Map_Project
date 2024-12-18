@@ -4,16 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.data.local.entity.TestEntity
+import com.example.data.local.entity.FactoryEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TestDao {
     @Query("SELECT * FROM test")
-    fun getAllData(): Flow<List<TestEntity>>
+    fun getAllData(): Flow<List<FactoryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsertData(data: TestEntity)
+    fun upsertData(data: FactoryEntity)
 
     @Query("DELETE FROM test WHERE id = :id")
     fun deleteData(id: Int)
