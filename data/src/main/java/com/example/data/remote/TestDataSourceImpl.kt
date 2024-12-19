@@ -13,10 +13,6 @@ class TestDataSourceImpl @Inject constructor(
 ) {
     suspend fun getDataSource(): APIResponseState<FactoryResponse> {
         Timber.d("start")
-        val gap = testAPI.getDataSource(BuildConfig.API_KEY," ",100, "서울","JSON").apiErrorHandler()
-        if(gap is APIResponseState.Success){
-            Timber.d("body item : ${gap.body.response.body.items.item}")
-        }
-        return gap
+        return testAPI.getDataSource(BuildConfig.API_KEY," ",100, "경기도","JSON").apiErrorHandler()
     }
 }
