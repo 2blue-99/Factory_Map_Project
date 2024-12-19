@@ -15,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Factory_Map_Project"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDLR9hHknI0NfSW8yZmFWcA9CIHSK1sYO8" />
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
