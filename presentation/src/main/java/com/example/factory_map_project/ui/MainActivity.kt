@@ -12,6 +12,7 @@ import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.ActivityMainBinding
 import com.example.factory_map_project.ui.base.BaseActivity
 import com.example.factory_map_project.util.Util.repeatOnStarted
+import com.example.factory_map_project.util.Util.setStatusBarTransparent
 import com.example.factory_map_project.util.event.BaseEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     override val viewModel: MainViewModel by viewModels()
 
     override fun setData() {
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT // 회전 불가 처리
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment

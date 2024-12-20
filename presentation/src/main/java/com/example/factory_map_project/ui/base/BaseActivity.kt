@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
 import com.example.factory_map_project.ui.MainViewModel
+import com.example.factory_map_project.ui.dialog.BaseBottomDialog
 import com.example.factory_map_project.util.event.BaseEvent
 import timber.log.Timber
 
@@ -36,7 +37,9 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
 
 
     /**
-     * Activity Lifecycle
+     * //////////////////////////////////////////////////////////////////////////////
+     * //////////////////////////////    Lifecycle     //////////////////////////////
+     * //////////////////////////////////////////////////////////////////////////////
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate [${this::class.simpleName}]")
@@ -84,6 +87,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
 
 
 
+
     fun showToast(text: String){
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
@@ -107,5 +111,10 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         if(viewModel is MainViewModel){
             viewModel.isLoading.value = state
         }
+    }
+
+    fun openBottomSheet(){
+        val bottomSheetDialogFragment = BaseBottomDialog.newInstance("")
+        bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
     }
 }
