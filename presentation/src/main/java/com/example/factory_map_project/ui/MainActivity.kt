@@ -24,8 +24,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     override val viewModel: MainViewModel by viewModels()
 
     override fun setData() {
-//        setStatusBarTransparent() // 상태 바 투명으로 설정(전체화면)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
