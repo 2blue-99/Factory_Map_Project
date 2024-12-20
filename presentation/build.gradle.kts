@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android)
-    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 val properties = Properties()
@@ -37,7 +36,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = "debug"
-            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_DEBUG"))
+//            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_DEBUG"))
         }
         release {
             applicationIdSuffix = "release"
@@ -47,7 +46,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_RELEASE"))
+//            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_RELEASE"))
         }
     }
 
@@ -60,7 +59,7 @@ android {
     }
 
     buildFeatures {
-        buildConfig = true
+//        buildConfig = true
         dataBinding = true
     }
 }
@@ -74,7 +73,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -89,4 +87,8 @@ dependencies {
     implementation(libs.hilt)
     kapt (libs.dagger.hilt.compiler)
     kapt (libs.androidx.hilt.compiler)
+
+    /* Map */
+    implementation(libs.play.services.maps)
+    implementation (libs.android.maps.utils)
 }

@@ -1,11 +1,11 @@
-package com.example.data.remote
+package com.example.data.remote.datasource
 
-import com.example.data.remote.model.FactoryResponse
+import com.example.data.remote.model.AllAreaResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface TestDataSource {
+interface AllAreaDataSource {
     @GET("getFctryPrdctnService")
     suspend fun getDataSource(
         @Query("serviceKey") key: String,
@@ -13,5 +13,5 @@ interface TestDataSource {
         @Query("numOfRows") count: Int,
         @Query("adres") address: String,
         @Query("type") type: String,
-    ): Response<FactoryResponse>
+    ): Response<AllAreaResponse>
 }

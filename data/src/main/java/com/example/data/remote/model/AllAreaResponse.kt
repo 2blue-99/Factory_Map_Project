@@ -1,9 +1,9 @@
 package com.example.data.remote.model
 
-import com.example.domain.model.FactoryInfo
+import com.example.domain.model.AllAreaInfo
 import com.google.gson.annotations.SerializedName
 
-data class FactoryResponse(
+data class AllAreaResponse(
     @SerializedName("response")
     val response: Response
 )
@@ -35,10 +35,10 @@ data class Body(
 
 data class Items(
     @SerializedName("item")
-    val item: List<FactoryInfoResponse>
+    val item: List<AllAreaInfoResponse>
 )
 
-data class FactoryInfoResponse(
+data class AllAreaInfoResponse(
 
     @SerializedName("fctryManageNo")
     val factoryManageNo: String, // 공장관리번호
@@ -79,8 +79,8 @@ data class FactoryInfoResponse(
     @SerializedName("hmpadr")
     val homepage: String? // 홈페이지 (null 허용)
 ){
-    fun mapper(): FactoryInfo {
-        return FactoryInfo(
+    fun mapper(): AllAreaInfo {
+        return AllAreaInfo(
             id = 0,
             companyName = companyName ?: "확인 불가",
             roadAddress = roadAddress ?: "확인 불가",

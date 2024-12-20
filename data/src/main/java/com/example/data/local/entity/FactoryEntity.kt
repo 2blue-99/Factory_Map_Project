@@ -2,7 +2,7 @@ package com.example.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.domain.model.FactoryInfo
+import com.example.domain.model.AllAreaInfo
 
 @Entity(tableName = "test")
 data class FactoryEntity(
@@ -16,8 +16,8 @@ data class FactoryEntity(
     val industryName: String,
     val mainProduct: String,
 ){
-    fun toDomain(): FactoryInfo {
-        return FactoryInfo(
+    fun toDomain(): AllAreaInfo {
+        return AllAreaInfo(
             id = id,
             companyName = companyName,
             roadAddress = roadAddress,

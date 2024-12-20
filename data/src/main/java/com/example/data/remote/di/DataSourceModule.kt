@@ -1,7 +1,9 @@
 package com.example.data.remote.di
 
-import com.example.data.remote.TestDataSource
-import com.example.data.remote.TestDataSourceImpl
+import com.example.data.remote.datasource.AllAreaDataSource
+import com.example.data.remote.datasource.AllAreaDataSourceImpl
+import com.example.data.remote.datasource.GyeonggiDataSource
+import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,5 +16,13 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideDataSource(dataSource: TestDataSource): TestDataSourceImpl = TestDataSourceImpl(dataSource)
+    fun provideAllAreaDataSource(
+        dataSource: AllAreaDataSource
+    ): AllAreaDataSourceImpl = AllAreaDataSourceImpl(dataSource)
+
+    @Provides
+    @Singleton
+    fun provideGyeonggiDataSource(
+        dataSource: GyeonggiDataSource
+    ): GyeonggiDataSourceImpl = GyeonggiDataSourceImpl(dataSource)
 }

@@ -28,10 +28,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_RELEASE"))
+            buildConfigField("String", "API_URL_ALL", properties.getProperty("API_URL_ALL"))
+            buildConfigField("String", "API_URL_GYEONGGI", properties.getProperty("API_URL_GYEONGGI"))
+            buildConfigField("String", "API_KEY_ALL", properties.getProperty("API_KEY_ALL"))
+            buildConfigField("String", "API_KEY_GYEONGGI", properties.getProperty("API_KEY_GYEONGGI"))
         }
         debug {
-            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_DEBUG"))
+            buildConfigField("String", "API_URL_ALL", properties.getProperty("API_URL_ALL"))
+            buildConfigField("String", "API_URL_GYEONGGI", properties.getProperty("API_URL_GYEONGGI"))
+            buildConfigField("String", "API_KEY_ALL", properties.getProperty("API_KEY_ALL"))
+            buildConfigField("String", "API_KEY_GYEONGGI", properties.getProperty("API_KEY_GYEONGGI"))
         }
     }
     compileOptions {

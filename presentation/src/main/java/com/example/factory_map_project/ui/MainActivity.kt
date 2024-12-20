@@ -4,11 +4,10 @@ import android.content.pm.ActivityInfo
 import android.location.Geocoder
 import android.os.Build
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.domain.model.FactoryInfo
+import com.example.domain.model.AllAreaInfo
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.ActivityMainBinding
 import com.example.factory_map_project.ui.base.BaseActivity
@@ -57,7 +56,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
     override fun setListener() {  }
 
-    private fun geoTest(list: List<FactoryInfo>){
+    private fun geoTest(list: List<AllAreaInfo>){
         val geo = Geocoder(this)
         lifecycleScope.launch {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

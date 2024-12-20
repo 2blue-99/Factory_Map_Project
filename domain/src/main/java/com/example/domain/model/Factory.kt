@@ -7,5 +7,5 @@ data class Factory(
 
     val totalCount: Int, // 총 개수
 
-    val items: List<FactoryInfo>
+    val items: List<AllAreaInfo>
 )

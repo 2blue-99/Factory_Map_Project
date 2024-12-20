@@ -13,6 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -23,6 +24,14 @@ object RetrofitModule {
     private const val RELEASE_TIME_OUT = 20000L
 
     private var gson: Gson = GsonBuilder().setLenient().create()
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class All
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class Gyeonggi
 
     @Singleton
     @Provides
@@ -47,10 +56,21 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    @All
+    fun provideAllRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create(gson))
 //        .addConverterFactory(MoshiConverterFactory.create())
         .client(okHttpClient)
-        .baseUrl("https://apis.data.go.kr/B550624/fctryRegistPrdctnInfo/")
+        .baseUrl(BuildConfig.API_URL_ALL)
+        .build()
+
+    @Singleton
+    @Provides
+    @Gyeonggi
+    fun provideGyeonggiRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create(gson))
+//        .addConverterFactory(MoshiConverterFactory.create())
+        .client(okHttpClient)
+        .baseUrl(BuildConfig.API_URL_GYEONGGI)
         .build()
 }

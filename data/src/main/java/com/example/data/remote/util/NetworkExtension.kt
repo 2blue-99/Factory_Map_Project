@@ -10,11 +10,13 @@ import timber.log.Timber
 
 inline fun <reified T: Any> Response<T>.apiErrorHandler(): APIResponseState<T> {
     return try {
-        Timber.d("responseHandler : $this")
+        Timber.d("responseHandler : ${this}")
         when(this.code()){
             200 -> {
                 if(this.body() != null){
-                    APIResponseState.Success(code = this.code(), message = this.message(), body = this.body() as T)
+                    val gap = APIResponseState.Success(code = this.code(), message = this.message(), body = this.body() as T)
+                    Timber.d("responseHandler : $gap")
+                    gap
                 }else{
                     APIResponseState.Exception(type = ExceptionType.NonDataException)
                 }

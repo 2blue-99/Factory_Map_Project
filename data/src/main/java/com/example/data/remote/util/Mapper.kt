@@ -1,10 +1,10 @@
 package com.example.data.remote.util
 
 import com.example.data.local.entity.FactoryEntity
-import com.example.domain.model.FactoryInfo
+import com.example.domain.model.AllAreaInfo
 
 object Mapper {
-    fun FactoryInfo.toEntity(): FactoryEntity {
+    fun AllAreaInfo.toEntity(): FactoryEntity {
         return FactoryEntity(
             id = 0,
             companyName = companyName,

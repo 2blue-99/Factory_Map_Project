@@ -2,7 +2,7 @@ package com.example.factory_map_project.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.domain.model.FactoryInfo
+import com.example.domain.model.AllAreaInfo
 import com.example.domain.repo.DataStoreRepo
 import com.example.domain.usecase.TestDaoUseCase
 import com.example.domain.usecase.TestUseCase
@@ -24,8 +24,8 @@ class MainViewModel @Inject constructor(
     private val dataStoreRepo: DataStoreRepo
 ): BaseViewModel() {
 
-    private var _testLiveData = MutableLiveData<List<FactoryInfo>>()
-    val testLiveData: LiveData<List<FactoryInfo>> = _testLiveData
+    private var _testLiveData = MutableLiveData<List<AllAreaInfo>>()
+    val testLiveData: LiveData<List<AllAreaInfo>> = _testLiveData
 
     init {
 //        modelScope.launch {
@@ -110,7 +110,7 @@ class MainViewModel @Inject constructor(
 
     fun onClickGetAPI(){
         modelScope.launch {
-            useCase.test().collect {
+            useCase.getAllAreaData().collect {
                 when(it){
                     is ResourceState.Success -> {
 //                        Timber.d("viewModel result : ${it.body.map { it.mainProduct }}")
