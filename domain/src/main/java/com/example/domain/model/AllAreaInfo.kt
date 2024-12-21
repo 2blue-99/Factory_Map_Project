@@ -1,6 +1,6 @@
 package com.example.domain.model
 
-data class FactoryInfo(
+data class AllAreaInfo(
     val id: Int,
 
     val companyName: String, // 회사명

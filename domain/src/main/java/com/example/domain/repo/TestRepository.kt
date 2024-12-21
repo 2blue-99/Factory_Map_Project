@@ -1,16 +1,19 @@
 package com.example.domain.repo
 
 import com.example.domain.util.ResourceState
-import com.example.domain.model.FactoryInfo
+import com.example.domain.model.AllAreaInfo
+import com.example.domain.model.GyeonggiInfo
 import kotlinx.coroutines.flow.Flow
 
 interface TestRepository {
 
-    suspend fun getTestData(): Flow<ResourceState<List<FactoryInfo>>>
+    suspend fun getAllAreaData(): Flow<ResourceState<List<AllAreaInfo>>>
 
-    fun getTestDao(): Flow<List<FactoryInfo>>
+    suspend fun getGyeonggiData(): Flow<ResourceState<List<GyeonggiInfo>>>
 
-    fun upsertTestDao(testEntity: FactoryInfo)
+    fun getTestDao(): Flow<List<AllAreaInfo>>
+
+    fun upsertTestDao(testEntity: AllAreaInfo)
 
     fun deleteTestDao(id: Int)
 

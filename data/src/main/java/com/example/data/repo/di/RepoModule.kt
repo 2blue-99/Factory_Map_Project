@@ -1,12 +1,11 @@
 package com.example.data.repo.di
 
-import android.service.autofill.UserData
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.example.data.datastore.UserDataSource
 import com.example.data.local.dao.TestDao
-import com.example.data.remote.TestDataSourceImpl
-import com.example.data.remote.TestDataSourceImpl_Factory
+import com.example.data.remote.datasource.AllAreaDataSourceImpl
+import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.repo.TestRepositoryImpl
 import com.example.domain.repo.DataStoreRepo
 import com.example.domain.repo.TestRepository
@@ -22,9 +21,10 @@ object RepoModule {
     @Provides
     @Singleton
     fun provideRepo(
-        dataSource: TestDataSourceImpl,
+        allAreaDatasource: AllAreaDataSourceImpl,
+        gyeonggiDatasource: GyeonggiDataSourceImpl,
         testDao: TestDao,
-    ): TestRepository = TestRepositoryImpl(dataSource, testDao)
+    ): TestRepository = TestRepositoryImpl(allAreaDatasource, gyeonggiDatasource, testDao)
 
     @Provides
     @Singleton

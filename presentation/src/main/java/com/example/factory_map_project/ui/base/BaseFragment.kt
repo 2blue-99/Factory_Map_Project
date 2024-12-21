@@ -35,7 +35,7 @@ abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
      */
     abstract fun setData()
     /**
-     * onCreateView() | Data Setting
+     * onViewCreated() | Data Setting
      */
     abstract fun setUI()
     /**

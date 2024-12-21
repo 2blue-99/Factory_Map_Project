@@ -36,7 +36,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = "debug"
-            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_DEBUG"))
+//            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_DEBUG"))
         }
         release {
             applicationIdSuffix = "release"
@@ -46,7 +46,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_RELEASE"))
+//            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_RELEASE"))
         }
     }
 
@@ -59,7 +59,7 @@ android {
     }
 
     buildFeatures {
-        buildConfig = true
+//        buildConfig = true
         dataBinding = true
     }
 }
@@ -88,4 +88,7 @@ dependencies {
     kapt (libs.dagger.hilt.compiler)
     kapt (libs.androidx.hilt.compiler)
 
+    /* Map */
+    implementation(libs.play.services.maps)
+    implementation (libs.android.maps.utils)
 }
