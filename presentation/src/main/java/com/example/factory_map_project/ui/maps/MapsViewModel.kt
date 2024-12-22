@@ -9,6 +9,7 @@ import com.example.domain.usecase.TestDaoUseCase
 import com.example.domain.usecase.TestUseCase
 import com.example.domain.util.ResourceState
 import com.example.factory_map_project.ui.base.BaseViewModel
+import com.example.factory_map_project.util.event.BaseEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,6 +51,10 @@ class MapsViewModel @Inject constructor(
                     is ResourceState.Success -> {
 //                        Timber.d("viewModel result : ${it.body.map { it.mainProduct }}")
                         _gyeonggiLiveData.postValue(it.body)
+                        _eventFlow.emit(BaseEvent.ShowLoading(false))
+                    }
+                    is ResourceState.Loading -> {
+                        _eventFlow.emit(BaseEvent.ShowLoading(true))
                     }
                     else -> {}
                 }
