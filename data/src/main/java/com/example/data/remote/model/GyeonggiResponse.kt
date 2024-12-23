@@ -105,7 +105,7 @@ data class GyeonggiInfoResponse(
             productInfo = productInfo ?: "확인 불가",
             contact = telephoneNumber ?: "확인 불가",
             numberAddress = refineLotNumberAddress ?: "확인 불가",
-            loadNameAddress = refineRoadNameAddress ?: "확인 불가",
+            loadAddress = refineRoadNameAddress ?: "확인 불가",
             longitude = refineLongitude ?: -1.0,
             latitude = refineLatitude ?: -1.0
         )

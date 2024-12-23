@@ -37,9 +37,17 @@ object Util {
 
     fun GyeonggiInfo.toCluster(): FactoryCluster =
         FactoryCluster(
-            title = this.companyName,
-            add = this.loadNameAddress,
-            lat = this.latitude,
-            lng = this.longitude
+            id = id,
+            companyName = companyName,
+            lotArea = lotArea.toString(),
+            employeeCount = employeeCount.toString(),
+            scaleDivisionName = scaleDivisionName,
+            registrationDate = registrationDate,
+            factoryType = description,
+            productInfo = productInfo,
+            contact = contact,
+            loadAddress = loadAddress,
+            latitude = latitude,
+            longitude = longitude
         )
 }

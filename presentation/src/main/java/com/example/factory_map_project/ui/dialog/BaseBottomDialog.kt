@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
-import com.example.factory_map_project.databinding.BottomSheetDialogBinding
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.ui.base.Inflate
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -44,16 +43,12 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
      * onViewCreated() | Observer Setting
      */
     abstract fun setObserver()
-    /**
-     * onViewCreated() | Listener Setting
-     */
-    abstract fun setListener()
 
     /**
      *
      */
-    abstract fun onClickNegative(): View.OnClickListener
-    abstract fun onClickPositive(): View.OnClickListener
+    abstract fun onClickNegative()
+    abstract fun onClickPositive()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
@@ -76,6 +71,12 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
             binding.lifecycleOwner = viewLifecycleOwner
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUI()
+        setObserver()
     }
 
     override fun onDestroyView() {

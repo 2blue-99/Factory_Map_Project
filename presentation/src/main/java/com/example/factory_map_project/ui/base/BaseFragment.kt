@@ -42,10 +42,6 @@ abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
      * onViewCreated() | Observer Setting
      */
     abstract fun setObserver()
-    /**
-     * onViewCreated() | Listener Setting
-     */
-    abstract fun setListener()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +69,6 @@ abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
         super.onViewCreated(view, savedInstanceState)
         setUI()
         setObserver()
-        setListener()
     }
 
     override fun onStart() {

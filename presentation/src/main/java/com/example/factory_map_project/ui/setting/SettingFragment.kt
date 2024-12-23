@@ -22,8 +22,4 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(
     override fun setObserver() {
 
     }
-
-    override fun setListener() {
-
-    }
 }

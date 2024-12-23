@@ -3,7 +3,7 @@ package com.example.factory_map_project.ui.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.factory_map_project.util.event.BaseEvent
+import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.event.EventDelegator
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +20,7 @@ import kotlin.coroutines.coroutineContext
 
 abstract class BaseViewModel: ViewModel() {
 
-    protected val _eventFlow = MutableSharedFlow<BaseEvent>()
+    protected val _eventFlow = MutableSharedFlow<AppEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     val isLoading = MutableLiveData(false)
@@ -44,14 +44,14 @@ abstract class BaseViewModel: ViewModel() {
 
 
 
-    protected suspend fun emitEvent(event: BaseEvent){
+    protected suspend fun emitEvent(event: AppEvent){
         viewModelScope.launch {
             _eventFlow.emit(event)
         }
     }
 
     protected suspend fun <T> awaitEvent(event: EventDelegator<T>): T? {
-        if(event is BaseEvent){
+        if(event is AppEvent){
             emitEvent(event)
         }
         return withContext(coroutineContext){

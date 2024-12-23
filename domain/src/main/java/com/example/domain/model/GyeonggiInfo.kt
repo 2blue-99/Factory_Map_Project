@@ -21,7 +21,7 @@ data class GyeonggiInfo(
 
     val numberAddress: String, // 정제 지번 주소
 
-    val loadNameAddress: String, // 정제 도로명 주소
+    val loadAddress: String, // 정제 도로명 주소
 
     val latitude: Double, // 정제 위도
 

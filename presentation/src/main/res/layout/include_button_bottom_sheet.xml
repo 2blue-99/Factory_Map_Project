@@ -5,11 +5,11 @@
         <import type="android.view.View" />
 
         <variable
-            name="negativeClick"
+            name="onNegativeClick"
             type="android.view.View.OnClickListener" />
 
         <variable
-            name="positiveClick"
+            name="onPositiveClick"
             type="android.view.View.OnClickListener" />
     </data>
 
@@ -26,12 +26,14 @@
             android:background="@drawable/button_bottom_sheet"
             android:backgroundTint="@color/background"
             android:text="취소"
-            android:visibility="@{negativeClick == null ? View.GONE : View.VISIBLE}" />
+            android:textSize="18sp"
+            android:onClickListener="@{onNegativeClick}"
+            android:visibility="@{onNegativeClick == null ? View.GONE : View.VISIBLE}" />
 
         <View
             android:layout_width="10dp"
             android:layout_height="match_parent"
-            android:visibility="@{negativeClick != null &amp;&amp; positiveClick != null ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{onNegativeClick != null &amp;&amp; onPositiveClick != null ? View.VISIBLE : View.GONE}"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
@@ -40,7 +42,9 @@
             android:background="@drawable/button_bottom_sheet"
             android:backgroundTint="@color/primary"
             android:text="확인"
-            android:visibility="@{positiveClick == null ? View.GONE : View.VISIBLE}" />
+            android:textSize="18sp"
+            android:onClickListener="@{onPositiveClick}"
+            android:visibility="@{onPositiveClick == null ? View.GONE : View.VISIBLE}" />
     </LinearLayout>
 
 </layout>

@@ -1,12 +1,10 @@
 package com.example.factory_map_project.ui.maps
 
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.domain.model.GyeonggiInfo
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
 import com.example.factory_map_project.ui.MainActivity
-import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.Util.toCluster
 import com.example.factory_map_project.util.map.CustomClusterRenderer
@@ -52,15 +50,9 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     override fun setObserver() {
         viewModel.gyeonggiLiveData.observe(this) {
-            Timber.d("관찰 완료 : ${it}")
             inputData(it)
         }
     }
-
-    override fun setListener() {  }
-
-
-
 
     private fun initMap(){
         val test = LatLng(37.5073218717, 127.6164271659)
@@ -94,8 +86,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     private fun onClickMarker(item: FactoryCluster): Boolean {
-        Timber.d("setOnClusterItemClickListener")
-        (activity as MainActivity).openBottomSheet()
+        (activity as MainActivity).openMarkerBottomSheet(item)
         return false
     }
 }

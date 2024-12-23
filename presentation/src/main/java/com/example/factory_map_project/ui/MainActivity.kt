@@ -12,8 +12,7 @@ import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.ActivityMainBinding
 import com.example.factory_map_project.ui.base.BaseActivity
 import com.example.factory_map_project.util.Util.repeatOnStarted
-import com.example.factory_map_project.util.Util.setStatusBarTransparent
-import com.example.factory_map_project.util.event.BaseEvent
+import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -37,13 +36,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             viewModel.eventFlow.collect { event ->
                 Timber.d("event : $event")
                 when(event){
-                    is BaseEvent.ShowPopup -> showDialog(event)
-                    is BaseEvent.ShowToast -> showToast(event.message)
-                    is BaseEvent.ShowLoading -> {
+                    is AppEvent.ShowPopup -> showDialog(event)
+                    is AppEvent.ShowToast -> showToast(event.message)
+                    is AppEvent.ShowLoading -> {
                         Timber.d("loading state : ${event.state}")
                         setLoading(event.state)
                     }
-                    is BaseEvent.MovePage -> {}
+                    is AppEvent.MovePage -> {}
+                    else -> {}
                 }
             }
         }

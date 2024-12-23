@@ -9,9 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
 import com.example.factory_map_project.ui.MainViewModel
-import com.example.factory_map_project.ui.dialog.BaseBottomDialog
-import com.example.factory_map_project.ui.dialog.DownloadDialog
-import com.example.factory_map_project.util.event.BaseEvent
+import com.example.factory_map_project.ui.dialog.MarkerDialog
+import com.example.factory_map_project.util.event.AppEvent
+import com.example.factory_map_project.util.map.FactoryCluster
 import timber.log.Timber
 
 
@@ -93,7 +93,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
-    fun showDialog(event: BaseEvent.ShowPopup){
+    fun showDialog(event: AppEvent.ShowPopup){
         AlertDialog.Builder(this)
             .setTitle(event.content.name)
             .setPositiveButton("확인"){ dialog, which ->
@@ -114,8 +114,8 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
-    fun openBottomSheet(){
-        val bottomSheetDialogFragment = DownloadDialog.newInstance("")
+    fun openMarkerBottomSheet(item: FactoryCluster){
+        val bottomSheetDialogFragment = MarkerDialog.newInstance(item)
         bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
     }
 }

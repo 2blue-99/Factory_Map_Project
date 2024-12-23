@@ -9,7 +9,7 @@ import com.example.domain.usecase.TestUseCase
 import com.example.domain.util.ResourceState
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.PopupContent
-import com.example.factory_map_project.util.event.BaseEvent
+import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -63,13 +63,13 @@ class MainViewModel @Inject constructor(
         modelScope.launch {
             // 팝업창 띄어줌
             val isSuccess = awaitEvent(
-                BaseEvent.ShowPopup(content = PopupContent.NETWORK_ERR)
+                AppEvent.ShowPopup(content = PopupContent.NETWORK_ERR)
             )
             // 멈춰있음
             if(isSuccess == true){
                 requestAPIData()
                 emitEvent(
-                    BaseEvent.ShowToast("로그아웃 완료")
+                    AppEvent.ShowToast("로그아웃 완료")
                 )
             }
         }
@@ -77,7 +77,7 @@ class MainViewModel @Inject constructor(
 
     fun onClickToast(){
         modelScope.launch {
-            emitEvent(BaseEvent.ShowToast("Test"))
+            emitEvent(AppEvent.ShowToast("Test"))
         }
     }
 
