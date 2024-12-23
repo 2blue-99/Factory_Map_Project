@@ -1,6 +1,5 @@
 package com.example.data.remote.model
 
-import com.example.domain.model.AllAreaInfo
 import com.example.domain.model.GyeonggiInfo
 import com.google.gson.annotations.SerializedName
 
@@ -97,18 +96,18 @@ data class GyeonggiInfoResponse(
     fun mapper(): GyeonggiInfo {
         return GyeonggiInfo(
             id = 0,
-            companyGroupName = companyGroupName ?: "확인 불가",
+            companyName = companyGroupName ?: "확인 불가",
             lotArea = lotArea ?: -1.0,
             employeeCount = employeeCount ?: -1,
-            factoryScaleDivisionName = factoryScaleDivisionName ?: "확인 불가",
-            factoryRegistrationDate = factoryRegistrationDate ?: "확인 불가",
-            industryTypeDescription = industryTypeDescription ?: "확인 불가",
+            scaleDivisionName = factoryScaleDivisionName ?: "확인 불가",
+            registrationDate = factoryRegistrationDate ?: "확인 불가",
+            description = industryTypeDescription ?: "확인 불가",
             productInfo = productInfo ?: "확인 불가",
-            telephoneNumber = telephoneNumber ?: "확인 불가",
-            refineLotNumberAddress = refineLotNumberAddress ?: "확인 불가",
-            refineRoadNameAddress = refineRoadNameAddress ?: "확인 불가",
-            refineLongitude = refineLongitude ?: -1.0,
-            refineLatitude = refineLatitude ?: -1.0
+            contact = telephoneNumber ?: "확인 불가",
+            numberAddress = refineLotNumberAddress ?: "확인 불가",
+            loadNameAddress = refineRoadNameAddress ?: "확인 불가",
+            longitude = refineLongitude ?: -1.0,
+            latitude = refineLatitude ?: -1.0
         )
     }
 }

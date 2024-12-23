@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="negativeClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="positiveClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_bottom_sheet"
+            android:backgroundTint="@color/background"
+            android:text="취소"
+            android:visibility="@{negativeClick == null ? View.GONE : View.VISIBLE}" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:visibility="@{negativeClick != null &amp;&amp; positiveClick != null ? View.VISIBLE : View.GONE}"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/button_bottom_sheet"
+            android:backgroundTint="@color/primary"
+            android:text="확인"
+            android:visibility="@{positiveClick == null ? View.GONE : View.VISIBLE}" />
+    </LinearLayout>
+
+</layout>

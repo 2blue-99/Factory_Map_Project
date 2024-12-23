@@ -27,7 +27,7 @@ abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
      * 뷰 데이터 바인딩
      */
     private var _binding: VB? = null
-    val binding get() = _binding!!
+    protected val binding get() = _binding!!
 
 
     /**

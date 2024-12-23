@@ -37,9 +37,9 @@ object Util {
 
     fun GyeonggiInfo.toCluster(): FactoryCluster =
         FactoryCluster(
-            title = this.companyGroupName,
-            add = this.refineRoadNameAddress,
-            lat = this.refineLatitude,
-            lng = this.refineLongitude
+            title = this.companyName,
+            add = this.loadNameAddress,
+            lat = this.latitude,
+            lng = this.longitude
         )
 }

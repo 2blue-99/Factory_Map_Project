@@ -10,6 +10,7 @@ import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
 import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.dialog.BaseBottomDialog
+import com.example.factory_map_project.ui.dialog.DownloadDialog
 import com.example.factory_map_project.util.event.BaseEvent
 import timber.log.Timber
 
@@ -114,7 +115,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     }
 
     fun openBottomSheet(){
-        val bottomSheetDialogFragment = BaseBottomDialog.newInstance("")
+        val bottomSheetDialogFragment = DownloadDialog.newInstance("")
         bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
     }
 }
