@@ -36,7 +36,9 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = "debug"
-//            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_DEBUG"))
+
+            buildConfigField("String", "GOOGLE_MAP_KEY", properties.getProperty("GOOGLE_MAP_KEY"))
+            manifestPlaceholders["GOOGLE_MAP_KEY"] = "GOOGLE_MAP_KEY"
         }
         release {
             applicationIdSuffix = "release"
@@ -59,7 +61,7 @@ android {
     }
 
     buildFeatures {
-//        buildConfig = true
+        buildConfig = true
         dataBinding = true
     }
 }
