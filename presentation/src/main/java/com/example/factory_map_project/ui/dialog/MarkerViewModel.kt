@@ -7,27 +7,37 @@ import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
-class MarkerViewModel: BaseViewModel() {
+class MarkerViewModel : BaseViewModel() {
 
     private var _uiData = MutableLiveData<FactoryCluster>()
     val uiData: MutableLiveData<FactoryCluster> get() = _uiData
 
-    fun loadData(data: FactoryCluster){
+    fun loadData(data: FactoryCluster) {
         _uiData.value = data
     }
 
-    fun onClickNegative(){
+    fun onClickContact(number: String) {
         viewModelScope.launch {
-            Timber.d("ne")
-            _eventFlow.emit(AppEvent.Action(ActionType.NEGATIVE))
+            _eventFlow.emit(AppEvent.Action(ActionType.CALL, number))
         }
     }
 
-    fun onClickConfirm(){
+    fun onClickAddress() {
         viewModelScope.launch {
-            _eventFlow.emit(AppEvent.Action(ActionType.CONFIRM))
+            _eventFlow.emit(AppEvent.Action(ActionType.MAP, uiData.value))
+        }
+    }
+
+    fun onClickNegative() {
+        viewModelScope.launch {
+            _eventFlow.emit(AppEvent.Action(ActionType.NEGATIVE, null))
+        }
+    }
+
+    fun onClickConfirm() {
+        viewModelScope.launch {
+            _eventFlow.emit(AppEvent.Action(ActionType.CONFIRM, null))
         }
     }
 }

@@ -12,6 +12,6 @@ class HiltApplication : Application() {
     }
 
     private fun init(){
-        Timber.plant(LogDebugTree("TEST APP"))
+        Timber.plant(LogDebugTree("Factory_Map"))
     }
 }

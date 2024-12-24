@@ -1,5 +1,6 @@
 package com.example.data.remote.model
 
+import com.example.data.remote.util.Mapper.toDateStringFormat
 import com.example.domain.model.GyeonggiInfo
 import com.google.gson.annotations.SerializedName
 
@@ -97,10 +98,10 @@ data class GyeonggiInfoResponse(
         return GyeonggiInfo(
             id = 0,
             companyName = companyGroupName ?: "확인 불가",
-            lotArea = lotArea ?: -1.0,
-            employeeCount = employeeCount ?: -1,
+            lotArea = "${lotArea} m^2" ?: "확인 불가",
+            employeeCount = "${employeeCount}명" ?: "확인 불가",
             scaleDivisionName = factoryScaleDivisionName ?: "확인 불가",
-            registrationDate = factoryRegistrationDate ?: "확인 불가",
+            registrationDate = factoryRegistrationDate.toDateStringFormat(),
             description = industryTypeDescription ?: "확인 불가",
             productInfo = productInfo ?: "확인 불가",
             contact = telephoneNumber ?: "확인 불가",

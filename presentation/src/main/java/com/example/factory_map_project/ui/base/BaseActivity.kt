@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
 import com.example.factory_map_project.ui.MainViewModel
-import com.example.factory_map_project.ui.dialog.MarkerDialog
+import com.example.factory_map_project.ui.dialog.MarkerBottomDialog
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
 import timber.log.Timber
@@ -115,7 +115,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     }
 
     fun openMarkerBottomSheet(item: FactoryCluster){
-        val bottomSheetDialogFragment = MarkerDialog.newInstance(item)
+        val bottomSheetDialogFragment = MarkerBottomDialog.newInstance(item)
         bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
     }
 }

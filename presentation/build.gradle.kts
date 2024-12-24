@@ -88,7 +88,7 @@ dependencies {
     kapt (libs.dagger.hilt.compiler)
     kapt (libs.androidx.hilt.compiler)
 
-    /* Map */
+    /* Google Map */
     implementation(libs.play.services.maps)
     implementation (libs.android.maps.utils)
 }

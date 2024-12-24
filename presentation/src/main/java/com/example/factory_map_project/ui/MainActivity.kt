@@ -13,6 +13,7 @@ import com.example.factory_map_project.databinding.ActivityMainBinding
 import com.example.factory_map_project.ui.base.BaseActivity
 import com.example.factory_map_project.util.Util.repeatOnStarted
 import com.example.factory_map_project.util.event.AppEvent
+
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber

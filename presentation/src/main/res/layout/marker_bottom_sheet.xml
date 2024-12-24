@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="30dp">
+        android:padding="26dp">
 
         <View
             android:id="@+id/close"
@@ -28,27 +28,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingVertical="20dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="6dp"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/test"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="회사이름"
-                    android:textSize="16sp" />
-                <TextView
                     android:layout_weight="1"
-                    android:gravity="right"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.uiData.companyName, default = `회사이름`}"
-                    android:textSize="16sp" />
+                    android:textSize="26sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -116,21 +110,22 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="공장등록일자"
+                    android:text="등록일자"
                     android:textSize="16sp" />
                 <TextView
                     android:layout_weight="1"
                     android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.uiData.registrationDate, default = `공장등록일자`}"
+                    android:text="@{viewModel.uiData.registrationDate, default = `등록일자`}"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
                 <TextView
                     android:layout_weight="2"
                     android:layout_width="match_parent"
@@ -168,7 +163,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:onClick="@{() -> viewModel.onClickContact(viewModel.uiData.contact)}"
+                >
                 <TextView
                     android:layout_weight="2"
                     android:layout_width="match_parent"
@@ -181,25 +179,60 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.uiData.contact, default = `전화번호`}"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    app:underline="@{true}"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:onClick="@{() -> viewModel.onClickAddress()}"
+                >
                 <TextView
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="도로명주소"
+                    android:text="도로명"
                     android:textSize="16sp" />
                 <TextView
                     android:layout_weight="1"
                     android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.uiData.loadAddress, default = `도로명주소`}"
+                    android:text="@{viewModel.uiData.loadAddress, default = `도로명`}"
+                    android:textSize="16sp"
+                    app:underline="@{true}"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="14dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="메모"
+                    android:textSize="16sp" />
+                <EditText
+                    android:id="@+id/edit_text"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/memo_edit_text"
+                    android:hint="메모 사항을 입력해주세요."
+                    android:gravity="top|start"
+                    android:padding="16dp"
+                    android:scrollbars="vertical"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:overScrollMode="always"
+                    android:imeOptions="actionNone"
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>

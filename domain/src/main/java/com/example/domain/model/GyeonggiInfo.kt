@@ -5,9 +5,9 @@ data class GyeonggiInfo(
 
     val companyName: String, // 기업 그룹 이름
 
-    val lotArea: Double, // 부지 면적
+    val lotArea: String, // 부지 면적
 
-    val employeeCount: Int, // 고용 인원
+    val employeeCount: String, // 고용 인원
 
     val scaleDivisionName: String, // 공장 규모 구분 이름
 

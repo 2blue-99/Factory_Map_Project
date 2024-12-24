@@ -1,4 +1,4 @@
-package com.example.factory_map_project.ui.dialog
+package com.example.factory_map_project.ui.base
 
 import android.app.Dialog
 import android.os.Bundle
@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
-import com.example.factory_map_project.ui.base.BaseViewModel
-import com.example.factory_map_project.ui.base.Inflate
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -56,8 +54,7 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
         bottomSheetBehavior.apply { skipCollapsed = true }
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         setData()
-//        bottomSheetBehavior.bottomSheetCallBack
-        return super.onCreateDialog(savedInstanceState)
+        return dialog
     }
     
     override fun onCreateView(
