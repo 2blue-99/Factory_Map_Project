@@ -26,13 +26,6 @@ object Util {
         }
     }
 
-    /**
-     * 상태바 투명 처리
-     */
-    fun Activity.setStatusBarTransparent() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-    }
-
     fun GoogleMap.setMarker(latitude: Double, longitude: Double, name: String = ""): Marker? {
         val location = LatLng(latitude, longitude)
         return this.addMarker(MarkerOptions().position(location).title(name))
