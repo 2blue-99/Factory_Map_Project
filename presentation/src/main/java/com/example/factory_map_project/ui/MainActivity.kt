@@ -30,6 +30,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         binding.navBottom.setupWithNavController(navHostFragment.navController)
+
+        lifecycleScope.launch {
+            if(viewModel.checkDownload()){
+                openDownloadBottomSheet()
+            }
+        }
     }
 
     override fun setObserver() {
@@ -75,4 +81,5 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             }
         }
     }
+
 }

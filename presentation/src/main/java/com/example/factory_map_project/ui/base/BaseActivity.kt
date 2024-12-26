@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
 import com.example.factory_map_project.ui.MainViewModel
+import com.example.factory_map_project.ui.dialog.DownloadBottomDialog
 import com.example.factory_map_project.ui.dialog.MarkerBottomDialog
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
@@ -112,6 +113,10 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         if(viewModel is MainViewModel){
             viewModel.isLoading.value = state
         }
+    }
+
+    fun openDownloadBottomSheet(){
+        DownloadBottomDialog().show(supportFragmentManager, "Download")
     }
 
     fun openMarkerBottomSheet(item: FactoryCluster){

@@ -2,7 +2,7 @@ package com.example.factory_map_project.ui.dialog
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import com.example.factory_map_project.databinding.MarkerBottomSheetBinding
+import com.example.factory_map_project.databinding.MarkerBottomDialogBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.Util.moveCall
 import com.example.factory_map_project.util.Util.moveTMap
@@ -14,8 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MarkerBottomDialog: BaseBottomDialog<MarkerBottomSheetBinding, MarkerViewModel>(
-    MarkerBottomSheetBinding::inflate
+class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerViewModel>(
+    MarkerBottomDialogBinding::inflate
 ) {
 
     override val viewModel: MarkerViewModel by viewModels()

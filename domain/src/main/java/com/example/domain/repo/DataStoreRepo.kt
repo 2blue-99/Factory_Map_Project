@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DataStoreRepo {
 
-    val dataStoreFlow: Flow<String>
+    val downloadFlow: Flow<String>
 
-    suspend fun setTestData(text: String)
+    suspend fun setDownload(text: String)
 }
