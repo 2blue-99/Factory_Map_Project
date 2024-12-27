@@ -17,7 +17,7 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
     override val viewModel: DownloadViewModel by viewModels()
 
     override fun setData() {
-        isCancelable = false
+//        isCancelable = false
     }
 
     override fun setUI() {}

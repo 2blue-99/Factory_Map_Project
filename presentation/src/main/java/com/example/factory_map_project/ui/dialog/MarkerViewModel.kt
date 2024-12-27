@@ -7,6 +7,7 @@ import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MarkerViewModel : BaseViewModel() {
 
@@ -39,5 +40,9 @@ class MarkerViewModel : BaseViewModel() {
         modelScope.launch {
             _eventFlow.emit(AppEvent.Action(ActionType.CONFIRM, null))
         }
+    }
+
+    fun onClickCheckBox(state: Boolean) {
+        Timber.d("state : $state")
     }
 }

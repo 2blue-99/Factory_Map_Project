@@ -5,6 +5,7 @@ enum class ActionType {
     NEGATIVE,
     CONFIRM,
 
+
     // Move
     CALL,
     MAP

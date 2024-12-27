@@ -13,6 +13,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
@@ -54,6 +56,10 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         }
     }
 
+
+
+
+
     private fun initMap(){
         val test = LatLng(37.5073218717, 127.6164271659)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 8.1f))
@@ -66,6 +72,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
         googleMap.setOnCameraIdleListener(clusterManager)
         googleMap.setOnMarkerClickListener(clusterManager)
+
         clusterManager.setOnClusterClickListener { onClickCluster(it) }
         clusterManager.setOnClusterItemClickListener { onClickMarker(it) }
     }
@@ -86,7 +93,10 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     private fun onClickMarker(item: FactoryCluster): Boolean {
-        (activity as MainActivity).openMarkerBottomSheet(item)
+        val targetMarker = clusterManager.markerCollection.markers.find { it.position  == item.position }
+        targetMarker?.let { marker ->
+            (activity as MainActivity).openMarkerBottomSheet(item, marker)
+        }
         return false
     }
 }

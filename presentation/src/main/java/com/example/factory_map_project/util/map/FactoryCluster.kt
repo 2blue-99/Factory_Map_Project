@@ -7,6 +7,10 @@ import java.io.Serializable
 data class FactoryCluster(
     val id: Int,
 
+    val isClick: Boolean = false,
+
+    val memo: String = "",
+
     val companyName: String, // 기업 그룹 이름
 
     val lotArea: String, // 부지 면적

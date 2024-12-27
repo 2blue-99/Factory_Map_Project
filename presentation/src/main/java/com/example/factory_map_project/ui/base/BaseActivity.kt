@@ -13,6 +13,7 @@ import com.example.factory_map_project.ui.dialog.DownloadBottomDialog
 import com.example.factory_map_project.ui.dialog.MarkerBottomDialog
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
+import com.google.android.gms.maps.model.Marker
 import timber.log.Timber
 
 
@@ -119,8 +120,8 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         DownloadBottomDialog().show(supportFragmentManager, "Download")
     }
 
-    fun openMarkerBottomSheet(item: FactoryCluster){
-        val bottomSheetDialogFragment = MarkerBottomDialog.newInstance(item)
+    fun openMarkerBottomSheet(item: FactoryCluster, targetMarker: Marker){
+        val bottomSheetDialogFragment = MarkerBottomDialog.newInstance(item, targetMarker)
         bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
     }
 }

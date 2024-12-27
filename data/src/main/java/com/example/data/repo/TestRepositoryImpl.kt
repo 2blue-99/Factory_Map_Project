@@ -29,7 +29,7 @@ class TestRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getGyeonggiData(): Flow<ResourceState<List<GyeonggiInfo>>> {
-        return (1..1).asFlow()  // Flow로 1부터 100까지 생성
+        return (1..10).asFlow()  // Flow로 1부터 100까지 생성
             .map { page ->  // 각 page에 대해 getDataSource 호출
                 gyeonggiDataSource.getDataSource(page).toDomainFlow { data ->
                     // 각 데이터에서 rows를 가져와서 mapping

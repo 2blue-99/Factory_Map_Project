@@ -10,11 +10,15 @@ import com.example.factory_map_project.util.Util.repeatOnStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Marker
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerViewModel>(
+class MarkerBottomDialog(
+    val marker: Marker
+): BaseBottomDialog<MarkerBottomDialogBinding, MarkerViewModel>(
     MarkerBottomDialogBinding::inflate
 ) {
 
@@ -27,7 +31,16 @@ class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerView
         }
     }
 
-    override fun setUI() {}
+    override fun setUI() {
+        binding.test.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+            }else{
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            }
+
+        }
+    }
 
     override fun setObserver() {
         repeatOnStarted {
@@ -63,13 +76,12 @@ class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerView
         dismiss()
     }
 
-
     companion object {
 
         private const val ARG_CONTENT = "content"
 
-        fun newInstance(content: FactoryCluster): MarkerBottomDialog {
-            val dialog = MarkerBottomDialog()
+        fun newInstance(content: FactoryCluster, targetMarker: Marker): MarkerBottomDialog {
+            val dialog = MarkerBottomDialog(targetMarker)
             val args = Bundle().apply {
                 putSerializable(ARG_CONTENT, content)
             }
@@ -77,4 +89,5 @@ class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerView
             return dialog
         }
     }
+
 }
