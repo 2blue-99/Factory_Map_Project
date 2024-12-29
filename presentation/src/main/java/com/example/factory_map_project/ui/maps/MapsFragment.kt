@@ -56,9 +56,11 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         }
     }
 
-
-
-
+     /**
+     * //////////////////////////////////////////////////////////////////////////////
+     * //////////////////////////////////////////////////////////////////////////////
+     * //////////////////////////////////////////////////////////////////////////////
+     */
 
     private fun initMap(){
         val test = LatLng(37.5073218717, 127.6164271659)
@@ -96,6 +98,8 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         val targetMarker = clusterManager.markerCollection.markers.find { it.position  == item.position }
         targetMarker?.let { marker ->
             (activity as MainActivity).openMarkerBottomSheet(item, marker)
+            clusterManager.updateItem(item.copy(isClick = true))
+
         }
         return false
     }
