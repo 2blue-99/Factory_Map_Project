@@ -96,11 +96,26 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     private fun onClickMarker(item: FactoryCluster): Boolean {
         val targetMarker = clusterManager.markerCollection.markers.find { it.position  == item.position }
+        Timber.d("item : $item")
         targetMarker?.let { marker ->
-            (activity as MainActivity).openMarkerBottomSheet(item, marker)
-            clusterManager.updateItem(item.copy(isClick = true))
-
+            (activity as MainActivity).openMarkerBottomSheet(
+                item = item,
+                onChangeVisit = { changeVisit(item) },
+                onChangeNotVisit = { changeNoVisit(item) }
+            )
         }
         return false
+    }
+
+    private fun changeVisit(item: FactoryCluster){
+        clusterManager.removeItem(item)
+        clusterManager.addItem(item.copy(isClick = true))
+        clusterManager.cluster()
+    }
+
+    private fun changeNoVisit(item: FactoryCluster){
+        clusterManager.removeItem(item)
+        clusterManager.addItem(item.copy(isClick = false))
+        clusterManager.cluster()
     }
 }

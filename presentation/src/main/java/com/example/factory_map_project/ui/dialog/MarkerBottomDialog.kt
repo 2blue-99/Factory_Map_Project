@@ -17,7 +17,8 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class MarkerBottomDialog(
-    val marker: Marker
+    private val onChangeVisit: () -> Unit,
+    private val onChangeNotVisit: () -> Unit
 ): BaseBottomDialog<MarkerBottomDialogBinding, MarkerViewModel>(
     MarkerBottomDialogBinding::inflate
 ) {
@@ -34,11 +35,10 @@ class MarkerBottomDialog(
     override fun setUI() {
         binding.test.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                onChangeVisit()
             }else{
-                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                onChangeNotVisit()
             }
-
         }
     }
 
@@ -80,8 +80,12 @@ class MarkerBottomDialog(
 
         private const val ARG_CONTENT = "content"
 
-        fun newInstance(content: FactoryCluster, targetMarker: Marker): MarkerBottomDialog {
-            val dialog = MarkerBottomDialog(targetMarker)
+        fun newInstance(
+            content: FactoryCluster,
+            onChangeVisit: () -> Unit,
+            onChangeNotVisit: () -> Unit
+        ): MarkerBottomDialog {
+            val dialog = MarkerBottomDialog(onChangeVisit, onChangeNotVisit)
             val args = Bundle().apply {
                 putSerializable(ARG_CONTENT, content)
             }
@@ -89,5 +93,4 @@ class MarkerBottomDialog(
             return dialog
         }
     }
-
 }

@@ -21,6 +21,7 @@ class CustomClusterRenderer(
     // 클러스터 아이템 렌더링 전 처리
     override fun onBeforeClusterItemRendered(item: FactoryCluster, markerOptions: MarkerOptions) {
         super.onBeforeClusterItemRendered(item, markerOptions)
+        Timber.d("onBeforeClusterItemRendered : $item")
         // 예시: 마커의 색상이나 이미지 변경 가능
         if(item.isClick){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
@@ -33,7 +34,7 @@ class CustomClusterRenderer(
     override fun onClusterItemUpdated(item: FactoryCluster, marker: Marker) {
         super.onClusterItemUpdated(item, marker)
         // 예시: 마커의 스타일 업데이트
-        Timber.d("onClusterItemUpdated")
+        Timber.d("onClusterItemUpdated : $item")
 //        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
     }
 

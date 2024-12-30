@@ -120,8 +120,8 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         DownloadBottomDialog().show(supportFragmentManager, "Download")
     }
 
-    fun openMarkerBottomSheet(item: FactoryCluster, targetMarker: Marker){
-        val bottomSheetDialogFragment = MarkerBottomDialog.newInstance(item, targetMarker)
+    fun openMarkerBottomSheet(item: FactoryCluster, onChangeVisit: () -> Unit, onChangeNotVisit: () -> Unit){
+        val bottomSheetDialogFragment = MarkerBottomDialog.newInstance(item, onChangeVisit, onChangeNotVisit)
         bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
     }
 }
