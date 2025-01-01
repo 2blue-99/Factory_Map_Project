@@ -16,7 +16,7 @@ class DownloadViewModel: BaseViewModel() {
         _uiData.value = data
     }
 
-    fun onClickContact(number: String) {
+    fun onClickDownload(number: String) {
         modelScope.launch {
             _eventFlow.emit(AppEvent.Action(ActionType.CALL, number))
         }
