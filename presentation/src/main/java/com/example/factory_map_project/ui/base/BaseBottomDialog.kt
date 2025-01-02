@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
+import com.example.factory_map_project.ui.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -28,6 +29,9 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
     protected val binding get() = _binding!!
 
     protected lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
+
+    protected val mainActivity = activity as MainActivity
+
 
     /**
      * onCreate() | Data Setting

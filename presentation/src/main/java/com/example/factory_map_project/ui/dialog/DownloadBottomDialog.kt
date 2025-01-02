@@ -16,9 +16,7 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
 
     override val viewModel: DownloadViewModel by viewModels()
 
-    override fun setData() {
-//        isCancelable = false
-    }
+    override fun setData() {}
 
     override fun setUI() {}
 
@@ -27,6 +25,7 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
             viewModel.eventFlow.collect { event ->
                 Timber.d("event : $event")
                 when(event){
+                    is AppEvent.ShowLoading -> mainActivity.setLoading(event.state)
                     is AppEvent.Action<*> -> {
                         when(event.type){
                             ActionType.NEGATIVE -> onClickPositive()

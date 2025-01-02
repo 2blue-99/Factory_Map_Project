@@ -8,6 +8,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import timber.log.Timber
 import com.example.factory_map_project.BR
+import com.example.factory_map_project.ui.MainActivity
 
 
 /**
@@ -29,6 +30,11 @@ abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
     private var _binding: VB? = null
     protected val binding get() = _binding!!
 
+    /**
+     * Main Activity 접근
+     */
+    protected val mainActivity = activity as MainActivity
+
 
     /**
      * onCreate() | Data Setting
@@ -42,7 +48,6 @@ abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
      * onViewCreated() | Observer Setting
      */
     abstract fun setObserver()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate ${this::class.simpleName}")

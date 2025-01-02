@@ -110,7 +110,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
             .show()
     }
 
-    protected fun setLoading(state: Boolean){
+    fun setLoading(state: Boolean){
         if(viewModel is MainViewModel){
             viewModel.isLoading.value = state
         }
