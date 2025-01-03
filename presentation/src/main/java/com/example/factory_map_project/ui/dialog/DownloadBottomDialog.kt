@@ -25,7 +25,7 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
             viewModel.eventFlow.collect { event ->
                 Timber.d("event : $event")
                 when(event){
-                    is AppEvent.ShowLoading -> mainActivity.setLoading(event.state)
+                    is AppEvent.ShowLoading -> mainActivity().setLoading(event.state)
                     is AppEvent.Action<*> -> {
                         when(event.type){
                             ActionType.NEGATIVE -> onClickPositive()

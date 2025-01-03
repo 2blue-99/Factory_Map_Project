@@ -1,7 +1,9 @@
 package com.example.factory_map_project.ui.maps
 
+import android.location.Geocoder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.domain.model.AllAreaInfo
 import com.example.domain.model.GyeonggiInfo
 import com.example.domain.repo.DataStoreRepo
@@ -12,6 +14,7 @@ import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +30,12 @@ class MapsViewModel @Inject constructor(
     val gyeonggiLiveData: LiveData<List<GyeonggiInfo>> = _gyeonggiLiveData
 
     init {
-        onClickGetGyeonggiData()
+//        onClickGetGyeonggiData()
+        viewModelScope.launch {
+            useCase.getAllAreaData().collect{
+                Timber.d("data : $it")
+            }
+        }
     }
 
     private fun onClickGetAreaData(){

@@ -22,7 +22,7 @@ class DownloadViewModel @Inject constructor(
         _uiData.value = data
     }
 
-    fun onClickDownload(number: String) {
+    fun onClickDownload() {
         modelScope.launch {
             useCase.getAllAreaData().collect {
                 when(it){

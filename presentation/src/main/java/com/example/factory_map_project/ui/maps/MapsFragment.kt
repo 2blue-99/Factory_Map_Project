@@ -98,7 +98,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         val targetMarker = clusterManager.markerCollection.markers.find { it.position  == item.position }
         Timber.d("item : $item")
         targetMarker?.let { marker ->
-            mainActivity.openMarkerBottomSheet(
+            mainActivity().openMarkerBottomSheet(
                 item = item,
                 onChangeVisit = { changeVisit(item) },
                 onChangeNotVisit = { changeNoVisit(item) }

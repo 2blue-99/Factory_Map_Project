@@ -33,7 +33,7 @@ abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
     /**
      * Main Activity 접근
      */
-    protected val mainActivity = activity as MainActivity
+    protected fun mainActivity() = activity as MainActivity
 
 
     /**

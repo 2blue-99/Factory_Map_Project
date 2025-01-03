@@ -30,7 +30,7 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
 
     protected lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
-    protected val mainActivity = activity as MainActivity
+    protected fun mainActivity() = activity as MainActivity
 
 
     /**
