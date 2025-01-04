@@ -1,10 +1,8 @@
 package com.example.data.repo
 
-import com.example.data.local.dao.TestDao
+import com.example.data.local.dao.FactoryDao
 import com.example.data.remote.datasource.AllAreaDataSourceImpl
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
-import com.example.data.remote.model.GyeonggiResponse
-import com.example.data.remote.util.APIResponseState
 import com.example.data.remote.util.Mapper.toEntity
 import com.example.data.remote.util.toDomainFlow
 import com.example.domain.model.AllAreaInfo
@@ -20,7 +18,7 @@ import javax.inject.Inject
 class TestRepositoryImpl @Inject constructor(
     private val allAreaDataSource: AllAreaDataSourceImpl,
     private val gyeonggiDataSource: GyeonggiDataSourceImpl,
-    private val testDao: TestDao
+    private val factoryDao: FactoryDao
 ): TestRepository {
     override suspend fun getAllAreaData(): Flow<ResourceState<List<AllAreaInfo>>> {
         return allAreaDataSource.getDataSource().toDomainFlow { data ->
@@ -40,18 +38,18 @@ class TestRepositoryImpl @Inject constructor(
     }
 
     override fun getTestDao(): Flow<List<AllAreaInfo>> {
-        return testDao.getAllData().map { it.map { data -> data.toDomain() } }
+        return factoryDao.getAllData().map { it.map { data -> data.toDomain() } }
     }
 
     override fun upsertTestDao(testEntity: AllAreaInfo) {
-        testDao.upsertData(testEntity.toEntity())
+        factoryDao.upsertData(testEntity.toEntity())
     }
 
     override fun deleteTestDao(id: Int) {
-        testDao.deleteData(id)
+        factoryDao.deleteData(id)
     }
 
     override fun deleteAllDao() {
-        testDao.deleteAllData()
+        factoryDao.deleteAllData()
     }
 }

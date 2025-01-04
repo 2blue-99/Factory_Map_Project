@@ -8,7 +8,7 @@ import com.example.data.local.entity.FactoryEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface TestDao {
+interface FactoryDao {
     @Query("SELECT * FROM test")
     fun getAllData(): Flow<List<FactoryEntity>>
 

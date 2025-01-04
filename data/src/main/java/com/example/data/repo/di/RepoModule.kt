@@ -3,7 +3,7 @@ package com.example.data.repo.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.example.data.datastore.UserDataSource
-import com.example.data.local.dao.TestDao
+import com.example.data.local.dao.FactoryDao
 import com.example.data.remote.datasource.AllAreaDataSourceImpl
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.repo.TestRepositoryImpl
@@ -23,8 +23,8 @@ object RepoModule {
     fun provideRepo(
         allAreaDatasource: AllAreaDataSourceImpl,
         gyeonggiDatasource: GyeonggiDataSourceImpl,
-        testDao: TestDao,
-    ): TestRepository = TestRepositoryImpl(allAreaDatasource, gyeonggiDatasource, testDao)
+        factoryDao: FactoryDao,
+    ): TestRepository = TestRepositoryImpl(allAreaDatasource, gyeonggiDatasource, factoryDao)
 
     @Provides
     @Singleton
