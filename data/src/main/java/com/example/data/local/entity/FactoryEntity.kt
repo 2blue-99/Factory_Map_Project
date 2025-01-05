@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.domain.model.AllAreaInfo
 
-@Entity(tableName = "test")
+@Entity(tableName = "factory")
 data class FactoryEntity(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val companyName: String,
