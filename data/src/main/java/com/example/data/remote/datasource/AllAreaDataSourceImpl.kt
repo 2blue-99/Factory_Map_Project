@@ -13,6 +13,6 @@ class AllAreaDataSourceImpl @Inject constructor(
 ) {
     suspend fun getDataSource(): APIResponseState<AllAreaResponse> {
         Timber.d("start")
-        return allRetrofit.getDataSource(BuildConfig.API_KEY_ALL," ",1, "인천","JSON").apiErrorHandler()
+        return allRetrofit.getDataSource(BuildConfig.API_KEY_ALL," ",3000, "인천","JSON").apiErrorHandler()
     }
 }

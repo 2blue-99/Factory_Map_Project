@@ -1,6 +1,7 @@
 package com.example.factory_map_project.ui.dialog
 
 import androidx.lifecycle.MutableLiveData
+import com.example.domain.model.AllAreaInfo
 import com.example.domain.usecase.TestUseCase
 import com.example.domain.util.ResourceState
 import com.example.factory_map_project.ui.base.BaseViewModel
@@ -15,21 +16,20 @@ class DownloadViewModel @Inject constructor(
     private val useCase: TestUseCase
 ) : BaseViewModel() {
 
-    private var _uiData = MutableLiveData<FactoryCluster>()
-    val uiData: MutableLiveData<FactoryCluster> get() = _uiData
-
-    fun loadData(data: FactoryCluster) {
-        _uiData.value = data
-    }
+    private var _uiData = MutableLiveData<List<AllAreaInfo>>()
+    val uiData: MutableLiveData<List<AllAreaInfo>> get() = _uiData
 
     fun onClickDownload() {
         modelScope.launch {
-            useCase.getAllAreaData().collect {
-                when(it){
-                    is ResourceState.Loading -> emitEvent(AppEvent.ShowLoading(true))
-                    else -> {}
-                }
-            }
+//            useCase.getAllAreaData().collect {
+//                when(it){
+//                    is ResourceState.Loading -> emitEvent(AppEvent.ShowLoading(true))
+//                    is ResourceState.Success -> {
+//                        _uiData.value = it.body
+//                    }
+//                    else -> {}
+//                }
+//            }
 
         }
     }

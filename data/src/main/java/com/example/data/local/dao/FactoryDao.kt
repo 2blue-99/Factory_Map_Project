@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FactoryDao {
-    @Query("SELECT * FROM test")
+    @Query("SELECT * FROM factory")
     fun getAllData(): Flow<List<FactoryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsertData(data: FactoryEntity)
 
-    @Query("DELETE FROM test WHERE id = :id")
+    @Query("DELETE FROM factory WHERE id = :id")
     fun deleteData(id: Int)
 
-    @Query("DELETE FROM test")
+    @Query("DELETE FROM factory")
     fun deleteAllData()
 }
