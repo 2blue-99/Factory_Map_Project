@@ -1,5 +1,9 @@
 package com.example.factory_map_project.ui.dialog
 
+import android.location.Geocoder
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.DownloadBottomDialogBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
@@ -15,11 +19,13 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
 ) {
 
     override val viewModel: DownloadViewModel by viewModels()
+    private var count = 0
 
     override fun setData() {}
 
     override fun setUI() {}
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun setObserver() {
         repeatOnStarted {
             viewModel.eventFlow.collect { event ->
@@ -36,6 +42,17 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
                     else -> {}
                 }
             }
+        }
+
+        viewModel.uiData.observe(viewLifecycleOwner) { list ->
+            val geocoder = Geocoder(requireContext())
+            repeat(list.size){ position ->
+                geocoder.getFromLocationName(list[position].roadAddress, 1){ result ->
+                    Timber.d("${result[0]}")
+                    binding.successCount.text = (++count).toString()
+                }
+            }
+            Timber.d("")
         }
     }
 

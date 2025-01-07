@@ -31,11 +31,11 @@ class MapsViewModel @Inject constructor(
 
     init {
 //        onClickGetGyeonggiData()
-        viewModelScope.launch {
-            useCase.getAllAreaData().collect{
-                Timber.d("data : $it")
-            }
-        }
+//        viewModelScope.launch {
+//            useCase.getAllAreaData().collect{
+//                Timber.d("data : $it")
+//            }
+//        }
     }
 
     private fun onClickGetAreaData(){

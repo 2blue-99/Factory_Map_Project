@@ -25,6 +25,12 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> viewModel.onClickDownload()}"
                 />
+
+            <TextView
+                android:id="@+id/success_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="count"/>
         </LinearLayout>
     </LinearLayout>
 </layout>
