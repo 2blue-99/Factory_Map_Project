@@ -31,14 +31,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val nativeAppKey = properties.getProperty("GOOGLE_MAP_KEY") ?: ""
+        manifestPlaceholders["GOOGLE_MAP_KEY"] = nativeAppKey
     }
 
     buildTypes {
         debug {
             applicationIdSuffix = "debug"
-
-            buildConfigField("String", "GOOGLE_MAP_KEY", properties.getProperty("GOOGLE_MAP_KEY"))
-            manifestPlaceholders["GOOGLE_MAP_KEY"] = "GOOGLE_MAP_KEY"
         }
         release {
             applicationIdSuffix = "release"
