@@ -4,7 +4,6 @@ import androidx.fragment.app.viewModels
 import com.example.domain.model.GyeonggiInfo
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
-import com.example.factory_map_project.ui.MainActivity
 import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.Util.toCluster
 import com.example.factory_map_project.util.map.CustomClusterRenderer
@@ -14,8 +13,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager

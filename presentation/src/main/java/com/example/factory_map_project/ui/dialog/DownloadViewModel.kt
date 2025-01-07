@@ -6,7 +6,6 @@ import com.example.domain.usecase.TestUseCase
 import com.example.domain.util.ResourceState
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.event.AppEvent
-import com.example.factory_map_project.util.map.FactoryCluster
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,15 +20,15 @@ class DownloadViewModel @Inject constructor(
 
     fun onClickDownload() {
         modelScope.launch {
-//            useCase.getAllAreaData().collect {
-//                when(it){
-//                    is ResourceState.Loading -> emitEvent(AppEvent.ShowLoading(true))
-//                    is ResourceState.Success -> {
-//                        _uiData.value = it.body
-//                    }
-//                    else -> {}
-//                }
-//            }
+            useCase.getAllAreaData().collect {
+                when(it){
+                    is ResourceState.Loading -> emitEvent(AppEvent.ShowLoading(true))
+                    is ResourceState.Success -> {
+                        _uiData.value = it.body
+                    }
+                    else -> {}
+                }
+            }
 
         }
     }
