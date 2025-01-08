@@ -2,9 +2,6 @@ package com.example.data.remote.util
 
 import com.example.domain.util.ExceptionType
 import com.example.domain.util.ResourceState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import timber.log.Timber
 
@@ -31,9 +28,9 @@ inline fun <reified T: Any> Response<T>.apiErrorHandler(): APIResponseState<T> {
 }
 
 
-inline fun <reified T: Any, R: Any> APIResponseState<T>.toDomainFlow(mapper: (T) -> R): Flow<ResourceState<R>> {
+inline fun <reified T: Any, R: Any> APIResponseState<T>.toDomain(mapper: (T) -> R): ResourceState<R> {
     Timber.d("toDomainFlow : $this")
-    val resource = when(this){
+    return when(this){
         is APIResponseState.Success -> ResourceState.Success(
             code = this.code,
             message = this.message,
@@ -46,10 +43,9 @@ inline fun <reified T: Any, R: Any> APIResponseState<T>.toDomainFlow(mapper: (T)
         is APIResponseState.Exception ->
             ResourceState.Exception(this.type)
     }
-    Timber.d("toDomainFlow : $resource ")
-    return flow {
-        emit(ResourceState.Loading())
-        delay(2000)
-        emit(resource)
-    }
+//    return flow {
+//        emit(ResourceState.Loading())
+//        delay(2000)
+//        emit(resource)
+//    }
 }

@@ -1,6 +1,5 @@
 package com.example.data.remote.datasource
 
-import com.example.data.remote.model.AllAreaResponse
 import com.example.data.remote.model.GyeonggiResponse
 import retrofit2.Response
 import retrofit2.http.GET

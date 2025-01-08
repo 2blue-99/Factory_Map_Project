@@ -39,7 +39,6 @@ object Util {
             employeeCount = employeeCount,
             scaleDivisionName = scaleDivisionName,
             registrationDate = registrationDate,
-            factoryType = description,
             productInfo = productInfo,
             contact = contact,
             loadAddress = loadAddress,

@@ -19,7 +19,6 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
 ) {
 
     override val viewModel: DownloadViewModel by viewModels()
-    private var count = 0
 
     override fun setData() {}
 
@@ -44,16 +43,16 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
             }
         }
 
-        viewModel.uiData.observe(viewLifecycleOwner) { list ->
-            val geocoder = Geocoder(requireContext())
-            repeat(list.size){ position ->
-                geocoder.getFromLocationName(list[position].roadAddress, 1){ result ->
-                    Timber.d("${result[0]}")
-                    binding.successCount.text = (++count).toString()
-                }
-            }
-            Timber.d("")
-        }
+//        viewModel.uiData.observe(viewLifecycleOwner) { list ->
+//            val geocoder = Geocoder(requireContext())
+//            repeat(list.size){ position ->
+//                geocoder.getFromLocationName(list[position].roadAddress, 1){ result ->
+//                    Timber.d("${result[0]}")
+//                    binding.successCount.text = (++count).toString()
+//                }
+//            }
+//            Timber.d("")
+//        }
     }
 
     override fun onClickNegative() {

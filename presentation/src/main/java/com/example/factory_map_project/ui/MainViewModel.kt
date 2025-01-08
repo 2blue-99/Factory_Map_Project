@@ -99,17 +99,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun onClickGetAPI(){
-        modelScope.launch {
-            useCase.getAllAreaData().collect {
-                when(it){
-                    is ResourceState.Success -> {
-//                        Timber.d("viewModel result : ${it.body.map { it.mainProduct }}")
-                        _testLiveData.postValue(it.body)
-                    }
-                    else -> {}
-                }
-            }
-        }
+
     }
 
     /**

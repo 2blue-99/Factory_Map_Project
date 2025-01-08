@@ -1,7 +1,6 @@
 package com.example.factory_map_project.ui.dialog
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent

@@ -9,11 +9,7 @@ import kotlinx.coroutines.flow.Flow
 class TestUseCase(
     private val repo: TestRepository,
 )  {
-    suspend fun getAllAreaData(): Flow<ResourceState<List<AllAreaInfo>>> {
-        return repo.getAllAreaData()
-    }
-
-    suspend fun getGyeonggiData(): Flow<ResourceState<List<GyeonggiInfo>>> {
+    fun getGyeonggiData(): Flow<ResourceState<List<GyeonggiInfo>>> {
         return repo.getGyeonggiData()
     }
 }

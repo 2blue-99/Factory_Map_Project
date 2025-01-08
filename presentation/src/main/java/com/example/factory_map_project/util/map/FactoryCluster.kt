@@ -21,9 +21,7 @@ data class FactoryCluster(
 
     val registrationDate: String, // 공장 등록 일자
 
-    val factoryType: String, // 산업 유형
-
-    val productInfo: String, // 대표 상품
+    val productInfo: String, // 제품 정보
 
     val contact: String, // 전화번호
 
@@ -35,5 +33,5 @@ data class FactoryCluster(
 ) : ClusterItem, Serializable {
     override fun getPosition(): LatLng = LatLng(latitude, longitude)
     override fun getTitle(): String = companyName
-    override fun getSnippet(): String = factoryType
+    override fun getSnippet(): String = productInfo
 }

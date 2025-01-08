@@ -30,7 +30,7 @@ class MapsViewModel @Inject constructor(
     val gyeonggiLiveData: LiveData<List<GyeonggiInfo>> = _gyeonggiLiveData
 
     init {
-//        onClickGetGyeonggiData()
+        onClickGetGyeonggiData()
 //        viewModelScope.launch {
 //            useCase.getAllAreaData().collect{
 //                Timber.d("data : $it")
@@ -38,26 +38,12 @@ class MapsViewModel @Inject constructor(
 //        }
     }
 
-    private fun onClickGetAreaData(){
-        modelScope.launch {
-            useCase.getAllAreaData().collect {
-                when(it){
-                    is ResourceState.Success -> {
-//                        Timber.d("viewModel result : ${it.body.map { it.mainProduct }}")
-                        _allAreaLiveData.postValue(it.body)
-                    }
-                    else -> {}
-                }
-            }
-        }
-    }
-
     private fun onClickGetGyeonggiData(){
         modelScope.launch {
             useCase.getGyeonggiData().collect {
                 when(it){
                     is ResourceState.Success -> {
-//                        Timber.d("viewModel result : ${it.body.map { it.mainProduct }}")
+                        Timber.d("viewModel result : ${it.body}")
                         _gyeonggiLiveData.postValue(it.body)
                         _eventFlow.emit(AppEvent.ShowLoading(false))
                     }

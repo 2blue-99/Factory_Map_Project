@@ -7,12 +7,6 @@ import kotlinx.coroutines.flow.Flow
 class TestDaoUseCase(
     private val repo: TestRepository,
 )  {
-    fun getAll(): Flow<List<AllAreaInfo>> {
-        return repo.getTestDao()
-    }
-    fun upsert(data: AllAreaInfo) {
-        return repo.upsertTestDao(data)
-    }
     fun delete(id: Int){
         return repo.deleteTestDao(id)
     }

@@ -1,6 +1,5 @@
 package com.example.data.remote.di
 
-import com.example.data.remote.datasource.AllAreaDataSource
 import com.example.data.remote.datasource.GyeonggiDataSource
 import dagger.Module
 import dagger.Provides
@@ -14,10 +13,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object APIModule {
 
-    @Singleton
-    @Provides
-    fun provideAllRetrofit(@RetrofitModule.All retrofit: Retrofit): AllAreaDataSource =
-        retrofit.create(AllAreaDataSource::class.java)
+//    @Singleton
+//    @Provides
+//    fun provideAllRetrofit(@RetrofitModule.All retrofit: Retrofit): AllAreaDataSource =
+//        retrofit.create(AllAreaDataSource::class.java)
 
     @Singleton
     @Provides

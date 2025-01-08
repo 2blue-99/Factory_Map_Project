@@ -1,5 +1,6 @@
 package com.example.data.remote.model
 
+import com.example.data.local.entity.FactoryEntity
 import com.example.data.remote.util.Mapper.toDateStringFormat
 import com.example.domain.model.GyeonggiInfo
 import com.google.gson.annotations.SerializedName
@@ -68,10 +69,10 @@ data class GyeonggiInfoResponse(
     val landCategoryName: String, // 토지 구분 이름
 
     @SerializedName("INDUTYPE_DESC_DTCONT")
-    val industryTypeDescription: String, // 산업 유형 설명
+    val industryTypeDescription: String, // 업종명
 
     @SerializedName("PRDT_INFO")
-    val productInfo: String?, // 제품 정보
+    val productInfo: String?, // 생산품 정보
 
     @SerializedName("TELNO")
     val telephoneNumber: String?, // 전화번호
@@ -94,7 +95,7 @@ data class GyeonggiInfoResponse(
     @SerializedName("INDUTYPE_CD_INFO")
     val industryTypeCodeInfo: String // 산업 유형 코드 정보
 ){
-    fun mapper(): GyeonggiInfo {
+    fun toDomain(): GyeonggiInfo {
         return GyeonggiInfo(
             id = 0,
             companyName = companyGroupName ?: "확인 불가",
@@ -102,10 +103,24 @@ data class GyeonggiInfoResponse(
             employeeCount = "${employeeCount}명" ?: "확인 불가",
             scaleDivisionName = factoryScaleDivisionName ?: "확인 불가",
             registrationDate = factoryRegistrationDate.toDateStringFormat(),
-            description = industryTypeDescription ?: "확인 불가",
             productInfo = productInfo ?: "확인 불가",
             contact = telephoneNumber ?: "확인 불가",
-            numberAddress = refineLotNumberAddress ?: "확인 불가",
+            loadAddress = refineRoadNameAddress ?: "확인 불가",
+            longitude = refineLongitude ?: -1.0,
+            latitude = refineLatitude ?: -1.0
+        )
+    }
+
+    fun toEntity(): FactoryEntity {
+        return FactoryEntity(
+            id = 0,
+            companyName = companyGroupName ?: "확인 불가",
+            lotArea = "${lotArea} m^2" ?: "확인 불가",
+            employeeCount = "${employeeCount}명" ?: "확인 불가",
+            scaleDivisionName = factoryScaleDivisionName ?: "확인 불가",
+            registrationDate = factoryRegistrationDate.toDateStringFormat(),
+            productInfo = productInfo ?: "확인 불가",
+            contact = telephoneNumber ?: "확인 불가",
             loadAddress = refineRoadNameAddress ?: "확인 불가",
             longitude = refineLongitude ?: -1.0,
             latitude = refineLatitude ?: -1.0

@@ -13,6 +13,9 @@ interface FactoryDao {
     fun getAllData(): Flow<List<FactoryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun upsertDataList(data: FactoryEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsertData(data: FactoryEntity)
 
     @Query("DELETE FROM factory WHERE id = :id")

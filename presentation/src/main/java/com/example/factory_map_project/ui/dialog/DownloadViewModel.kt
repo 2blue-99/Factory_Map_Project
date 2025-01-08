@@ -20,11 +20,11 @@ class DownloadViewModel @Inject constructor(
 
     fun onClickDownload() {
         modelScope.launch {
-            useCase.getAllAreaData().collect {
+            useCase.getGyeonggiData().collect {
                 when(it){
                     is ResourceState.Loading -> emitEvent(AppEvent.ShowLoading(true))
                     is ResourceState.Success -> {
-                        _uiData.value = it.body
+
                     }
                     else -> {}
                 }

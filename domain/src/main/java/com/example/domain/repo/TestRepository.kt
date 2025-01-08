@@ -7,13 +7,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface TestRepository {
 
-    suspend fun getAllAreaData(): Flow<ResourceState<List<AllAreaInfo>>>
+    fun getGyeonggiData(): Flow<ResourceState<List<GyeonggiInfo>>>
 
-    suspend fun getGyeonggiData(): Flow<ResourceState<List<GyeonggiInfo>>>
-
-    fun getTestDao(): Flow<List<AllAreaInfo>>
-
-    fun upsertTestDao(testEntity: AllAreaInfo)
+    fun saveGyeonggiData(): Flow<ResourceState<Int>>
 
     fun deleteTestDao(id: Int)
 

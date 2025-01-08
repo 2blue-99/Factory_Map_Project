@@ -2,7 +2,6 @@ package com.example.data.remote.datasource
 
 import com.example.data.BuildConfig
 import com.example.data.remote.di.RetrofitModule
-import com.example.data.remote.model.AllAreaResponse
 import com.example.data.remote.model.GyeonggiResponse
 import com.example.data.remote.util.APIResponseState
 import com.example.data.remote.util.apiErrorHandler
