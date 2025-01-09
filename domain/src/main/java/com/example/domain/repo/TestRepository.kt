@@ -11,6 +11,8 @@ interface TestRepository {
 
     fun saveGyeonggiData(): Flow<ResourceState<Int>>
 
+    fun getGyeonggiDaoData(): Flow<List<GyeonggiInfo>>
+
     fun deleteTestDao(id: Int)
 
     fun deleteAllDao()

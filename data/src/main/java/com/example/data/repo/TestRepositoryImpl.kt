@@ -8,6 +8,7 @@ import com.example.domain.repo.TestRepository
 import com.example.domain.util.ResourceState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TestRepositoryImpl @Inject constructor(
@@ -29,19 +30,26 @@ class TestRepositoryImpl @Inject constructor(
     override fun saveGyeonggiData(): Flow<ResourceState<Int>> {
         return flow {
             emit(ResourceState.Loading())
-            for(index in 1..10) {
+            for(index in 1..5) {
                 val result = gyeonggiDataSource.getDataSource(index).toDomain { data ->
                     data.factoryRegistTm[1].rows.map { it.toEntity() }
                 }
-
-                when(result){
-                    is ResourceState.Success -> ResourceState.Success(result.code, result.message, index)
+                val dataResource = when(result){
+                    is ResourceState.Success -> {
+                        factoryDao.upsertDataList(result.body)
+                        ResourceState.Success(result.code, result.message, index)
+                    }
                     is ResourceState.Failure -> ResourceState.Failure(result.code, result.message)
                     is ResourceState.Exception -> ResourceState.Exception(result.type)
                     is ResourceState.Loading -> ResourceState.Loading()
                 }
+                emit(dataResource)
             }
         }
+    }
+
+    override fun getGyeonggiDaoData(): Flow<List<GyeonggiInfo>> {
+        return factoryDao.getAllData().map { it.map { it.toDomain() } }
     }
 
 

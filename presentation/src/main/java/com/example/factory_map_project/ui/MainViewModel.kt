@@ -5,9 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.domain.model.AllAreaInfo
 import com.example.domain.repo.DataStoreRepo
-import com.example.domain.usecase.TestDaoUseCase
-import com.example.domain.usecase.TestUseCase
-import com.example.domain.util.ResourceState
+import com.example.domain.usecase.GyeonggiDaoUseCase
+import com.example.domain.usecase.GetGyenggiUseCase
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.event.AppEvent
@@ -22,8 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val useCase: TestUseCase,
-    private val daoUseCase: TestDaoUseCase,
+    private val useCase: GetGyenggiUseCase,
+    private val daoUseCase: GyeonggiDaoUseCase,
     private val dataStoreRepo: DataStoreRepo
 ): BaseViewModel() {
 

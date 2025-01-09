@@ -1,14 +1,12 @@
 package com.example.factory_map_project.ui.maps
 
-import android.location.Geocoder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.domain.model.AllAreaInfo
 import com.example.domain.model.GyeonggiInfo
 import com.example.domain.repo.DataStoreRepo
-import com.example.domain.usecase.TestDaoUseCase
-import com.example.domain.usecase.TestUseCase
+import com.example.domain.usecase.GyeonggiDaoUseCase
+import com.example.domain.usecase.GetGyenggiUseCase
 import com.example.domain.util.ResourceState
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.event.AppEvent
@@ -19,8 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapsViewModel @Inject constructor(
-    private val useCase: TestUseCase,
-    private val daoUseCase: TestDaoUseCase,
+    private val useCase: GetGyenggiUseCase,
+    private val daoUseCase: GyeonggiDaoUseCase,
     private val dataStoreRepo: DataStoreRepo
 ) : BaseViewModel() {
     private var _allAreaLiveData = MutableLiveData<List<AllAreaInfo>>()
