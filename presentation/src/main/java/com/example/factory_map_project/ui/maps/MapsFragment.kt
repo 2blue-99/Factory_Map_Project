@@ -95,7 +95,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     private fun onClickMarker(item: FactoryCluster): Boolean {
         val targetMarker = clusterManager.markerCollection.markers.find { it.position  == item.position }
-        Timber.d("item : $item")
+//        Timber.d("item : $item")
         targetMarker?.let { marker ->
             mainActivity().openMarkerBottomSheet(
                 item = item,

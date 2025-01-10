@@ -28,7 +28,7 @@ class MapsViewModel @Inject constructor(
     val gyeonggiLiveData: LiveData<List<GyeonggiInfo>> = _gyeonggiLiveData
 
     init {
-        onClickGetGyeonggiData()
+//        onClickGetGyeonggiData()
 //        viewModelScope.launch {
 //            useCase.getAllAreaData().collect{
 //                Timber.d("data : $it")

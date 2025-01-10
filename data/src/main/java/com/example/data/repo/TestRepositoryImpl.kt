@@ -6,9 +6,11 @@ import com.example.data.remote.util.toDomain
 import com.example.domain.model.GyeonggiInfo
 import com.example.domain.repo.TestRepository
 import com.example.domain.util.ResourceState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TestRepositoryImpl @Inject constructor(
@@ -36,7 +38,9 @@ class TestRepositoryImpl @Inject constructor(
                 }
                 val dataResource = when(result){
                     is ResourceState.Success -> {
-                        factoryDao.upsertDataList(result.body)
+                        withContext(Dispatchers.IO){
+                            factoryDao.upsertDataList(result.body)
+                        }
                         ResourceState.Success(result.code, result.message, index)
                     }
                     is ResourceState.Failure -> ResourceState.Failure(result.code, result.message)
