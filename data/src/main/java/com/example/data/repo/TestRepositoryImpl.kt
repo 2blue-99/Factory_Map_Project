@@ -5,6 +5,7 @@ import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.remote.util.toDomain
 import com.example.domain.model.GyeonggiInfo
 import com.example.domain.repo.TestRepository
+import com.example.domain.util.GYEONGGI_DOWNLOAD_COUNT
 import com.example.domain.util.ResourceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -32,7 +33,7 @@ class TestRepositoryImpl @Inject constructor(
     override fun saveGyeonggiData(): Flow<ResourceState<Int>> {
         return flow {
             emit(ResourceState.Loading())
-            for(index in 1..5) {
+            for(index in 1..GYEONGGI_DOWNLOAD_COUNT) {
                 val result = gyeonggiDataSource.getDataSource(index).toDomain { data ->
                     data.factoryRegistTm[1].rows.map { it.toEntity() }
                 }
