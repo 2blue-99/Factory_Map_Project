@@ -1,8 +1,11 @@
 package com.example.factory_map_project.ui.dialog
 
+import android.app.Dialog
 import android.location.Geocoder
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.DownloadBottomDialogBinding
@@ -10,6 +13,7 @@ import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.Util.repeatOnStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -24,6 +28,16 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
     override fun setData() {
         dialog?.setCanceledOnTouchOutside(false)
         (dialog as? BottomSheetDialog)?.behavior?.isHideable = false
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        with(dialog.behavior){
+            peekHeight = 350
+            isHideable = false
+        }
+        dialog.window?.setDimAmount(0f)
+        return dialog
     }
 
     override fun setUI() {}
