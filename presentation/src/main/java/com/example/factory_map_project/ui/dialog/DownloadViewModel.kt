@@ -2,7 +2,7 @@ package com.example.factory_map_project.ui.dialog
 
 import androidx.lifecycle.MutableLiveData
 import com.example.domain.model.AllAreaInfo
-import com.example.domain.repo.TestRepository
+import com.example.domain.repo.FactoryRepository
 import com.example.domain.util.GYEONGGI_DOWNLOAD_COUNT
 import com.example.domain.util.ResourceState
 import com.example.factory_map_project.ui.base.BaseViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DownloadViewModel @Inject constructor(
-    private val gyeonggiRepository: TestRepository,
+    private val gyeonggiRepository: FactoryRepository,
 ) : BaseViewModel() {
 
     private var _uiData = MutableLiveData<List<AllAreaInfo>>()

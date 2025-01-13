@@ -7,7 +7,7 @@ import com.example.data.local.dao.FactoryDao
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.repo.TestRepositoryImpl
 import com.example.domain.repo.DataStoreRepo
-import com.example.domain.repo.TestRepository
+import com.example.domain.repo.FactoryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ object RepoModule {
     fun provideRepo(
         gyeonggiDatasource: GyeonggiDataSourceImpl,
         factoryDao: FactoryDao,
-    ): TestRepository = TestRepositoryImpl(gyeonggiDatasource, factoryDao)
+    ): FactoryRepository = TestRepositoryImpl(gyeonggiDatasource, factoryDao)
 
     @Provides
     @Singleton

@@ -1,11 +1,10 @@
 package com.example.domain.repo
 
 import com.example.domain.util.ResourceState
-import com.example.domain.model.AllAreaInfo
 import com.example.domain.model.GyeonggiInfo
 import kotlinx.coroutines.flow.Flow
 
-interface TestRepository {
+interface FactoryRepository {
 
     fun getGyeonggiData(): Flow<ResourceState<List<GyeonggiInfo>>>
 

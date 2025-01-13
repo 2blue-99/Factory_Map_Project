@@ -4,7 +4,7 @@ import com.example.data.local.dao.FactoryDao
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.remote.util.toDomain
 import com.example.domain.model.GyeonggiInfo
-import com.example.domain.repo.TestRepository
+import com.example.domain.repo.FactoryRepository
 import com.example.domain.util.GYEONGGI_DOWNLOAD_COUNT
 import com.example.domain.util.ResourceState
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class TestRepositoryImpl @Inject constructor(
     private val gyeonggiDataSource: GyeonggiDataSourceImpl,
     private val factoryDao: FactoryDao
-): TestRepository {
+): FactoryRepository {
     override fun getGyeonggiData(): Flow<ResourceState<List<GyeonggiInfo>>> {
         return flow {
             emit(ResourceState.Loading())
