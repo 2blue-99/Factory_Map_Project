@@ -32,6 +32,11 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
 
     protected fun mainActivity() = activity as MainActivity
 
+    /**
+     * onCreateDialog()
+     */
+    lateinit var bottomDialog: BottomSheetDialog
+
 
     /**
      * onCreate() | Data Setting
@@ -53,12 +58,11 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
     abstract fun onClickPositive()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BottomSheetDialog(requireContext(), theme)
-        bottomSheetBehavior = dialog.behavior
+        bottomDialog = BottomSheetDialog(requireContext(), theme)
+        bottomSheetBehavior = bottomDialog.behavior
         bottomSheetBehavior.apply { skipCollapsed = true }
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         setData()
-        return dialog
+        return bottomDialog
     }
     
     override fun onCreateView(

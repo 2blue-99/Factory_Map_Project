@@ -1,11 +1,9 @@
 package com.example.factory_map_project.ui.dialog
 
 import android.app.Dialog
-import android.location.Geocoder
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.DownloadBottomDialogBinding
@@ -26,18 +24,19 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
     override val viewModel: DownloadViewModel by viewModels()
 
     override fun setData() {
-        dialog?.setCanceledOnTouchOutside(false)
-        (dialog as? BottomSheetDialog)?.behavior?.isHideable = false
+        bottomDialog.setCanceledOnTouchOutside(false)
+        bottomDialog.behavior.isHideable = false
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        with(dialog.behavior){
-            peekHeight = 350
+        super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        with(bottomDialog.behavior){
+            peekHeight = 340
             isHideable = false
         }
-        dialog.window?.setDimAmount(0f)
-        return dialog
+        bottomDialog.window?.setDimAmount(0f)
+        bottomDialog.behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        return bottomDialog
     }
 
     override fun setUI() {}
