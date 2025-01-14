@@ -1,8 +1,10 @@
 package com.example.data.repo
 
 import com.example.data.local.dao.FactoryDao
+import com.example.data.local.entity.FactoryEntity
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.remote.util.toDomain
+import com.example.domain.model.FactoryInfo
 import com.example.domain.model.GyeonggiInfo
 import com.example.domain.repo.FactoryRepository
 import com.example.domain.util.GYEONGGI_DOWNLOAD_COUNT
@@ -53,7 +55,7 @@ class TestRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getGyeonggiDaoData(): Flow<List<GyeonggiInfo>> {
+    override fun getGyeonggiDaoData(): Flow<List<FactoryInfo>> {
         return factoryDao.getAllData().map { it.map { it.toDomain() } }
     }
 

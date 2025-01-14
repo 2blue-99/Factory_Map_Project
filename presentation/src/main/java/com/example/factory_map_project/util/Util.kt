@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.domain.model.FactoryInfo
 import com.example.domain.model.GyeonggiInfo
 import com.example.factory_map_project.util.map.FactoryCluster
 import com.google.android.gms.maps.GoogleMap
@@ -31,7 +32,7 @@ object Util {
         return this.addMarker(MarkerOptions().position(location).title(name))
     }
 
-    fun GyeonggiInfo.toCluster(): FactoryCluster =
+    fun FactoryInfo.toCluster(): FactoryCluster =
         FactoryCluster(
             id = id,
             companyName = companyName,
@@ -43,7 +44,9 @@ object Util {
             contact = contact,
             loadAddress = loadAddress,
             latitude = latitude,
-            longitude = longitude
+            longitude = longitude,
+            isClick = isClick,
+            memo = memo,
         )
 
     fun moveCall(context: Context, number: String){

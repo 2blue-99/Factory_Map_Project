@@ -3,6 +3,7 @@ package com.example.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.domain.model.AllAreaInfo
+import com.example.domain.model.FactoryInfo
 import com.example.domain.model.GyeonggiInfo
 
 @Entity(tableName = "factory")
@@ -29,9 +30,13 @@ data class FactoryEntity(
     val latitude: Double, // 정제 위도
 
     val longitude: Double, // 정제 경도
+
+    val isClick: Boolean,
+
+    val memo: String,
 ){
-    fun toDomain(): GyeonggiInfo {
-        return GyeonggiInfo(
+    fun toDomain(): FactoryInfo {
+        return FactoryInfo(
             id = id,
             companyName = companyName,
             scaleDivisionName = scaleDivisionName,
@@ -43,6 +48,8 @@ data class FactoryEntity(
             loadAddress = loadAddress,
             latitude = latitude,
             longitude = longitude,
+            isClick = isClick,
+            memo = memo
         )
     }
 }

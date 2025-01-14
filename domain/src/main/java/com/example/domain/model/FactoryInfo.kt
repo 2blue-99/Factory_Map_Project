@@ -1,6 +1,6 @@
 package com.example.domain.model
 
-data class GyeonggiInfo(
+data class FactoryInfo(
     val id: Int,
 
     val companyName: String, // 기업 그룹 이름
@@ -22,4 +22,9 @@ data class GyeonggiInfo(
     val latitude: Double, // 정제 위도
 
     val longitude: Double, // 정제 경도
+
+    val isClick: Boolean,
+
+    val memo: String,
 )
+
