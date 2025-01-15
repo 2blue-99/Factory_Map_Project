@@ -1,10 +1,12 @@
 package com.example.factory_map_project.ui.maps
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.domain.model.GyeonggiInfo
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
 import com.example.factory_map_project.ui.base.BaseFragment
+import com.example.factory_map_project.util.Util.repeatOnStarted
 import com.example.factory_map_project.util.Util.toCluster
 import com.example.factory_map_project.util.map.CustomClusterRenderer
 import com.example.factory_map_project.util.map.FactoryCluster
@@ -17,6 +19,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -33,6 +39,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         googleMap = map
         initMap()
         setClusterManager()
+        inputData()
     }
 
 
@@ -50,8 +57,10 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     override fun setObserver() {
-        viewModel.gyeonggiLiveData.observe(this) {
-            inputData(it)
+        repeatOnStarted {
+            viewModel.localFactory.collect {
+                Timber.d("setObserver : $it")
+            }
         }
     }
 
@@ -78,8 +87,13 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         clusterManager.setOnClusterItemClickListener { onClickMarker(it) }
     }
 
-    private fun inputData(list: List<GyeonggiInfo>) {
-        clusterManager.addItems(list.map { it.toCluster() })
+    private fun inputData() {
+        lifecycleScope.launch {
+            delay(500L)
+            val data = viewModel.localFactory.first()
+            Timber.d("data : $data")
+            clusterManager.addItems(data)
+        }
     }
 
     private fun onClickCluster(cluster: Cluster<FactoryCluster>): Boolean {
@@ -95,12 +109,16 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     private fun onClickMarker(item: FactoryCluster): Boolean {
         val targetMarker = clusterManager.markerCollection.markers.find { it.position  == item.position }
-//        Timber.d("item : $item")
-        targetMarker?.let { marker ->
+        targetMarker?.let {
             mainActivity().openMarkerBottomSheet(
                 item = item,
-                onChangeVisit = { changeVisit(item) },
-                onChangeNotVisit = { changeNoVisit(item) }
+                updateCluster = {
+                    // 클러스터 업데이트
+                    // 룸 업데이트
+                },
+                deleteCluster = {
+
+                }
             )
         }
         return false

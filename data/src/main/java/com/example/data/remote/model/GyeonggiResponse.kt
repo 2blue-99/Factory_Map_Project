@@ -1,7 +1,7 @@
 package com.example.data.remote.model
 
 import com.example.data.local.entity.FactoryEntity
-import com.example.data.remote.util.Mapper.toDateStringFormat
+import com.example.data.Mapper.toDateStringFormat
 import com.example.domain.model.GyeonggiInfo
 import com.google.gson.annotations.SerializedName
 
@@ -123,7 +123,9 @@ data class GyeonggiInfoResponse(
             contact = telephoneNumber ?: "확인 불가",
             loadAddress = refineRoadNameAddress ?: "확인 불가",
             longitude = refineLongitude ?: -1.0,
-            latitude = refineLatitude ?: -1.0
+            latitude = refineLatitude ?: -1.0,
+            isClick = false,
+            memo = ""
         )
     }
 }

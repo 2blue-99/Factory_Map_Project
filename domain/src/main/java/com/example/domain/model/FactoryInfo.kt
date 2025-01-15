@@ -26,5 +26,7 @@ data class FactoryInfo(
     val isClick: Boolean,
 
     val memo: String,
-)
+){
+
+}
 

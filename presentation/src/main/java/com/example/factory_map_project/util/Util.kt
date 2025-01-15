@@ -19,6 +19,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+const val ARG_CONTENT = "content"
+
 object Util {
 
     fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {

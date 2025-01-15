@@ -24,7 +24,7 @@ class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, Downlo
     override val viewModel: DownloadViewModel by viewModels()
 
     override fun setData() {
-        bottomDialog.setCanceledOnTouchOutside(false)
+        bottomDialog.setCanceledOnTouchOutside(true)
         bottomDialog.behavior.isHideable = false
     }
 

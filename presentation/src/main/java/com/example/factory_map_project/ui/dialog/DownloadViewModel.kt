@@ -21,11 +21,11 @@ class DownloadViewModel @Inject constructor(
     val uiData: MutableLiveData<List<AllAreaInfo>> get() = _uiData
 
     init {
-        modelScope.launch {
-            gyeonggiRepository.getGyeonggiDaoData().collect {
-                Timber.d("room : ${it.size}")
-            }
-        }
+//        modelScope.launch {
+//            gyeonggiRepository.getFactoryDao().collect {
+//                Timber.d("room : ${it.size}")
+//            }
+//        }
     }
 
     fun onClickDownload() {

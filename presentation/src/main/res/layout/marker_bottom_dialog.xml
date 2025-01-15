@@ -61,7 +61,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <CheckBox
-                        android:id="@+id/test"
+                        android:id="@+id/check_box"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/custom_check_button"

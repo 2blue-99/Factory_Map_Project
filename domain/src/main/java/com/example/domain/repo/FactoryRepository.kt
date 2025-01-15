@@ -11,7 +11,11 @@ interface FactoryRepository {
 
     fun saveGyeonggiData(): Flow<ResourceState<Int>>
 
-    fun getGyeonggiDaoData(): Flow<List<FactoryInfo>>
+
+    // DAO
+    fun getFactoryDao(): Flow<List<FactoryInfo>>
+
+    fun upsertFactoryDao(data: FactoryInfo)
 
     fun deleteTestDao(id: Int)
 

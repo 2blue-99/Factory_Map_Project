@@ -14,7 +14,6 @@ interface FactoryDao {
     @Query("SELECT * FROM factory")
     fun getAllData(): Flow<List<FactoryEntity>>
 
-
     @Transaction
     fun upsertDataList(data: List<FactoryEntity>){
         data.forEach { upsertData(it) }

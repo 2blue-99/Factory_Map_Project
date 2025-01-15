@@ -1,7 +1,7 @@
 package com.example.data.repo
 
+import com.example.data.Mapper.toEntity
 import com.example.data.local.dao.FactoryDao
-import com.example.data.local.entity.FactoryEntity
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.remote.util.toDomain
 import com.example.domain.model.FactoryInfo
@@ -55,10 +55,15 @@ class TestRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getGyeonggiDaoData(): Flow<List<FactoryInfo>> {
+
+
+    override fun getFactoryDao(): Flow<List<FactoryInfo>> {
         return factoryDao.getAllData().map { it.map { it.toDomain() } }
     }
 
+    override fun upsertFactoryDao(data: FactoryInfo) {
+        factoryDao.upsertData(data.toEntity())
+    }
 
     override fun deleteTestDao(id: Int) {
         factoryDao.deleteData(id)
