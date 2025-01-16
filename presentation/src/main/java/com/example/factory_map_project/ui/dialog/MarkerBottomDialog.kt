@@ -1,10 +1,13 @@
 package com.example.factory_map_project.ui.dialog
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.MarkerBottomDialogBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.ARG_CONTENT
+import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.Util.moveCall
 import com.example.factory_map_project.util.Util.moveTMap
 import com.example.factory_map_project.util.Util.repeatOnStarted
@@ -18,14 +21,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MarkerBottomDialog(
-    private val updateCluster: (FactoryCluster) -> Unit,
-    private val deleteCluster: (Int) -> Unit
-): BaseBottomDialog<MarkerBottomDialogBinding, MarkerViewModel>(
+class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerViewModel>(
     MarkerBottomDialogBinding::inflate
 ) {
-
     override val viewModel: MarkerViewModel by viewModels()
+
+    private lateinit var updateCluster: (FactoryCluster) -> Unit
+    private lateinit var deleteCluster: () -> Unit
 
     private lateinit var cluster: FactoryCluster
 
@@ -38,12 +40,10 @@ class MarkerBottomDialog(
     }
 
     override fun setUI() {
-        binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-            Timber.d("isCheck : $isChecked")
-            updateCluster(
-                cluster.copy(isClick = isChecked)
-            )
-        }
+//        binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+//            Timber.d("isCheck : $isChecked")
+//            cluster = cluster.copy(isClick = isChecked)
+//        }
     }
 
     override fun setObserver() {
@@ -61,11 +61,16 @@ class MarkerBottomDialog(
                                     moveTMap(requireContext(), event.input)
                                 }
                             }
-                            ActionType.NEGATIVE -> onClickPositive()
-                            ActionType.CONFIRM -> onClickNegative()
+                            ActionType.NEGATIVE -> onClickNegative()
+                            ActionType.CONFIRM -> onClickPositive()
+                            ActionType.DELETE -> {
+                                deleteCluster()
+                                dismiss()
+                            }
                             else -> {}
                         }
                     }
+                    is AppEvent.ShowPopup -> mainActivity().showDialog(event)
                     else -> {}
                 }
             }
@@ -77,17 +82,25 @@ class MarkerBottomDialog(
     }
 
     override fun onClickPositive() {
+        updateCluster(
+            cluster.copy(
+                isClick = binding.checkBox.isChecked,
+                memo = binding.memo.text.toString()
+            )
+        )
+        Toast.makeText(requireContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show()
         dismiss()
     }
 
     companion object {
-
         fun newInstance(
             content: FactoryCluster,
             updateCluster: (FactoryCluster) -> Unit,
-            deleteCluster: (Int) -> Unit
+            deleteCluster: () -> Unit
         ): MarkerBottomDialog {
-            return MarkerBottomDialog(updateCluster, deleteCluster).apply {
+            return MarkerBottomDialog().apply {
+                this.updateCluster = updateCluster
+                this.deleteCluster = deleteCluster
                 arguments = Bundle().apply {
                     putSerializable(ARG_CONTENT, content)
                 }

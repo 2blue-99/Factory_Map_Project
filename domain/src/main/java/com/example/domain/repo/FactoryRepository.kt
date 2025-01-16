@@ -17,7 +17,7 @@ interface FactoryRepository {
 
     fun upsertFactoryDao(data: FactoryInfo)
 
-    fun deleteTestDao(id: Int)
+    fun deleteFactoryDao(id: Int)
 
-    fun deleteAllDao()
+    fun deleteAllFactoryDao()
 }

@@ -46,11 +46,31 @@
                     android:gravity="center"
                     android:text="@{viewModel.uiData.companyName, default = `회사이름`}"
                     android:textSize="26sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/remove"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:onClick="@{() -> viewModel.onClickDelete(viewModel.uiData.id)}"
+                        android:src="@drawable/icon_delete"
+                        app:tint="@color/dark_gray" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -246,12 +266,13 @@
                     android:text="메모"
                     android:textSize="16sp" />
                 <EditText
-                    android:id="@+id/edit_text"
+                    android:id="@+id/memo"
                     android:layout_marginTop="4dp"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@drawable/memo_edit_text"
                     android:hint="메모 사항을 입력해주세요."
+                    android:text="@{viewModel.uiData.memo}"
                     android:gravity="top|start"
                     android:padding="16dp"
                     android:scrollbars="vertical"

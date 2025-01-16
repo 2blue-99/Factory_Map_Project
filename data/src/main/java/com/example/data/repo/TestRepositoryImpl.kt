@@ -65,11 +65,11 @@ class TestRepositoryImpl @Inject constructor(
         factoryDao.upsertData(data.toEntity())
     }
 
-    override fun deleteTestDao(id: Int) {
+    override fun deleteFactoryDao(id: Int) {
         factoryDao.deleteData(id)
     }
 
-    override fun deleteAllDao() {
+    override fun deleteAllFactoryDao() {
         factoryDao.deleteAllData()
     }
 }

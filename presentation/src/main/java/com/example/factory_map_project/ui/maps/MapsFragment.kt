@@ -2,12 +2,10 @@ package com.example.factory_map_project.ui.maps
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.domain.model.GyeonggiInfo
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
 import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.Util.repeatOnStarted
-import com.example.factory_map_project.util.Util.toCluster
 import com.example.factory_map_project.util.map.CustomClusterRenderer
 import com.example.factory_map_project.util.map.FactoryCluster
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,10 +17,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.take
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -39,7 +35,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         googleMap = map
         initMap()
         setClusterManager()
-        inputData()
+        setDaoListener()
     }
 
 
@@ -48,6 +44,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
      * //////////////////////////////    Lifecycle     //////////////////////////////
      * //////////////////////////////////////////////////////////////////////////////
      */
+
     override fun setData() {}
 
     override fun setUI() {
@@ -57,11 +54,11 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     override fun setObserver() {
-        repeatOnStarted {
-            viewModel.localFactory.collect {
-                Timber.d("setObserver : $it")
-            }
-        }
+//        repeatOnStarted {
+//            viewModel.localFactory.collect {
+//                Timber.d("setObserver : $it")
+//            }
+//        }
     }
 
      /**
@@ -80,6 +77,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         val customClusterRenderer = CustomClusterRenderer(requireContext(), googleMap, clusterManager)
         clusterManager.renderer = customClusterRenderer
 
+
         googleMap.setOnCameraIdleListener(clusterManager)
         googleMap.setOnMarkerClickListener(clusterManager)
 
@@ -87,12 +85,15 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         clusterManager.setOnClusterItemClickListener { onClickMarker(it) }
     }
 
-    private fun inputData() {
-        lifecycleScope.launch {
-            delay(500L)
-            val data = viewModel.localFactory.first()
-            Timber.d("data : $data")
-            clusterManager.addItems(data)
+    private fun setDaoListener() {
+        repeatOnStarted {
+            viewModel.localFactory
+                .filter { it.isNotEmpty() }
+                .take(1)
+                .collect { list ->
+                    Timber.d("list : $list")
+                    clusterManager.addItems(list)
+                }
         }
     }
 
@@ -108,31 +109,37 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     private fun onClickMarker(item: FactoryCluster): Boolean {
-        val targetMarker = clusterManager.markerCollection.markers.find { it.position  == item.position }
-        targetMarker?.let {
-            mainActivity().openMarkerBottomSheet(
-                item = item,
-                updateCluster = {
-                    // 클러스터 업데이트
-                    // 룸 업데이트
-                },
-                deleteCluster = {
+        setCamera(item)
+        mainActivity().openMarkerBottomSheet(
+            item = item,
+            updateCluster = { updateItem ->
+                viewModel.updateFactory(updateItem)
+                updateCluster(item, updateItem)
+            },
+            deleteCluster = {
+                deleteCluster(item)
+            }
+        )
+        return true
+    }
 
-                }
-            )
+    private fun updateCluster(oldItem: FactoryCluster, newItem: FactoryCluster){
+        Timber.d("old: $oldItem")
+        Timber.d("new: $newItem")
+        clusterManager.removeItem(oldItem)
+        clusterManager.addItem(newItem)
+        clusterManager.cluster()
+    }
+
+    private fun deleteCluster(item: FactoryCluster){
+        Timber.d("삭제")
+        clusterManager.removeItem(item)
+        clusterManager.cluster()
+    }
+
+    private fun setCamera(item: FactoryCluster){
+        if(googleMap.cameraPosition.zoom < 15f) {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item.position, 15f))
         }
-        return false
-    }
-
-    private fun changeVisit(item: FactoryCluster){
-        clusterManager.removeItem(item)
-        clusterManager.addItem(item.copy(isClick = true))
-        clusterManager.cluster()
-    }
-
-    private fun changeNoVisit(item: FactoryCluster){
-        clusterManager.removeItem(item)
-        clusterManager.addItem(item.copy(isClick = false))
-        clusterManager.cluster()
     }
 }

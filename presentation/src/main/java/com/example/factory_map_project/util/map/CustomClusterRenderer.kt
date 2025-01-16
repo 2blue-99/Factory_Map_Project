@@ -24,7 +24,7 @@ class CustomClusterRenderer(
 //        Timber.d("onBeforeClusterItemRendered : $item")
         // 예시: 마커의 색상이나 이미지 변경 가능
         if(item.isClick){
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
         }else{
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
         }

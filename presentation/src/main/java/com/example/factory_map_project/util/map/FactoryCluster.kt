@@ -35,5 +35,23 @@ data class FactoryCluster(
     override fun getPosition(): LatLng = LatLng(latitude, longitude)
     override fun getTitle(): String = companyName
     override fun getSnippet(): String = productInfo
+
+    fun toDomain(): FactoryInfo {
+        return FactoryInfo(
+            id = id,
+            companyName = companyName,
+            lotArea = lotArea,
+            employeeCount = employeeCount,
+            scaleDivisionName = scaleDivisionName,
+            registrationDate = registrationDate,
+            productInfo = productInfo,
+            contact = contact,
+            loadAddress = loadAddress,
+            latitude = latitude,
+            longitude = longitude,
+            isClick = isClick,
+            memo = memo,
+        )
+    }
 }
 

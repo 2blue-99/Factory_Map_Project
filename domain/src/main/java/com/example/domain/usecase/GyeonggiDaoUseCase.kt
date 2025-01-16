@@ -6,9 +6,9 @@ class GyeonggiDaoUseCase(
     private val repo: FactoryRepository,
 )  {
     fun delete(id: Int){
-        return repo.deleteTestDao(id)
+        return repo.deleteFactoryDao(id)
     }
     fun deleteAll(){
-        return repo.deleteAllDao()
+        return repo.deleteAllFactoryDao()
     }
 }

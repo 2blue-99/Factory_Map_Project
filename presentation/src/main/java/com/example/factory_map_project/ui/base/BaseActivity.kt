@@ -97,7 +97,8 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
 
     fun showDialog(event: AppEvent.ShowPopup){
         AlertDialog.Builder(this)
-            .setTitle(event.content.name)
+            .setTitle(event.content.title)
+            .setMessage(event.content.content)
             .setPositiveButton("확인"){ dialog, which ->
                 event.tryEmit(true)
             }
@@ -123,7 +124,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     fun openMarkerBottomSheet(
         item: FactoryCluster,
         updateCluster: (FactoryCluster) -> Unit,
-        deleteCluster: (Int) -> Unit
+        deleteCluster: () -> Unit
     ){
         MarkerBottomDialog
             .newInstance(item, updateCluster, deleteCluster)
