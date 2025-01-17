@@ -91,7 +91,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                 .filter { it.isNotEmpty() }
                 .take(1)
                 .collect { list ->
-                    Timber.d("list : $list")
                     clusterManager.addItems(list)
                 }
         }

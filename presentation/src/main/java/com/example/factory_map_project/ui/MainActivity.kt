@@ -27,9 +27,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     override fun setData() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT // 회전 불가 처리
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
-        binding.navBottom.setupWithNavController(navHostFragment.navController)
+//        val navHostFragment =
+//            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+//        binding.navBottom.setupWithNavController(navHostFragment.navController)
 
         lifecycleScope.launch {
             if(viewModel.checkDownload()){

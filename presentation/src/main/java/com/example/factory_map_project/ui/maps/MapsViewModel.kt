@@ -24,28 +24,28 @@ class MapsViewModel @Inject constructor(
      * 1회만 조회
      */
     init {
-        ioScope.launch {
-            repo.upsertFactoryDao(
-                FactoryInfo(
-                    0,
-                    "test",
-                    "test",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    37.5073218717,
-                    127.6164271659,
-                    false,
-                    "Test"
-                )
-            )
-        }
+//        ioScope.launch {
+//            repo.upsertFactoryDao(
+//                FactoryInfo(
+//                    0,
+//                    "test",
+//                    "test",
+//                    "",
+//                    "",
+//                    "",
+//                    "",
+//                    "",
+//                    "",
+//                    37.5073218717,
+//                    127.6164271659,
+//                    false,
+//                    "Test"
+//                )
+//            )
+//        }
         modelScope.launch {
             repo.getFactoryDao().collect {
-                Timber.d("viewModel : $it")
+                Timber.d("viewModel : ${it.size}")
                 _localFactory.emit(it.map { it.toCluster() })
             }
         }
