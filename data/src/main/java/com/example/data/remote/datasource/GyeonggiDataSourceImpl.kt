@@ -12,7 +12,6 @@ class GyeonggiDataSourceImpl @Inject constructor(
     @RetrofitModule.Gyeonggi private val gyeonggiRetrofit: GyeonggiDataSource
 ) {
     suspend fun getDataSource(count : Int): APIResponseState<GyeonggiResponse> {
-        Timber.d("GyeonggiDataSourceImpl Start")
         return gyeonggiRetrofit.getDataSource(BuildConfig.API_KEY_GYEONGGI,"json",count, 1000).apiErrorHandler()
     }
 }
