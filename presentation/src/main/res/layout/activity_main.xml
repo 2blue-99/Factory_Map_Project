@@ -38,6 +38,15 @@
 <!--            app:itemIconTint="@color/selector_menu"-->
 <!--            />-->
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Area"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <include
             android:id="@+id/incLoading"
             layout="@layout/loading_screen"
@@ -46,36 +55,6 @@
             android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.INVISIBLE}"
             />
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical"-->
-<!--            android:visibility="gone"-->
-<!--            >-->
-<!--            <Button-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:onClick="@{() -> viewModel.onClickInsert()}"-->
-<!--                android:text="insert"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            <Button-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:onClick="@{() -> viewModel.onClickDeleteAll()}"-->
-<!--                android:text="delete"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            <Button-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:onClick="@{() -> viewModel.onClickGetAPI()}"-->
-<!--                android:text="get api"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-<!--        </LinearLayout>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
