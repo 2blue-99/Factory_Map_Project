@@ -29,7 +29,6 @@
 
 <!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
 <!--            android:id="@+id/nav_bottom"-->
-<!--            android:visibility="gone"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="64dp"-->
 <!--            app:layout_constraintBottom_toBottomOf="parent"-->
@@ -46,6 +45,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <include
             android:id="@+id/incLoading"
