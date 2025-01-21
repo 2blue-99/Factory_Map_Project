@@ -5,8 +5,6 @@ import android.location.Geocoder
 import android.os.Build
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.example.domain.model.AllAreaInfo
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.ActivityMainBinding
@@ -33,7 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
         lifecycleScope.launch {
             if(viewModel.checkDownload()){
-                openDownloadBottomSheet()
+                openDownloadBottomDialog()
             }
         }
     }
@@ -44,6 +42,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                 Timber.d("event : $event")
                 when(event){
                     is AppEvent.ShowPopup -> showDialog(event)
+                    is AppEvent.ShowSpinnerDialog -> {
+                        openSpinnerDialog(event.content, event.position, event.onSelect)
+                    }
                     is AppEvent.ShowToast -> showToast(event.message)
                     is AppEvent.ShowLoading -> {
                         Timber.d("loading state : ${event.state}")
@@ -53,11 +54,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                     else -> {}
                 }
             }
-        }
-
-        viewModel.testLiveData.observe(this){
-            Timber.d("관찰 완료 : ${it}")
-            geoTest(it)
         }
     }
 

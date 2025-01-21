@@ -11,9 +11,9 @@ import com.example.factory_map_project.BR
 import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.dialog.DownloadBottomDialog
 import com.example.factory_map_project.ui.dialog.MarkerBottomDialog
+import com.example.factory_map_project.ui.dialog.SpinnerDialog
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
-import com.google.android.gms.maps.model.Marker
 import timber.log.Timber
 
 
@@ -117,11 +117,11 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
-    fun openDownloadBottomSheet(){
+    fun openDownloadBottomDialog(){
         DownloadBottomDialog().show(supportFragmentManager, "Download")
     }
 
-    fun openMarkerBottomSheet(
+    fun openMarkerBottomDialog(
         item: FactoryCluster,
         updateCluster: (FactoryCluster) -> Unit,
         deleteCluster: () -> Unit
@@ -129,5 +129,11 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         MarkerBottomDialog
             .newInstance(item, updateCluster, deleteCluster)
             .show(supportFragmentManager, "cluster_dialog")
+    }
+
+    fun openSpinnerDialog(list: List<String>, position: Int, onSelect: (Int) -> Unit){
+        SpinnerDialog
+            .newInstance(list, position, onSelect)
+            .show(supportFragmentManager, "spinner")
     }
 }

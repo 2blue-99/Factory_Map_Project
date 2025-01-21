@@ -1,16 +1,15 @@
 package com.example.factory_map_project.util
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.core.view.WindowCompat
+import android.os.Build
+import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.domain.model.FactoryInfo
-import com.example.domain.model.GyeonggiInfo
 import com.example.factory_map_project.util.map.FactoryCluster
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -18,8 +17,9 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
-const val ARG_CONTENT = "content"
+const val ARG_CONTENT = "argument.content"
 
 object Util {
 
@@ -68,6 +68,18 @@ object Util {
                     Uri.parse("market://details?id=${packageName}")
                 )
             )
+        }
+    }
+
+    /**
+     * Fragment Arguments 추출
+     */
+    inline fun <reified T : Serializable> Bundle.getData(key: String): T? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            this.getSerializable(key, T::class.java)
+        } else {
+            val result = this.getSerializable(key)
+            if (result is T) result else null
         }
     }
 }

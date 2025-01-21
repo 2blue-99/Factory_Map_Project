@@ -1,33 +1,29 @@
 package com.example.factory_map_project.ui
 
 import android.os.Build
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.domain.model.AllAreaInfo
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import com.example.domain.repo.DataStoreRepo
 import com.example.domain.usecase.GyeonggiDaoUseCase
-import com.example.domain.usecase.GetGyenggiUseCase
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.event.AppEvent
+import com.example.factory_map_project.util.type.AreaType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val useCase: GetGyenggiUseCase,
     private val daoUseCase: GyeonggiDaoUseCase,
     private val dataStoreRepo: DataStoreRepo
 ): BaseViewModel() {
 
-    private var _testLiveData = MutableLiveData<List<AllAreaInfo>>()
-    val testLiveData: LiveData<List<AllAreaInfo>> = _testLiveData
+    var selectedPosition = dataStoreRepo.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
 
     init {
 //        modelScope.launch {
@@ -77,29 +73,22 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun onClickInsert(){
-        ioScope.launch {
-            isLoading.postValue(true)
-            val result = repeat(100000){
-//                daoUseCase.upsert(new(count++))
-            }
-            Timber.d("done")
-            isLoading.postValue(false)
+    fun onClickAreaButton(){
+        modelScope.launch {
+            emitEvent(
+                AppEvent.ShowSpinnerDialog(
+                    content = AreaType.toTitleList(),
+                    position = AreaType.toPosition(selectedPosition.value),
+                    onSelect = { position ->
+                        ioScope.launch {
+                            dataStoreRepo.setArea(position)
+                        }
+                    }
+                )
+            )
         }
     }
 
-    fun onClickDeleteAll(){
-        ioScope.launch {
-            isLoading.postValue(true)
-            daoUseCase.deleteAll()
-            Timber.d("done")
-            isLoading.postValue(false)
-        }
-    }
-
-    fun onClickGetAPI(){
-
-    }
 
     /**
      * 다운로드한지 30일이 지났다면 최신화

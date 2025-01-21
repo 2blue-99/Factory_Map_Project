@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.example.data.datastore.UserDataSource
 import com.example.data.local.dao.FactoryDao
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
-import com.example.data.repo.TestRepositoryImpl
+import com.example.data.repo.FactoryRepositoryImpl
 import com.example.domain.repo.DataStoreRepo
 import com.example.domain.repo.FactoryRepository
 import dagger.Module
@@ -22,7 +22,7 @@ object RepoModule {
     fun provideRepo(
         gyeonggiDatasource: GyeonggiDataSourceImpl,
         factoryDao: FactoryDao,
-    ): FactoryRepository = TestRepositoryImpl(gyeonggiDatasource, factoryDao)
+    ): FactoryRepository = FactoryRepositoryImpl(gyeonggiDatasource, factoryDao)
 
     @Provides
     @Singleton

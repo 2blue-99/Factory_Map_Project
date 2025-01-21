@@ -6,6 +6,8 @@
     <data>
         <import type="android.view.View" />
 
+        <import type="com.example.factory_map_project.util.type.AreaType"/>
+
         <variable
             name="viewModel"
             type="com.example.factory_map_project.ui.MainViewModel" />
@@ -37,21 +39,36 @@
 <!--            app:itemIconTint="@color/selector_menu"-->
 <!--            />-->
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Area"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:layout_marginTop="28dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:clipToPadding="false"
+            >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_settings"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedPosition.title, default = `지역 이름`}"
+                android:background="@drawable/base_round_button"
+                android:textColor="@color/dark_gray"
+                android:onClick="@{() -> viewModel.onClickAreaButton()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_settings"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
         <include

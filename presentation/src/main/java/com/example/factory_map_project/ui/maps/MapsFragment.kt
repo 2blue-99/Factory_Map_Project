@@ -1,7 +1,6 @@
 package com.example.factory_map_project.ui.maps
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
 import com.example.factory_map_project.ui.base.BaseFragment
@@ -109,7 +108,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     private fun onClickMarker(item: FactoryCluster): Boolean {
         setCamera(item)
-        mainActivity().openMarkerBottomSheet(
+        mainActivity().openMarkerBottomDialog(
             item = item,
             updateCluster = { updateItem ->
                 viewModel.updateFactory(updateItem)

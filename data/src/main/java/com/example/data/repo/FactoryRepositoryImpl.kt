@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class TestRepositoryImpl @Inject constructor(
+class FactoryRepositoryImpl @Inject constructor(
     private val gyeonggiDataSource: GyeonggiDataSourceImpl,
     private val factoryDao: FactoryDao
 ): FactoryRepository {
