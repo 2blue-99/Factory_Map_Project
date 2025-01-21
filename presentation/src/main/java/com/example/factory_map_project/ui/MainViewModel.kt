@@ -3,6 +3,7 @@ package com.example.factory_map_project.ui
 import android.os.Build
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
+import com.example.data.datastore.UserDataStore
 import com.example.domain.usecase.GyeonggiDaoUseCase
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.PopupContent
@@ -18,11 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val daoUseCase: GyeonggiDaoUseCase,
-    private val userDataStoreRepo: UserDataStoreRepo
+    private val userDataStoreRepo: UserDataStore
 ): BaseViewModel() {
 
-    var selectedPosition = userDataStoreRepo.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
 
     init {
 //        modelScope.launch {
@@ -46,16 +45,6 @@ class MainViewModel @Inject constructor(
 //        }
     }
 
-//    private fun new(count: Int):FactoryInfo =
-//        FactoryInfo(
-//            id = 0,
-//            title = "${count} test title",
-//            content = "test content",
-//            createdAt = "test createdAt",
-//            updatedAt = "test updatedAt",
-//            userId = 0
-//        )
-
     fun onClickLogout(){
         modelScope.launch {
             // 팝업창 띄어줌
@@ -71,23 +60,6 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-
-    fun onClickAreaButton(){
-        modelScope.launch {
-            emitEvent(
-                AppEvent.ShowSpinnerDialog(
-                    content = AreaType.toTitleList(),
-                    position = AreaType.toPosition(selectedPosition.value),
-                    onSelect = { position ->
-                        ioScope.launch {
-                            userDataStoreRepo.setArea(position)
-                        }
-                    }
-                )
-            )
-        }
-    }
-
 
     /**
      * 다운로드한지 30일이 지났다면 최신화

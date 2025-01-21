@@ -12,7 +12,10 @@ import kotlinx.coroutines.flow.Flow
 interface FactoryDao {
 
     @Query("SELECT * FROM factory")
-    fun getAllData(area: String): Flow<List<FactoryEntity>>
+    fun getAllData(): Flow<List<FactoryEntity>>
+
+    @Query("SELECT * FROM factory WHERE loadAddress LIKE :area || '%'")
+    fun getTargetData(area: String): Flow<List<FactoryEntity>>
 
     @Transaction
     fun upsertDataList(data: List<FactoryEntity>){

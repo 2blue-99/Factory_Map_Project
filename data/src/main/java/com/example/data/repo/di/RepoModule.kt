@@ -2,6 +2,7 @@ package com.example.data.repo.di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.example.data.datastore.UserDataStore
 import com.example.data.datastore.UserDataStoreImpl
 import com.example.data.local.dao.FactoryDao
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
@@ -21,11 +22,12 @@ object RepoModule {
     fun provideRepo(
         gyeonggiDatasource: GyeonggiDataSourceImpl,
         factoryDao: FactoryDao,
-    ): FactoryRepository = FactoryRepositoryImpl(gyeonggiDatasource, factoryDao)
+        userDataStore: UserDataStore
+    ): FactoryRepository = FactoryRepositoryImpl(gyeonggiDatasource, factoryDao, userDataStore)
 
-    @Provides
-    @Singleton
-    fun provideDataStoreRepo(
-        dataStore: DataStore<Preferences>
-    ): UserDataStoreRepo = UserDataStoreImpl(dataStore)
+//    @Provides
+//    @Singleton
+//    fun provideDataStoreRepo(
+//        dataStore: DataStore<Preferences>
+//    ): UserDataStore = UserDataStoreImpl(dataStore)
 }

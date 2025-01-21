@@ -60,11 +60,15 @@ class FactoryRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getFactoryAllDao(): Flow<List<FactoryInfo>> {
+        return factoryDao.getAllData().map { it.map { it.toDomain() } }
+    }
+
 
     override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {
         val target = AreaType.toType(userDataSource.areaPositionFlow.first()).title
         Timber.d("target : $target")
-        return factoryDao.getAllData(target).map { it.map { it.toDomain() } }
+        return factoryDao.getTargetData(target).map { it.map { it.toDomain() } }
     }
 
 //    override fun getFactoryDao(): Flow<List<FactoryInfo>> {

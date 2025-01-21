@@ -13,6 +13,8 @@ interface FactoryRepository {
 
 
     // DAO
+    fun getFactoryAllDao(): Flow<List<FactoryInfo>>
+
     suspend fun getFactoryDao(): Flow<List<FactoryInfo>>
 
     fun upsertFactoryDao(data: FactoryInfo)

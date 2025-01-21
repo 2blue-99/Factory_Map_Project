@@ -5,6 +5,7 @@ import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
 import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.Util.repeatOnStarted
+import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.CustomClusterRenderer
 import com.example.factory_map_project.util.map.FactoryCluster
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -53,11 +54,23 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     override fun setObserver() {
-//        repeatOnStarted {
-//            viewModel.localFactory.collect {
-//                Timber.d("setObserver : $it")
-//            }
-//        }
+        repeatOnStarted {
+            viewModel.eventFlow.collect { event ->
+                Timber.d("event : $event")
+                when(event){
+                    is AppEvent.ShowSpinnerDialog -> {
+                        mainActivity().openSpinnerDialog(
+                            list = event.content,
+                            position = event.position,
+                            onSelect = {
+                                event.onSelect(it)
+                            }
+                        )
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
      /**
@@ -88,9 +101,11 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         repeatOnStarted {
             viewModel.factoryData
                 .filter { it.isNotEmpty() }
-                .take(1)
                 .collect { list ->
+                    Timber.d("list : ${list.size}")
+                    clusterManager.clearItems()
                     clusterManager.addItems(list)
+                    clusterManager.cluster()
                 }
         }
     }
@@ -112,28 +127,29 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             item = item,
             updateCluster = { updateItem ->
                 viewModel.updateFactory(updateItem)
-                updateCluster(item, updateItem)
+//                updateCluster(item, updateItem)
             },
             deleteCluster = {
-                deleteCluster(item)
+                viewModel.deleteFactory(item.id)
+//                deleteCluster(item)
             }
         )
         return true
     }
 
-    private fun updateCluster(oldItem: FactoryCluster, newItem: FactoryCluster){
-        Timber.d("old: $oldItem")
-        Timber.d("new: $newItem")
-        clusterManager.removeItem(oldItem)
-        clusterManager.addItem(newItem)
-        clusterManager.cluster()
-    }
+//    private fun updateCluster(oldItem: FactoryCluster, newItem: FactoryCluster){
+//        Timber.d("old: $oldItem")
+//        Timber.d("new: $newItem")
+//        clusterManager.removeItem(oldItem)
+//        clusterManager.addItem(newItem)
+//        clusterManager.cluster()
+//    }
 
-    private fun deleteCluster(item: FactoryCluster){
-        Timber.d("삭제")
-        clusterManager.removeItem(item)
-        clusterManager.cluster()
-    }
+//    private fun deleteCluster(item: FactoryCluster){
+//        Timber.d("삭제")
+//        clusterManager.removeItem(item)
+//        clusterManager.cluster()
+//    }
 
     private fun setCamera(item: FactoryCluster){
         if(googleMap.cameraPosition.zoom < 15f) {

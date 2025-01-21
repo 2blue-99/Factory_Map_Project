@@ -1,20 +1,31 @@
 package com.example.factory_map_project.ui.maps
 
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
+import com.example.data.datastore.UserDataStore
+import com.example.domain.model.AreaType
 import com.example.domain.repo.FactoryRepository
+import com.example.domain.usecase.GyeonggiDaoUseCase
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.Util.toCluster
+import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MapsViewModel @Inject constructor(
-    private val repo: FactoryRepository
+    private val repo: FactoryRepository,
+    private val userDataStoreRepo: UserDataStore
 ) : BaseViewModel() {
+
+    var selectedPosition = userDataStoreRepo.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
 
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
     val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
@@ -23,25 +34,10 @@ class MapsViewModel @Inject constructor(
      * 1회만 조회
      */
     init {
-//        ioScope.launch {
-//            repo.upsertFactoryDao(
-//                FactoryInfo(
-//                    0,
-//                    "test",
-//                    "test",
-//                    "",
-//                    "",
-//                    "",
-//                    "",
-//                    "",
-//                    "",
-//                    37.5073218717,
-//                    127.6164271659,
-//                    false,
-//                    "Test"
-//                )
-//            )
-//        }
+        loadFactoryData()
+    }
+
+    private fun loadFactoryData() {
         modelScope.launch {
             repo.getFactoryDao().collect {
                 _factoryData.emit(it.map { it.toCluster() })
@@ -49,32 +45,36 @@ class MapsViewModel @Inject constructor(
         }
     }
 
-    fun updateFactory(data: FactoryCluster){
+
+    fun updateFactory(data: FactoryCluster) {
         ioScope.launch {
             repo.upsertFactoryDao(data.toDomain())
         }
     }
 
-    fun deleteFactory(id: Int){
-        repo.deleteFactoryDao(id)
+    fun deleteFactory(id: Int) {
+        ioScope.launch {
+            repo.deleteFactoryDao(id)
+        }
     }
 
-
-//    private fun onClickGetGyeonggiData(){
-//        modelScope.launch {
-//            useCase.getGyeonggiData().collect {
-//                when(it){
-//                    is ResourceState.Success -> {
-//                        Timber.d("viewModel result : ${it.body}")
-//                        _gyeonggiLiveData.postValue(it.body)
-//                        _eventFlow.emit(AppEvent.ShowLoading(false))
-//                    }
-//                    is ResourceState.Loading -> {
-//                        _eventFlow.emit(AppEvent.ShowLoading(true))
-//                    }
-//                    else -> {}
-//                }
-//            }
-//        }
-//    }
+    fun onClickAreaButton() {
+        modelScope.launch {
+            emitEvent(
+                AppEvent.ShowSpinnerDialog(
+                    content = AreaType.toTitleList(),
+                    position = AreaType.toPosition(selectedPosition.value),
+                    onSelect = { position ->
+                        Timber.d("postion : $position")
+                        ioScope.launch {
+                            userDataStoreRepo.setArea(position)
+                            withContext(Dispatchers.Main){
+                                loadFactoryData()
+                            }
+                        }
+                    }
+                )
+            )
+        }
+    }
 }

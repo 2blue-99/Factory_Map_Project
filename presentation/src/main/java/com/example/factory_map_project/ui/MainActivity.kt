@@ -42,9 +42,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                 Timber.d("event : $event")
                 when(event){
                     is AppEvent.ShowPopup -> showDialog(event)
-                    is AppEvent.ShowSpinnerDialog -> {
-                        openSpinnerDialog(event.content, event.position, event.onSelect)
-                    }
                     is AppEvent.ShowToast -> showToast(event.message)
                     is AppEvent.ShowLoading -> {
                         Timber.d("loading state : ${event.state}")
