@@ -1,4 +1,4 @@
-package com.example.factory_map_project.util.type
+package com.example.domain.model
 
 enum class AreaType(
     val title: String

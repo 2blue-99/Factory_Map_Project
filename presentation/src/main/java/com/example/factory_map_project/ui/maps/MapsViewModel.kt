@@ -1,6 +1,5 @@
 package com.example.factory_map_project.ui.maps
 
-import com.example.domain.model.FactoryInfo
 import com.example.domain.repo.FactoryRepository
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.Util.toCluster
@@ -17,8 +16,8 @@ class MapsViewModel @Inject constructor(
     private val repo: FactoryRepository
 ) : BaseViewModel() {
 
-    private var _localFactory = MutableStateFlow<List<FactoryCluster>>(emptyList())
-    val localFactory: StateFlow<List<FactoryCluster>> = _localFactory
+    private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
+    val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
 
     /**
      * 1회만 조회
@@ -45,8 +44,7 @@ class MapsViewModel @Inject constructor(
 //        }
         modelScope.launch {
             repo.getFactoryDao().collect {
-                Timber.d("viewModel : ${it.size}")
-                _localFactory.emit(it.map { it.toCluster() })
+                _factoryData.emit(it.map { it.toCluster() })
             }
         }
     }

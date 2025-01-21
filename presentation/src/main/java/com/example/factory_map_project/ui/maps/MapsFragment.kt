@@ -86,7 +86,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     private fun setDaoListener() {
         repeatOnStarted {
-            viewModel.localFactory
+            viewModel.factoryData
                 .filter { it.isNotEmpty() }
                 .take(1)
                 .collect { list ->

@@ -3,12 +3,11 @@ package com.example.factory_map_project.ui
 import android.os.Build
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import com.example.domain.repo.DataStoreRepo
 import com.example.domain.usecase.GyeonggiDaoUseCase
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.event.AppEvent
-import com.example.factory_map_project.util.type.AreaType
+import com.example.domain.model.AreaType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -20,10 +19,10 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val daoUseCase: GyeonggiDaoUseCase,
-    private val dataStoreRepo: DataStoreRepo
+    private val userDataStoreRepo: UserDataStoreRepo
 ): BaseViewModel() {
 
-    var selectedPosition = dataStoreRepo.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
+    var selectedPosition = userDataStoreRepo.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
 
     init {
 //        modelScope.launch {
@@ -81,7 +80,7 @@ class MainViewModel @Inject constructor(
                     position = AreaType.toPosition(selectedPosition.value),
                     onSelect = { position ->
                         ioScope.launch {
-                            dataStoreRepo.setArea(position)
+                            userDataStoreRepo.setArea(position)
                         }
                     }
                 )
@@ -100,7 +99,7 @@ class MainViewModel @Inject constructor(
      * 작을 경우, false 반환
      */
     suspend fun checkDownload(): Boolean {
-        val lastDownloadDate = dataStoreRepo.downloadFlow.first()
+        val lastDownloadDate = userDataStoreRepo.downloadFlow.first()
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val format = LocalDate.parse(lastDownloadDate)
             if(format.compareTo(LocalDate.now()) > 30 ){

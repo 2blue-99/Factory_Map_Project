@@ -1,8 +1,8 @@
-package com.example.domain.repo
+package com.example.data.datastore
 
 import kotlinx.coroutines.flow.Flow
 
-interface DataStoreRepo {
+interface UserDataStore {
 
     val downloadFlow: Flow<String>
     val areaPositionFlow: Flow<Int>
