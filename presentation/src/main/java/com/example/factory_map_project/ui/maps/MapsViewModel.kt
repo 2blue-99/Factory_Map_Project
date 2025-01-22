@@ -69,7 +69,7 @@ class MapsViewModel @Inject constructor(
     }
 
     fun onClickSetting(){
-        emitEvent(AppEvent.MovePage(id = R.id.remove))
+        emitEvent(AppEvent.MovePage(id = R.id.settingFragment))
     }
 
 

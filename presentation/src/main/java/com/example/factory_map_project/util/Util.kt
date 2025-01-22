@@ -9,7 +9,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
 import com.example.domain.model.FactoryInfo
+import com.example.factory_map_project.R
 import com.example.factory_map_project.util.map.FactoryCluster
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -81,5 +83,19 @@ object Util {
             val result = this.getSerializable(key)
             if (result is T) result else null
         }
+    }
+
+    /**
+     * 앱 기본 애니메이션
+     *
+     * 오른쪽 슬라이드 인, 오른쪽 슬라이드 아웃
+     * 딥링크 접근 시, 화면 중복 방지를 위한 SingleTop 옵션 설정
+     */
+    fun slideRightBaseNavOptions(): NavOptions {
+        return NavOptions.Builder()
+            .setEnterAnim(R.anim.slide_in_from_right)
+            .setExitAnim(R.anim.hold)
+            .setPopExitAnim(R.anim.slide_out_to_right)
+            .build()
     }
 }

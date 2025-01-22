@@ -1,10 +1,12 @@
 package com.example.factory_map_project.ui.maps
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
 import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.Util.repeatOnStarted
+import com.example.factory_map_project.util.Util.slideRightBaseNavOptions
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.CustomClusterRenderer
 import com.example.factory_map_project.util.map.FactoryCluster
@@ -66,6 +68,9 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                                 event.onSelect(it)
                             }
                         )
+                    }
+                    is AppEvent.MovePage -> {
+                        findNavController().navigate(event.id, slideRightBaseNavOptions())
                     }
                     else -> {}
                 }
