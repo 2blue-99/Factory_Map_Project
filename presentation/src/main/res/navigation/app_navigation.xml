@@ -17,5 +17,6 @@
         android:id="@+id/mapsFragment"
         android:name="com.example.factory_map_project.ui.maps.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps" >
+    </fragment>
 </navigation>

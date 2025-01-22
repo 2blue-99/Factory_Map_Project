@@ -50,7 +50,7 @@ abstract class BaseViewModel: ViewModel() {
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    protected suspend fun emitEvent(event: AppEvent){
+    protected fun emitEvent(event: AppEvent){
         viewModelScope.launch {
             _eventFlow.emit(event)
         }
