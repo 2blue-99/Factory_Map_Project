@@ -13,12 +13,19 @@ import dagger.hilt.android.AndroidEntryPoint
 class SpinnerDialog: BaseDialog<DialogBaseSpinnerBinding, SpinnerDialogViewModel>(
     DialogBaseSpinnerBinding::inflate
 ) {
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     override val viewModel: SpinnerDialogViewModel by viewModels()
 
     private var list: List<String> = emptyList()
     private var position: Int = 0
     lateinit var onSelect: (Int) -> Unit
 
+
+    //**********************************************************************************************
+    // Mark: Lifecycle
+    //**********************************************************************************************
     override fun setData() {
         dialog?.setCanceledOnTouchOutside(true)
         // viewModel 데이터 세팅
@@ -40,6 +47,10 @@ class SpinnerDialog: BaseDialog<DialogBaseSpinnerBinding, SpinnerDialogViewModel
 
     override fun onClickPositive() {}
 
+
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
     /**
      * Recyclerview 시작 위치 지정 & 중앙 위치
      *
@@ -63,6 +74,10 @@ class SpinnerDialog: BaseDialog<DialogBaseSpinnerBinding, SpinnerDialogViewModel
         )
     }
 
+
+    //**********************************************************************************************
+    // Mark: Companion Object
+    //**********************************************************************************************
     companion object {
 
         const val ARG_POSITION = "argument.position"

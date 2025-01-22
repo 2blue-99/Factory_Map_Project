@@ -16,10 +16,16 @@ import javax.inject.Inject
 class MarkerViewModel @Inject constructor(
     private val repo: FactoryRepository
 ) : BaseViewModel() {
-
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     private var _uiData = MutableLiveData<FactoryCluster>()
     val uiData: MutableLiveData<FactoryCluster> get() = _uiData
 
+
+    //**********************************************************************************************
+    // Mark: DataBinding
+    //**********************************************************************************************
     fun loadData(data: FactoryCluster) {
         _uiData.value = data
     }

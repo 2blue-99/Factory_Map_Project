@@ -16,7 +16,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
     private val inflate: Inflate<VB>
 ): BottomSheetDialogFragment() {
-
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     /**
      * View Model
      */
@@ -37,7 +39,6 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
      */
     lateinit var bottomDialog: BottomSheetDialog
 
-
     /**
      * onCreate() | Data Setting
      */
@@ -51,12 +52,13 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
      */
     abstract fun setObserver()
 
-    /**
-     *
-     */
     abstract fun onClickNegative()
     abstract fun onClickPositive()
 
+
+    //**********************************************************************************************
+    // Mark: Lifecycle
+    //**********************************************************************************************
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         bottomDialog = BottomSheetDialog(requireContext(), theme)
         bottomSheetBehavior = bottomDialog.behavior
@@ -88,4 +90,9 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
         _binding = null
         super.onDestroyView()
     }
+
+
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
 }

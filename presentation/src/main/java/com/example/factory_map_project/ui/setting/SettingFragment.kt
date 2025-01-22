@@ -9,8 +9,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(
     FragmentSettingBinding::inflate
 ) {
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     override val viewModel: SettingViewModel by viewModels()
 
+
+    //**********************************************************************************************
+    // Mark: Lifecycle
+    //**********************************************************************************************
     override fun setData() {
 
     }
@@ -22,4 +29,9 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(
     override fun setObserver() {
 
     }
+
+
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
 }

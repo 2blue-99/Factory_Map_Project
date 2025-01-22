@@ -20,8 +20,15 @@ import timber.log.Timber
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     R.layout.activity_main
 ) {
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     override val viewModel: MainViewModel by viewModels()
 
+
+    //**********************************************************************************************
+    // Mark: Lifecycle
+    //**********************************************************************************************
     override fun setData() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT // 회전 불가 처리
 
@@ -56,6 +63,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
     override fun setListener() {  }
 
+
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
     private fun geoTest(list: List<AllAreaInfo>){
         val geo = Geocoder(this)
         lifecycleScope.launch {

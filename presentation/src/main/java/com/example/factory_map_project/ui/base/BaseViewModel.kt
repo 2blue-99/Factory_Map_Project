@@ -19,7 +19,9 @@ import timber.log.Timber
 import kotlin.coroutines.coroutineContext
 
 abstract class BaseViewModel: ViewModel() {
-
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     protected val _eventFlow = MutableSharedFlow<AppEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -36,14 +38,18 @@ abstract class BaseViewModel: ViewModel() {
     protected val ioScope = CoroutineScope(Dispatchers.IO) + job + exceptionHandler
 
 
-
+    //**********************************************************************************************
+    // Mark: Lifecycle
+    //**********************************************************************************************
     override fun onCleared() {
         Timber.i("[ onCleared ${this::class.simpleName} ]")
         super.onCleared()
     }
 
 
-
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
     protected suspend fun emitEvent(event: AppEvent){
         viewModelScope.launch {
             _eventFlow.emit(event)

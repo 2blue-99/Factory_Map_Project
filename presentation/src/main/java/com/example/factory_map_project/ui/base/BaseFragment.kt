@@ -19,7 +19,9 @@ typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
     private val inflate: Inflate<VB>
 ): Fragment() {
-
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     /**
      * View Model
      */
@@ -35,7 +37,6 @@ abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
      */
     protected fun mainActivity() = activity as MainActivity
 
-
     /**
      * onCreate() | Data Setting
      */
@@ -49,6 +50,9 @@ abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
      */
     abstract fun setObserver()
 
+    //**********************************************************************************************
+    // Mark: Lifecycle
+    //**********************************************************************************************
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate ${this::class.simpleName}")
         super.onCreate(savedInstanceState)
@@ -106,4 +110,8 @@ abstract class BaseFragment<VB: ViewDataBinding, VM:BaseViewModel>(
         Timber.i("onDestroy ${this::class.simpleName}")
         super.onDestroy()
     }
+
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
 }

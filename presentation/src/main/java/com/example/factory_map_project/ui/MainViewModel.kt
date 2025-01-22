@@ -21,8 +21,9 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val userDataStoreRepo: UserDataStore
 ): BaseViewModel() {
-
-
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     init {
 //        modelScope.launch {
 //            useCase.test().resourceHandler(_eventFlow) {
@@ -45,6 +46,10 @@ class MainViewModel @Inject constructor(
 //        }
     }
 
+
+    //**********************************************************************************************
+    // Mark: DataBinding
+    //**********************************************************************************************
     fun onClickLogout(){
         modelScope.launch {
             // 팝업창 띄어줌
@@ -61,6 +66,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
     /**
      * 다운로드한지 30일이 지났다면 최신화
      *

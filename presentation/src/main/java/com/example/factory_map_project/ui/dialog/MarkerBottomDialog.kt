@@ -24,6 +24,9 @@ import timber.log.Timber
 class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerViewModel>(
     MarkerBottomDialogBinding::inflate
 ) {
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     override val viewModel: MarkerViewModel by viewModels()
 
     private lateinit var updateCluster: (FactoryCluster) -> Unit
@@ -31,6 +34,10 @@ class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerView
 
     private lateinit var cluster: FactoryCluster
 
+
+    //**********************************************************************************************
+    // Mark: Lifecycle
+    //**********************************************************************************************
     override fun setData() {
         val data = this.arguments?.getSerializable(ARG_CONTENT)
         if(data is FactoryCluster){
@@ -77,6 +84,9 @@ class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerView
         }
     }
 
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
     override fun onClickNegative() {
         dismiss()
     }
@@ -92,6 +102,10 @@ class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerView
         dismiss()
     }
 
+
+    //**********************************************************************************************
+    // Mark: Companion Object
+    //**********************************************************************************************
     companion object {
         fun newInstance(
             content: FactoryCluster,

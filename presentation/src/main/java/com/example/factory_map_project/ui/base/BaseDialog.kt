@@ -16,7 +16,9 @@ import com.example.factory_map_project.ui.MainActivity
 abstract class BaseDialog<VB: ViewDataBinding, VM: BaseViewModel>(
     private val inflate: Inflate<VB>
 ): DialogFragment() {
-
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     /**
      * View Model
      */
@@ -42,12 +44,13 @@ abstract class BaseDialog<VB: ViewDataBinding, VM: BaseViewModel>(
      */
     abstract fun setObserver()
 
-    /**
-     *
-     */
     abstract fun onClickNegative()
     abstract fun onClickPositive()
 
+
+    //**********************************************************************************************
+    // Mark: Lifecycle
+    //**********************************************************************************************
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val root = RelativeLayout(requireActivity())
         root.layoutParams = ViewGroup.LayoutParams(

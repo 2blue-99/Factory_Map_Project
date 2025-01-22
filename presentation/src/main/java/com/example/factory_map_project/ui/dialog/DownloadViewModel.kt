@@ -16,18 +16,16 @@ import javax.inject.Inject
 class DownloadViewModel @Inject constructor(
     private val gyeonggiRepository: FactoryRepository,
 ) : BaseViewModel() {
-
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     private var _uiData = MutableLiveData<List<AllAreaInfo>>()
     val uiData: MutableLiveData<List<AllAreaInfo>> get() = _uiData
 
-    init {
-//        modelScope.launch {
-//            gyeonggiRepository.getFactoryDao().collect {
-//                Timber.d("room : ${it.size}")
-//            }
-//        }
-    }
 
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
     fun onClickDownload() {
         modelScope.launch {
             gyeonggiRepository.saveGyeonggiData().collect {

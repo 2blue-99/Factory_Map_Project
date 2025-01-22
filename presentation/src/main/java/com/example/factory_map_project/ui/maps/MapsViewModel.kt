@@ -24,12 +24,18 @@ class MapsViewModel @Inject constructor(
     private val repo: FactoryRepository,
     private val userDataStoreRepo: UserDataStore
 ) : BaseViewModel() {
-
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     var selectedPosition = userDataStoreRepo.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
 
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
     val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
 
+
+    //**********************************************************************************************
+    // Mark: Initialization
+    //**********************************************************************************************
     /**
      * 1회만 조회
      */
@@ -37,27 +43,10 @@ class MapsViewModel @Inject constructor(
         loadFactoryData()
     }
 
-    private fun loadFactoryData() {
-        modelScope.launch {
-            repo.getFactoryDao().collect {
-                _factoryData.emit(it.map { it.toCluster() })
-            }
-        }
-    }
 
-
-    fun updateFactory(data: FactoryCluster) {
-        ioScope.launch {
-            repo.upsertFactoryDao(data.toDomain())
-        }
-    }
-
-    fun deleteFactory(id: Int) {
-        ioScope.launch {
-            repo.deleteFactoryDao(id)
-        }
-    }
-
+    //**********************************************************************************************
+    // Mark: DataBinding
+    //**********************************************************************************************
     fun onClickAreaButton() {
         modelScope.launch {
             emitEvent(
@@ -75,6 +64,30 @@ class MapsViewModel @Inject constructor(
                     }
                 )
             )
+        }
+    }
+
+
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
+    private fun loadFactoryData() {
+        modelScope.launch {
+            repo.getFactoryDao().collect {
+                _factoryData.emit(it.map { it.toCluster() })
+            }
+        }
+    }
+
+    fun updateFactory(data: FactoryCluster) {
+        ioScope.launch {
+            repo.upsertFactoryDao(data.toDomain())
+        }
+    }
+
+    fun deleteFactory(id: Int) {
+        ioScope.launch {
+            repo.deleteFactoryDao(id)
         }
     }
 }

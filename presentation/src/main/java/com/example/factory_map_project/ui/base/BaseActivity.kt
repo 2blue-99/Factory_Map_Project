@@ -2,9 +2,11 @@ package com.example.factory_map_project.ui.base
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
@@ -20,9 +22,13 @@ import timber.log.Timber
 abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     @LayoutRes private val layoutRes: Int
 ) : AppCompatActivity() {
-
+    //**********************************************************************************************
+    // Mark: Variable
+    //**********************************************************************************************
     protected abstract val viewModel: VM
     lateinit var binding: VB
+
+    private var backKeyPressedTime: Long? = 0L
 
     /**
      * onCreate() | Data Setting
@@ -38,15 +44,17 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     abstract fun setListener()
 
 
-
-    /**
-     * //////////////////////////////////////////////////////////////////////////////
-     * //////////////////////////////    Lifecycle     //////////////////////////////
-     * //////////////////////////////////////////////////////////////////////////////
-     */
+    //**********************************************************************************************
+    // Mark: Lifecycle
+    //**********************************************************************************************
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate [${this::class.simpleName}]")
         super.onCreate(savedInstanceState)
+
+        onBackPressedDispatcher.addCallback(this@BaseActivity){
+            onBackPressedFinish()
+        }
+
         binding = DataBindingUtil.setContentView(this, layoutRes)
         binding.apply {
             binding.setVariable(BR.viewModel, viewModel)
@@ -88,9 +96,9 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     }
 
 
-
-
-
+    //**********************************************************************************************
+    // Mark: Function
+    //**********************************************************************************************
     fun showToast(text: String){
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
@@ -135,5 +143,15 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         SpinnerDialog
             .newInstance(list, position, onSelect)
             .show(supportFragmentManager, "spinner")
+    }
+
+    private fun onBackPressedFinish() {
+        val pressedTime = backKeyPressedTime?.plus(2000) ?: 0
+        if (System.currentTimeMillis() > pressedTime) {
+            Toast.makeText(this, "‘뒤로’버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            backKeyPressedTime = System.currentTimeMillis()
+        } else {
+            this.finish()
+        }
     }
 }
