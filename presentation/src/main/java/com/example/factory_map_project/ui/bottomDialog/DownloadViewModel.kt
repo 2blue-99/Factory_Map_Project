@@ -1,4 +1,4 @@
-package com.example.factory_map_project.ui.dialog
+package com.example.factory_map_project.ui.bottomDialog
 
 import androidx.lifecycle.MutableLiveData
 import com.example.domain.model.AllAreaInfo

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.factory_map_project.ui.dialog.DownloadViewModel"/>
+            type="com.example.factory_map_project.ui.bottomDialog.DownloadViewModel"/>
     </data>
 
     <LinearLayout

@@ -1,28 +1,24 @@
-package com.example.factory_map_project.ui.dialog
+package com.example.factory_map_project.ui.bottomDialog
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import com.example.factory_map_project.databinding.MarkerBottomDialogBinding
+import com.example.factory_map_project.databinding.BottomDialogMarkerBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.ARG_CONTENT
-import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.Util.moveCall
 import com.example.factory_map_project.util.Util.moveTMap
 import com.example.factory_map_project.util.Util.repeatOnStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.Marker
-import com.google.maps.android.clustering.Cluster
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerViewModel>(
-    MarkerBottomDialogBinding::inflate
+class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerViewModel>(
+    BottomDialogMarkerBinding::inflate
 ) {
     //**********************************************************************************************
     // Mark: Variable
@@ -47,10 +43,7 @@ class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerView
     }
 
     override fun setUI() {
-//        binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-//            Timber.d("isCheck : $isChecked")
-//            cluster = cluster.copy(isClick = isChecked)
-//        }
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     override fun setObserver() {
@@ -78,6 +71,7 @@ class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerView
                         }
                     }
                     is AppEvent.ShowPopup -> mainActivity().showDialog(event)
+                    is AppEvent.ShowInputDialog -> mainActivity().showInputDialog(event.text, event.onSaveData)
                     else -> {}
                 }
             }
@@ -92,12 +86,14 @@ class MarkerBottomDialog: BaseBottomDialog<MarkerBottomDialogBinding, MarkerView
     }
 
     override fun onClickPositive() {
-        updateCluster(
-            cluster.copy(
-                isClick = binding.checkBox.isChecked,
-                memo = binding.memo.text.toString()
+        viewModel.uiData.value?.let { data ->
+            updateCluster(
+                data.copy(
+                    isClick = binding.checkBox.isChecked,
+                    memo = binding.memo.text.toString()
+                )
             )
-        )
+        }
         Toast.makeText(requireContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show()
         dismiss()
     }

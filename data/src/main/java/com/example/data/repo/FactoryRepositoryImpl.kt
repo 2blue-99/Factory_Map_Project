@@ -75,15 +75,15 @@ class FactoryRepositoryImpl @Inject constructor(
 //        return factoryDao.getAllData().map { it.map { it.toDomain() } }
 //    }
 
-    override fun upsertFactoryDao(data: FactoryInfo) {
+    override suspend fun upsertFactoryDao(data: FactoryInfo) {
         factoryDao.upsertData(data.toEntity())
     }
 
-    override fun deleteFactoryDao(id: Int) {
+    override suspend fun deleteFactoryDao(id: Int) {
         factoryDao.deleteData(id)
     }
 
-    override fun deleteAllFactoryDao() {
+    override suspend fun deleteAllFactoryDao() {
         factoryDao.deleteAllData()
     }
 }

@@ -4,4 +4,6 @@
 
     <string name="maps">지도</string>
     <string name="Setting">설정</string>
+
+    <string name="marker_dialog_empty">(길게 클릭하여 편집)</string>
 </resources>

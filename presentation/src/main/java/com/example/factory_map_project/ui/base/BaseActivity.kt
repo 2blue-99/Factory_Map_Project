@@ -6,13 +6,13 @@ import androidx.activity.addCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
 import com.example.factory_map_project.ui.MainViewModel
-import com.example.factory_map_project.ui.dialog.DownloadBottomDialog
-import com.example.factory_map_project.ui.dialog.MarkerBottomDialog
+import com.example.factory_map_project.ui.bottomDialog.DownloadBottomDialog
+import com.example.factory_map_project.ui.bottomDialog.MarkerBottomDialog
+import com.example.factory_map_project.ui.dialog.InputDialog
 import com.example.factory_map_project.ui.dialog.SpinnerDialog
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
@@ -125,24 +125,30 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
-    fun openDownloadBottomDialog(){
-        DownloadBottomDialog().show(supportFragmentManager, "Download")
+    fun showDownloadBottomDialog(){
+        DownloadBottomDialog().show(supportFragmentManager, "download_bottom_dialog")
     }
 
-    fun openMarkerBottomDialog(
+    fun showMarkerBottomDialog(
         item: FactoryCluster,
         updateCluster: (FactoryCluster) -> Unit,
         deleteCluster: () -> Unit
     ){
         MarkerBottomDialog
             .newInstance(item, updateCluster, deleteCluster)
-            .show(supportFragmentManager, "cluster_dialog")
+            .show(supportFragmentManager, "cluster_bottom_dialog")
     }
 
-    fun openSpinnerDialog(list: List<String>, position: Int, onSelect: (Int) -> Unit){
+    fun showSpinnerDialog(list: List<String>, position: Int, onSelect: (Int) -> Unit){
         SpinnerDialog
             .newInstance(list, position, onSelect)
-            .show(supportFragmentManager, "spinner")
+            .show(supportFragmentManager, "spinner_dialog")
+    }
+
+    fun showInputDialog(text: String, onSave: (String) -> Unit){
+        InputDialog
+            .newInstance(text, onSave)
+            .show(supportFragmentManager, "input_dialog")
     }
 
     private fun onBackPressedFinish() {

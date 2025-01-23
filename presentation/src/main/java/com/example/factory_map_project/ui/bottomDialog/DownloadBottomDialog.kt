@@ -1,12 +1,9 @@
-package com.example.factory_map_project.ui.dialog
+package com.example.factory_map_project.ui.bottomDialog
 
 import android.app.Dialog
-import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
-import com.example.factory_map_project.databinding.DownloadBottomDialogBinding
+import com.example.factory_map_project.databinding.BottomDialogDownloadBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.Util.repeatOnStarted
 import com.example.factory_map_project.util.event.ActionType
@@ -17,8 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class DownloadBottomDialog: BaseBottomDialog<DownloadBottomDialogBinding, DownloadViewModel>(
-    DownloadBottomDialogBinding::inflate
+class DownloadBottomDialog: BaseBottomDialog<BottomDialogDownloadBinding, DownloadViewModel>(
+    BottomDialogDownloadBinding::inflate
 ) {
     //**********************************************************************************************
     // Mark: Variable

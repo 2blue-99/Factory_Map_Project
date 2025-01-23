@@ -3,15 +3,15 @@ package com.example.factory_map_project.ui.dialog
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.factory_map_project.databinding.DialogBaseSpinnerBinding
+import com.example.factory_map_project.databinding.DialogSpinnerBinding
 import com.example.factory_map_project.ui.base.BaseDialog
 import com.example.factory_map_project.util.ARG_CONTENT
 import com.example.factory_map_project.util.adapter.SpinnerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SpinnerDialog: BaseDialog<DialogBaseSpinnerBinding, SpinnerDialogViewModel>(
-    DialogBaseSpinnerBinding::inflate
+class SpinnerDialog: BaseDialog<DialogSpinnerBinding, SpinnerDialogViewModel>(
+    DialogSpinnerBinding::inflate
 ) {
     //**********************************************************************************************
     // Mark: Variable

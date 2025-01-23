@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
         lifecycleScope.launch {
             if(viewModel.checkDownload()){
-                openDownloadBottomDialog()
+                showDownloadBottomDialog()
             }
         }
     }

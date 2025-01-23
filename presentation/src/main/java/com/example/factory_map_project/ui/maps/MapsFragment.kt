@@ -20,7 +20,6 @@ import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.take
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -61,7 +60,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                 Timber.d("event : $event")
                 when(event){
                     is AppEvent.ShowSpinnerDialog -> {
-                        mainActivity().openSpinnerDialog(
+                        mainActivity().showSpinnerDialog(
                             list = event.content,
                             position = event.position,
                             onSelect = {
@@ -69,6 +68,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                             }
                         )
                     }
+
                     is AppEvent.MovePage -> {
                         findNavController().navigate(event.id, slideRightBaseNavOptions())
                     }
@@ -126,7 +126,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     private fun onClickMarker(item: FactoryCluster): Boolean {
         setCamera(item)
-        mainActivity().openMarkerBottomDialog(
+        mainActivity().showMarkerBottomDialog(
             item = item,
             updateCluster = { updateItem ->
                 viewModel.updateFactory(updateItem)
@@ -155,7 +155,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 //    }
 
     private fun setCamera(item: FactoryCluster){
-        if(googleMap.cameraPosition.zoom < 15f) {
+        if(googleMap.cameraPosition.zoom < 13f) {
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item.position, 15f))
         }
     }

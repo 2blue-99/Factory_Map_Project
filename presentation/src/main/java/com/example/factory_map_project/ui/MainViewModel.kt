@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import com.example.data.datastore.UserDataStore
-import com.example.domain.usecase.GyeonggiDaoUseCase
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.event.AppEvent

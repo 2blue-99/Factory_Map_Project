@@ -62,6 +62,7 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         bottomDialog = BottomSheetDialog(requireContext(), theme)
         bottomSheetBehavior = bottomDialog.behavior
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         bottomSheetBehavior.apply { skipCollapsed = true }
         setData()
         return bottomDialog

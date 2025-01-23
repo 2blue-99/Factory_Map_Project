@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.factory_map_project.ui.dialog.MarkerViewModel" />
+            type="com.example.factory_map_project.ui.bottomDialog.MarkerViewModel" />
     </data>
 
     <LinearLayout
@@ -30,12 +30,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingVertical="24dp">
+            android:paddingVertical="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="26dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -45,7 +45,8 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@{viewModel.uiData.companyName, default = `회사이름`}"
-                    android:textSize="26sp"
+                    android:textSize="24sp"
+                    android:onLongClick="@{() -> viewModel.onLongClickCompanyName()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +102,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginVertical="6dp"
+                >
                 <TextView
                     android:layout_weight="2"
                     android:layout_width="match_parent"
@@ -114,13 +117,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.uiData.lotArea, default = `부지면적`}"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColorHint="@color/light_gray"
+                    android:hint="@string/marker_dialog_empty"
+                    android:onLongClick="@{() -> viewModel.onLongClickLotArea()}"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginVertical="6dp"
+                >
                 <TextView
                     android:layout_weight="2"
                     android:layout_width="match_parent"
@@ -133,13 +142,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.uiData.employeeCount, default = `고용인원`}"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColorHint="@color/light_gray"
+                    android:hint="@string/marker_dialog_empty"
+                    android:onLongClick="@{() -> viewModel.onLongClickEmployeeCount()}"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginVertical="6dp"
+                >
                 <TextView
                     android:layout_weight="2"
                     android:layout_width="match_parent"
@@ -152,13 +167,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.uiData.scaleDivisionName, default = `규모분류`}"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColorHint="@color/light_gray"
+                    android:hint="@string/marker_dialog_empty"
+                    android:onLongClick="@{() -> viewModel.onLongClickScaleDivisionName()}"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginVertical="6dp"
+                >
                 <TextView
                     android:layout_weight="2"
                     android:layout_width="match_parent"
@@ -171,26 +192,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.uiData.registrationDate, default = `등록일자`}"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColorHint="@color/light_gray"
+                    android:hint="@string/marker_dialog_empty"
+                    android:onLongClick="@{() -> viewModel.onLongClickRegistrationDate()}"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginVertical="6dp"
                 >
-                <TextView
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="업종"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
                 <TextView
                     android:layout_weight="2"
                     android:layout_width="match_parent"
@@ -203,14 +217,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.uiData.productInfo, default = `대표상품`}"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColorHint="@color/light_gray"
+                    android:hint="@string/marker_dialog_empty"
+                    android:onLongClick="@{() -> viewModel.onLongClickProductInfo()}"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="8dp"
+                android:layout_marginVertical="6dp"
                 android:onClick="@{() -> viewModel.onClickContact(viewModel.uiData.contact)}"
                 >
                 <TextView
@@ -227,6 +245,9 @@
                     android:text="@{viewModel.uiData.contact, default = `전화번호`}"
                     android:textSize="16sp"
                     app:underline="@{true}"
+                    android:textColorHint="@color/light_gray"
+                    android:hint="@string/marker_dialog_empty"
+                    android:onLongClick="@{() -> viewModel.onLongClickContact()}"
                     />
             </LinearLayout>
 
@@ -234,7 +255,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="8dp"
+                android:layout_marginVertical="6dp"
                 android:onClick="@{() -> viewModel.onClickAddress()}"
                 >
                 <TextView
@@ -251,6 +272,8 @@
                     android:text="@{viewModel.uiData.loadAddress, default = `도로명`}"
                     android:textSize="16sp"
                     app:underline="@{true}"
+                    android:textColorHint="@color/light_gray"
+                    android:hint="@string/marker_dialog_empty"
                     />
             </LinearLayout>
 
@@ -272,6 +295,7 @@
                     android:layout_height="100dp"
                     android:background="@drawable/edit_text_memo"
                     android:hint="메모 사항을 입력해주세요."
+                    android:textColorHint="@color/light_gray"
                     android:text="@{viewModel.uiData.memo}"
                     android:gravity="top|start"
                     android:padding="16dp"

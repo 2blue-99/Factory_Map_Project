@@ -17,9 +17,9 @@ interface FactoryRepository {
 
     suspend fun getFactoryDao(): Flow<List<FactoryInfo>>
 
-    fun upsertFactoryDao(data: FactoryInfo)
+    suspend fun upsertFactoryDao(data: FactoryInfo)
 
-    fun deleteFactoryDao(id: Int)
+    suspend fun deleteFactoryDao(id: Int)
 
-    fun deleteAllFactoryDao()
+    suspend fun deleteAllFactoryDao()
 }
