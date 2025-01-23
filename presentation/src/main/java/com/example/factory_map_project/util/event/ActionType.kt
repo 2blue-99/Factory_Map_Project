@@ -8,5 +8,11 @@ enum class ActionType {
 
     // Move
     CALL,
-    MAP
+    MAP,
+
+    // Setting
+    EXCLUSION,
+    SENSITIVITY,
+
+
 }

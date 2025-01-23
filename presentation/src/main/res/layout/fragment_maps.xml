@@ -36,7 +36,7 @@
             >
 
             <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="150dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.selectedPosition.title, default = `지역 이름`}"
                 android:background="@drawable/base_round_button"
@@ -50,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/icon_settings"
+                android:onClick="@{() -> viewModel.onClickSetting()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

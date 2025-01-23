@@ -70,7 +70,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                     }
 
                     is AppEvent.MovePage -> {
-                        findNavController().navigate(event.id, slideRightBaseNavOptions())
+                        findNavController().navigate(R.id.settingFragment, slideRightBaseNavOptions())
                     }
                     else -> {}
                 }
