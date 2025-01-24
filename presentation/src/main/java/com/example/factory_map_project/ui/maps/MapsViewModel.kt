@@ -3,7 +3,7 @@ package com.example.factory_map_project.ui.maps
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import com.example.data.datastore.UserDataStore
-import com.example.domain.model.AreaType
+import com.example.domain.type.AreaType
 import com.example.domain.repo.FactoryRepository
 import com.example.factory_map_project.R
 import com.example.factory_map_project.ui.base.BaseViewModel

@@ -5,7 +5,7 @@ import com.example.data.datastore.UserDataStore
 import com.example.data.local.dao.FactoryDao
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.remote.util.toDomain
-import com.example.domain.model.AreaType
+import com.example.domain.type.AreaType
 import com.example.domain.model.FactoryInfo
 import com.example.domain.model.GyeonggiInfo
 import com.example.domain.repo.FactoryRepository

@@ -1,4 +1,4 @@
-package com.example.domain.model
+package com.example.domain.type
 
 enum class AreaType(
     val title: String

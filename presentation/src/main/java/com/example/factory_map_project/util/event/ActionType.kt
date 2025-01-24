@@ -11,8 +11,8 @@ enum class ActionType {
     MAP,
 
     // Setting
-    EXCLUSION,
-    SENSITIVITY,
+    EXCLUSION, // 노출 공장 중, 제외 단어
+    SENSITIVITY, // 클러스터 민감도
 
 
 }
