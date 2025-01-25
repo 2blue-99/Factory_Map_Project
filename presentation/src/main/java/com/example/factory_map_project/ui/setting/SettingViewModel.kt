@@ -19,7 +19,7 @@ class SettingViewModel @Inject constructor(
     // Mark: Variable
     //**********************************************************************************************
     val exclusionWord = MutableLiveData("")
-    val sensitiveType = userDataStore.clusterSensitiveFlow.asLiveData()
+    val sensitiveTypePosition = userDataStore.clusterSensitiveFlow.asLiveData()
 
     //**********************************************************************************************
     // Mark: DataBinding
@@ -32,10 +32,10 @@ class SettingViewModel @Inject constructor(
         emitEvent(AppEvent.Action(ActionType.EXCLUSION, null))
     }
 
-    fun onClickClusterSensitivity(position: Int){
+    fun onClickClusterSensitivity(){
         emitEvent(AppEvent.ShowSpinnerDialog(
             content = SensitiveType.toList(),
-            position = position,
+            position = sensitiveTypePosition.value?:0,
             onSelect = { updateSensitive(it) }
         ))
 //        emitEvent(AppEvent.Action(ActionType.SENSITIVITY, null))

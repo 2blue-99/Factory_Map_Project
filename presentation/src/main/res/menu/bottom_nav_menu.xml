@@ -6,9 +6,9 @@
         android:id="@+id/mapsFragment"
         android:icon="@drawable/ic_launcher_background"
         android:title="@string/maps" />
-    <item
-        android:id="@+id/settingFragment"
-        android:icon="@drawable/ic_launcher_background"
-        android:title="@string/Setting" />
+<!--    <item-->
+<!--        android:id="@+id/settingFragment"-->
+<!--        android:icon="@drawable/ic_launcher_background"-->
+<!--        android:title="@string/Setting" />-->
 
 </menu>
