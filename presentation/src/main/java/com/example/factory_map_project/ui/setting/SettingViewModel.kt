@@ -38,7 +38,6 @@ class SettingViewModel @Inject constructor(
             position = sensitiveTypePosition.value?:0,
             onSelect = { updateSensitive(it) }
         ))
-//        emitEvent(AppEvent.Action(ActionType.SENSITIVITY, null))
     }
 
     //**********************************************************************************************
