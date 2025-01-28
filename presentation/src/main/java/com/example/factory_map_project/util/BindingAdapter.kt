@@ -28,10 +28,3 @@ fun setRecyclerViewDivider(recyclerView: RecyclerView, divider: Boolean){
         )
     }
 }
-
-//@BindingAdapter("bindAdapter", "position")
-//fun bindRecyclerviewAdapter(recyclerView: RecyclerView, list: List<String>?, position: Int?){
-//    list?.let {
-//        recyclerView.adapter = SpinnerAdapter(list, position ?: 0)
-//    }
-//}
