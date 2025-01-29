@@ -8,6 +8,7 @@ import com.example.domain.repo.FactoryRepository
 import com.example.factory_map_project.R
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.Util.toCluster
+import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -59,6 +60,7 @@ class MapsViewModel @Inject constructor(
                             userDataStoreRepo.setArea(position)
                             withContext(Dispatchers.Main){
                                 loadFactoryData()
+                                emitEvent(AppEvent.Action(ActionType.POSITION_INIT, null))
                             }
                         }
                     }

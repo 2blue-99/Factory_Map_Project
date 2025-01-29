@@ -7,6 +7,7 @@ import com.example.factory_map_project.databinding.FragmentMapsBinding
 import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.Util.repeatOnStarted
 import com.example.factory_map_project.util.Util.slideRightBaseNavOptions
+import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.CustomClusterRenderer
 import com.example.factory_map_project.util.map.FactoryCluster
@@ -37,7 +38,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     private val callback = OnMapReadyCallback { map ->
         Timber.d("OnMapReadyCallback")
         googleMap = map
-        initMap()
+        initMap(false)
         setClusterManager()
         setDaoListener()
     }
@@ -68,9 +69,16 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                             }
                         )
                     }
-
                     is AppEvent.MovePage -> {
                         findNavController().navigate(R.id.settingFragment, slideRightBaseNavOptions())
+                    }
+                    is AppEvent.Action<*> -> {
+                        when(event.type){
+                            ActionType.POSITION_INIT -> {
+                                initMap(true)
+                            }
+                            else -> {}
+                        }
                     }
                     else -> {}
                 }
@@ -82,9 +90,13 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    private fun initMap(){
-        val test = LatLng(37.5073218717, 127.6164271659)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 8.1f))
+    private fun initMap(smooth: Boolean){
+        val test = LatLng(36.65829047550215, 127.87665870040657)
+        if(smooth){
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(test, 7.4f))
+        }else{
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 7.4f))
+        }
     }
 
     private fun setClusterManager() {
@@ -98,6 +110,11 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
         clusterManager.setOnClusterClickListener { onClickCluster(it) }
         clusterManager.setOnClusterItemClickListener { onClickMarker(it) }
+
+//        googleMap.setOnCameraMoveListener {
+//            Timber.d("현재 줌 : ${googleMap.cameraPosition.zoom}")
+//            Timber.d("현재 위치 : ${googleMap.cameraPosition.target}")
+//        }
     }
 
     private fun setDaoListener() {
@@ -154,9 +171,13 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 //        clusterManager.cluster()
 //    }
 
+    /**
+     * 현재 Zoom 이 10보다 작을경우 11로 줌
+     * 아닐 경우 줌 없이 카메라 이동
+     */
     private fun setCamera(item: FactoryCluster){
-        if(googleMap.cameraPosition.zoom < 13f) {
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item.position, 15f))
-        }
+        val currentZoom = googleMap.cameraPosition.zoom
+        val targetZoom = if(currentZoom < 11) 11f else currentZoom
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item.position, targetZoom))
     }
 }

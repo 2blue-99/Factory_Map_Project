@@ -36,7 +36,7 @@ class CustomClusterRenderer(
         // 예시: 마커의 스타일 업데이트
 //        Timber.d("onClusterItemUpdated : $item")
         if(item.isClick){
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
         }else{
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
         }
