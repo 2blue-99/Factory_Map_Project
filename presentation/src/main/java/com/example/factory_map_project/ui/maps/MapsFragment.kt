@@ -75,8 +75,8 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                     }
                     is AppEvent.Action<*> -> {
                         when(event.type){
-                            ActionType.POSITION_INIT -> {
-                                initMap(true)
+                            ActionType.MY_LOCATION -> {
+                                // TODO 현재 내 위치로 셋
                             }
                             else -> {}
                         }

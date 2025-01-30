@@ -74,6 +74,10 @@ class MapsViewModel @Inject constructor(
         emitEvent(AppEvent.MovePage(id = R.id.moveToSetting))
     }
 
+    fun onClickMyLocation(){
+        emitEvent(AppEvent.Action(ActionType.MY_LOCATION, null))
+    }
+
 
     //**********************************************************************************************
     // Mark: Function
