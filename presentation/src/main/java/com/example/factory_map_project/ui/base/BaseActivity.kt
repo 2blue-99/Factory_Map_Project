@@ -51,10 +51,6 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         Timber.i("onCreate [${this::class.simpleName}]")
         super.onCreate(savedInstanceState)
 
-        onBackPressedDispatcher.addCallback(this@BaseActivity){
-            onBackPressedFinish()
-        }
-
         binding = DataBindingUtil.setContentView(this, layoutRes)
         binding.apply {
             binding.setVariable(BR.viewModel, viewModel)
@@ -151,7 +147,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
             .show(supportFragmentManager, "input_dialog")
     }
 
-    private fun onBackPressedFinish() {
+    fun onBackPressedFinish() {
         val pressedTime = backKeyPressedTime?.plus(2000) ?: 0
         if (System.currentTimeMillis() > pressedTime) {
             Toast.makeText(this, "‘뒤로’버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()

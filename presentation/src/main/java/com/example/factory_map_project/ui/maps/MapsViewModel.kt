@@ -5,6 +5,7 @@ import androidx.lifecycle.map
 import com.example.data.datastore.UserDataStore
 import com.example.domain.type.AreaType
 import com.example.domain.repo.FactoryRepository
+import com.example.domain.type.ClusterTriggerType
 import com.example.factory_map_project.R
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.Util.toCluster
@@ -15,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -32,7 +34,6 @@ class MapsViewModel @Inject constructor(
 
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
     val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
-
 
     //**********************************************************************************************
     // Mark: Initialization
@@ -95,5 +96,10 @@ class MapsViewModel @Inject constructor(
         ioScope.launch {
             repo.deleteFactoryDao(id)
         }
+    }
+
+    suspend fun getClusterTriggerSize(): Int {
+        val triggerType = userDataStoreRepo.clusterTriggerTypePositionFlow.first()
+        return ClusterTriggerType.toType(triggerType).size
     }
 }

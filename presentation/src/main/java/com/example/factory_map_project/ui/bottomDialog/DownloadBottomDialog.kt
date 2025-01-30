@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.BottomDialogDownloadBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
-import com.example.factory_map_project.util.Util.repeatOnStarted
+import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -45,7 +45,7 @@ class DownloadBottomDialog: BaseBottomDialog<BottomDialogDownloadBinding, Downlo
     override fun setUI() {}
 
     override fun setObserver() {
-        repeatOnStarted {
+        repeatOnFragmentStarted {
             viewModel.eventFlow.collect { event ->
                 Timber.d("event : $event")
                 when(event){

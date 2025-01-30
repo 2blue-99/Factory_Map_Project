@@ -6,4 +6,9 @@
     <string name="Setting">설정</string>
 
     <string name="marker_dialog_empty">(길게 클릭하여 편집)</string>
+
+    <!-- setting -->
+    <string name="setting_cluster_trigger_title">그룹화 감도</string>
+    <string name="setting_cluster_trigger_sub_title">높은 감도일수록 그룹화가 잦아집니다.</string>
+    <string name="setting_exclusive_title">대표 상품 제거 키워드</string>
 </resources>

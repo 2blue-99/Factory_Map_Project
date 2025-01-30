@@ -3,12 +3,14 @@ package com.example.factory_map_project.ui.setting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.example.data.datastore.UserDataStore
-import com.example.domain.type.SensitiveType
+import com.example.domain.type.ClusterTriggerType
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,8 +20,10 @@ class SettingViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
+    val clusterTriggerType = userDataStore.clusterTriggerTypePositionFlow.map {
+        ClusterTriggerType.toType(it).title
+    }.asLiveData()
     val exclusionWord = MutableLiveData("")
-    val sensitiveTypePosition = userDataStore.clusterSensitiveFlow.asLiveData()
 
     //**********************************************************************************************
     // Mark: DataBinding
@@ -32,20 +36,20 @@ class SettingViewModel @Inject constructor(
         emitEvent(AppEvent.Action(ActionType.EXCLUSION, null))
     }
 
-    fun onClickClusterSensitivity(){
+    fun onClickClusterTriggerType(){
         emitEvent(AppEvent.ShowSpinnerDialog(
-            content = SensitiveType.toList(),
-            position = sensitiveTypePosition.value?:0,
-            onSelect = { updateSensitive(it) }
+            content = ClusterTriggerType.toList(),
+            position = ClusterTriggerType.toPosition(clusterTriggerType.value),
+            onSelect = { updateClusterTriggerType(it) }
         ))
     }
 
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    private fun updateSensitive(typePosition: Int){
+    private fun updateClusterTriggerType(typePosition: Int){
         ioScope.launch {
-            userDataStore.setClusterSensitive(typePosition)
+            userDataStore.setClusterTriggerTypePosition(typePosition)
         }
     }
 }

@@ -13,10 +13,12 @@ import timber.log.Timber
 class CustomClusterRenderer(
     context: Context,
     map: GoogleMap,
-    clusterManager: ClusterManager<FactoryCluster>
+    clusterManager: ClusterManager<FactoryCluster>,
+    clusterSize: Int
 ) : DefaultClusterRenderer<FactoryCluster>(context, map, clusterManager) {
     init {
-        this.minClusterSize = 25
+        Timber.d("size : $clusterSize")
+        this.minClusterSize = clusterSize
     }
     // 클러스터 아이템 렌더링 전 처리
     override fun onBeforeClusterItemRendered(item: FactoryCluster, markerOptions: MarkerOptions) {

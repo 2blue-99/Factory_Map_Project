@@ -8,7 +8,7 @@ import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.ARG_CONTENT
 import com.example.factory_map_project.util.Util.moveCall
 import com.example.factory_map_project.util.Util.moveTMap
-import com.example.factory_map_project.util.Util.repeatOnStarted
+import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
@@ -47,7 +47,7 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
     }
 
     override fun setObserver() {
-        repeatOnStarted {
+        repeatOnFragmentStarted {
             viewModel.eventFlow.collect { event ->
                 Timber.d("event : $event")
                 when(event){

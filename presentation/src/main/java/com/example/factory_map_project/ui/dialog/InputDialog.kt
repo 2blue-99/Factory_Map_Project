@@ -5,7 +5,7 @@ import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.DialogInputBinding
 import com.example.factory_map_project.ui.base.BaseDialog
 import com.example.factory_map_project.util.ARG_CONTENT
-import com.example.factory_map_project.util.Util.repeatOnStarted
+import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +35,7 @@ class InputDialog: BaseDialog<DialogInputBinding, InputDialogViewModel>(
     override fun setUI() {}
 
     override fun setObserver() {
-        repeatOnStarted {
+        repeatOnFragmentStarted {
             viewModel.eventFlow.collect { event ->
                 when(event){
                     is AppEvent.Action<*> -> {

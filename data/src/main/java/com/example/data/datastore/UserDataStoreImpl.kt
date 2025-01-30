@@ -16,7 +16,7 @@ class UserDataStoreImpl @Inject constructor(
     object PreferencesKey {
         val DOWNLOAD = stringPreferencesKey("DOWNLOAD")
         val SELECTED_AREA = intPreferencesKey("AREA")
-        val CLUSTER_SENSITIVE = intPreferencesKey("CLUSTER_SENSITIVE")
+        val CLUSTER_TRIGGER_TYPE_POSITION = intPreferencesKey("CLUSTER_TRIGGER_TYPE_POSITION")
     }
 
     override val downloadFlow: Flow<String> =
@@ -26,8 +26,8 @@ class UserDataStoreImpl @Inject constructor(
         dataStore.data.map { dataStore -> dataStore[PreferencesKey.SELECTED_AREA] ?: 0 }
 
     // 디폴트 값은 3
-    override val clusterSensitiveFlow: Flow<Int> =
-        dataStore.data.map { dataStore -> dataStore[PreferencesKey.CLUSTER_SENSITIVE] ?: 3 }
+    override val clusterTriggerTypePositionFlow: Flow<Int> =
+        dataStore.data.map { dataStore -> dataStore[PreferencesKey.CLUSTER_TRIGGER_TYPE_POSITION] ?: 2 }
 
 
     override suspend fun setDownload(text: String) {
@@ -42,9 +42,9 @@ class UserDataStoreImpl @Inject constructor(
         }
     }
 
-    override suspend fun setClusterSensitive(position: Int) {
+    override suspend fun setClusterTriggerTypePosition(position: Int) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.CLUSTER_SENSITIVE] = position
+            preferences[PreferencesKey.CLUSTER_TRIGGER_TYPE_POSITION] = position
         }
     }
 }

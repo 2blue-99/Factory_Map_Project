@@ -1,12 +1,12 @@
 package com.example.factory_map_project.ui.maps
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
 import com.example.factory_map_project.ui.base.BaseFragment
-import com.example.factory_map_project.util.Util.repeatOnStarted
-import com.example.factory_map_project.util.Util.slideRightBaseNavOptions
+import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.CustomClusterRenderer
@@ -21,6 +21,7 @@ import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -56,7 +57,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     override fun setObserver() {
-        repeatOnStarted {
+        repeatOnFragmentStarted {
             viewModel.eventFlow.collect { event ->
                 Timber.d("event : $event")
                 when(event){
@@ -70,7 +71,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                         )
                     }
                     is AppEvent.MovePage -> {
-                        findNavController().navigate(R.id.settingFragment, slideRightBaseNavOptions())
+                        findNavController().navigate(event.id)
                     }
                     is AppEvent.Action<*> -> {
                         when(event.type){
@@ -86,6 +87,10 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        googleMap.clear()
+    }
 
     //**********************************************************************************************
     // Mark: Function
@@ -101,15 +106,22 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     private fun setClusterManager() {
         clusterManager = ClusterManager<FactoryCluster>(requireContext(), googleMap)
-        val customClusterRenderer = CustomClusterRenderer(requireContext(), googleMap, clusterManager)
-        clusterManager.renderer = customClusterRenderer
 
+        lifecycleScope.launch {
+            val customClusterRenderer = CustomClusterRenderer(
+                context = requireContext(),
+                map = googleMap,
+                clusterManager = clusterManager,
+                clusterSize = viewModel.getClusterTriggerSize()
+            )
+            clusterManager.renderer = customClusterRenderer
 
-        googleMap.setOnCameraIdleListener(clusterManager)
-        googleMap.setOnMarkerClickListener(clusterManager)
+            googleMap.setOnCameraIdleListener(clusterManager)
+            googleMap.setOnMarkerClickListener(clusterManager)
 
-        clusterManager.setOnClusterClickListener { onClickCluster(it) }
-        clusterManager.setOnClusterItemClickListener { onClickMarker(it) }
+            clusterManager.setOnClusterClickListener { onClickCluster(it) }
+            clusterManager.setOnClusterItemClickListener { onClickMarker(it) }
+        }
 
 //        googleMap.setOnCameraMoveListener {
 //            Timber.d("현재 줌 : ${googleMap.cameraPosition.zoom}")
@@ -118,7 +130,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     private fun setDaoListener() {
-        repeatOnStarted {
+        repeatOnFragmentStarted {
             viewModel.factoryData
                 .filter { it.isNotEmpty() }
                 .collect { list ->

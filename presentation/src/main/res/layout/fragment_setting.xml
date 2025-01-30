@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/white"
         >
         <include
             layout="@layout/include_top_bar"
@@ -26,9 +27,17 @@
 
             <include
                 layout="@layout/include_setting_component"
-                app:title="군집화 감도"
+                app:title="@{@string/setting_cluster_trigger_title}"
+                app:subTitle="@{@string/setting_cluster_trigger_sub_title}"
+                app:value="@{viewModel.clusterTriggerType}"
+                app:onClick="@{() -> viewModel.onClickClusterTriggerType()}"
+                />
+
+            <include
+                layout="@layout/include_setting_component"
+                app:title="@{@string/setting_exclusive_title}"
                 app:value="@{viewModel.exclusionWord}"
-                app:onClick="@{() -> viewModel.onClickClusterSensitivity()}"
+                app:onClick="@{() -> viewModel.onClickClusterTriggerType()}"
                 />
 
         </LinearLayout>
