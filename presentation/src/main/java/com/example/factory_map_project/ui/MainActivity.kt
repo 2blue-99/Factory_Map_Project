@@ -39,7 +39,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 //        binding.navBottom.setupWithNavController(navHostFragment.navController)
 
         lifecycleScope.launch {
-            if(viewModel.checkDownload()){
+            if(!viewModel.checkDownload()){
                 showDownloadBottomDialog()
             }
         }

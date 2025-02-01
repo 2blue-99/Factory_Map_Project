@@ -122,7 +122,9 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     }
 
     fun showDownloadBottomDialog(){
-        DownloadBottomDialog().show(supportFragmentManager, "download_bottom_dialog")
+        DownloadBottomDialog
+            .newInstance()
+            .show(supportFragmentManager, "download_bottom_dialog")
     }
 
     fun showMarkerBottomDialog(

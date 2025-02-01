@@ -76,17 +76,18 @@ class MainViewModel @Inject constructor(
      * 작을 경우, false 반환
      */
     suspend fun checkDownload(): Boolean {
-        val lastDownloadDate = userDataStoreRepo.downloadFlow.first()
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val format = LocalDate.parse(lastDownloadDate)
-            if(format.compareTo(LocalDate.now()) > 30 ){
-                false
-            }else{
-                true
-            }
-        } else {
-            true
-        }
+        return userDataStoreRepo.downloadFlow.first()
+//        val lastDownloadDate = userDataStoreRepo.downloadFlow.first()
+//        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val format = LocalDate.parse(lastDownloadDate)
+//            if(format.compareTo(LocalDate.now()) > 30 ){
+//                false
+//            }else{
+//                true
+//            }
+//        } else {
+//            true
+//        }
     }
 
 

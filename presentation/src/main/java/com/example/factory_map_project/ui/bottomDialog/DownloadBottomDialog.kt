@@ -74,4 +74,10 @@ class DownloadBottomDialog: BaseBottomDialog<BottomDialogDownloadBinding, Downlo
     override fun onClickPositive() {
         dismiss()
     }
+
+    companion object {
+        fun newInstance(): DownloadBottomDialog {
+            return DownloadBottomDialog()
+        }
+    }
 }
