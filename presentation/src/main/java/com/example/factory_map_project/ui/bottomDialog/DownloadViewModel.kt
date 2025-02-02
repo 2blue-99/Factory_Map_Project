@@ -19,8 +19,7 @@ class DownloadViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
-    private var _uiData = MutableLiveData<List<AllAreaInfo>>()
-    val uiData: MutableLiveData<List<AllAreaInfo>> get() = _uiData
+    var downloadPercentage = MutableLiveData<Int>()
 
 
     //**********************************************************************************************
@@ -32,8 +31,10 @@ class DownloadViewModel @Inject constructor(
                 when(it){
                     is ResourceState.Loading -> emitEvent(AppEvent.ShowLoading(true))
                     is ResourceState.Success -> {
-                        Timber.d("data : ${it.body}")
-                        if(it.body == GYEONGGI_DOWNLOAD_COUNT){
+                        val count = it.body
+                        val percentage = (count.toDouble() / GYEONGGI_DOWNLOAD_COUNT * 100).toInt()
+                        downloadPercentage.value = percentage
+                        if (it.body == GYEONGGI_DOWNLOAD_COUNT) {
                             emitEvent(AppEvent.ShowLoading(false))
                         }
                     }
