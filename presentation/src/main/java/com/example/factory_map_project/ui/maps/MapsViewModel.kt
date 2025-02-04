@@ -56,7 +56,6 @@ class MapsViewModel @Inject constructor(
                     content = AreaType.toTitleList(),
                     position = AreaType.toPosition(selectedPosition.value),
                     onSelect = { position ->
-                        Timber.d("postion : $position")
                         ioScope.launch {
                             userDataStoreRepo.setArea(position)
                             withContext(Dispatchers.Main){
