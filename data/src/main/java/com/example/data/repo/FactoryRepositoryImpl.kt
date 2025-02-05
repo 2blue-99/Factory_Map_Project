@@ -39,6 +39,7 @@ class FactoryRepositoryImpl @Inject constructor(
 
     override fun saveGyeonggiData(): Flow<ResourceState<Int>> {
         return flow {
+            userDataSource.setDownload(true)
             emit(ResourceState.Loading())
             for(index in 1..GYEONGGI_DOWNLOAD_COUNT) {
                 val result = gyeonggiDataSource.getDataSource(index).toDomain { data ->

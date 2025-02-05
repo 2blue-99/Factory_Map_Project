@@ -1,7 +1,5 @@
 package com.example.factory_map_project.ui.bottomDialog
 
-import android.app.Dialog
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.BottomDialogDownloadBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
@@ -9,7 +7,6 @@ import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 

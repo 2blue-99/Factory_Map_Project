@@ -8,6 +8,7 @@ import com.example.domain.util.ResourceState
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,7 +39,11 @@ class DownloadViewModel @Inject constructor(
                             emitEvent(AppEvent.ShowLoading(false))
                         }
                     }
-                    else -> {}
+                    else -> {
+                        emitEvent(AppEvent.ShowLoading(false))
+                        downloadPercentage.value = 100
+                        cancel()
+                    }
                 }
             }
         }
