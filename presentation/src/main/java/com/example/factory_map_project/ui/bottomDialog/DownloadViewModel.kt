@@ -1,7 +1,6 @@
 package com.example.factory_map_project.ui.bottomDialog
 
 import androidx.lifecycle.MutableLiveData
-import com.example.domain.model.AllAreaInfo
 import com.example.domain.repo.FactoryRepository
 import com.example.domain.util.GYEONGGI_DOWNLOAD_COUNT
 import com.example.domain.util.ResourceState
@@ -10,7 +9,6 @@ import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
