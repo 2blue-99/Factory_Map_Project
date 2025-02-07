@@ -18,7 +18,7 @@
         android:padding="26dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="220dp"
             android:orientation="horizontal">
 
             <TextView
@@ -35,7 +35,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="따로 다운받아야해요~"
+                android:text="1분~2분이 소요됩니다."
                 android:textColor="@color/dark_gray"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{String.valueOf(viewModel.downloadPercentage), default = `0`}"
-                    android:textSize="30sp"
+                    android:textSize="36sp"
                     />
 
                 <TextView
