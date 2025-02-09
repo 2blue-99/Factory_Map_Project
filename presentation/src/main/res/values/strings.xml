@@ -9,6 +9,11 @@
 
     <!-- setting -->
     <string name="setting_cluster_trigger_title">그룹화 감도</string>
-    <string name="setting_cluster_trigger_sub_title">높은 감도일수록 그룹화가 잦아집니다.</string>
+    <string name="setting_cluster_trigger_sub_title">높은 감도일수록 그룹화가 쉽게 됩니다.</string>
     <string name="setting_exclusive_title">대표 상품 제거 키워드</string>
+
+    <!-- download dialog   -->
+    <string name="download_dialog_title">경기도 데이터 다운로드</string>
+    <string name="download_dialog_sub_start">최초 1회만 다운하며, 1분정도 소요됩니다.</string>
+    <string name="download_dialog_sub_end">다운로드가 완료되었습니다.</string>
 </resources>

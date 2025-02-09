@@ -25,7 +25,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="경기도 데이터 다운로드"
+                android:text="@string/download_dialog_title"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="최초 1회만 다운하며, 1분~2분이 소요됩니다."
+                android:text="@{viewModel.downloadPercentage != 100 ? @string/download_dialog_sub_start : @string/download_dialog_sub_end, default = `설명`}"
                 android:textColor="@color/dark_gray"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                app:layout_constraintBottom_toTopOf="@+id/button"
+                app:layout_constraintBottom_toTopOf="@+id/download"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,14 +72,27 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/download"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@{viewModel.downloadPercentage == 0 ? @color/primary : @color/dark_gray}"
+                android:text="@{viewModel.downloadPercentage == 0 ? `다운받기` : `다운중` }"
+                android:onClick="@{() -> viewModel.onClickDownload()}"
+                android:visibility="@{viewModel.downloadPercentage != 100 ? View.VISIBLE : View.INVISIBLE }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/success_btn"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/primary"
-                android:text="다운받기"
-                android:onClick="@{() -> viewModel.onClickDownload()}"
-                android:visibility="@{viewModel.downloadPercentage == 100 ? View.VISIBLE : }"
+                android:text="확인"
+                android:onClick="@{() -> viewModel.onClickComplete()}"
+                android:visibility="@{viewModel.downloadPercentage == 100 ? View.VISIBLE : View.INVISIBLE }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

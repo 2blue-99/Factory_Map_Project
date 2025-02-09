@@ -1,5 +1,8 @@
 package com.example.factory_map_project.ui.bottomDialog
 
+import android.app.Dialog
+import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.BottomDialogDownloadBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
@@ -24,9 +27,22 @@ class DownloadBottomDialog: BaseBottomDialog<BottomDialogDownloadBinding, Downlo
     // Mark: Lifecycle
     //**********************************************************************************************
     override fun setData() {
-        bottomDialog.setCanceledOnTouchOutside(true)
+        bottomDialog.setCanceledOnTouchOutside(false)
         bottomDialog.behavior.isHideable = false
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
+        return super.onCreateDialog(savedInstanceState).apply {
+            setOnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                    true
+                } else {
+                    false
+                }
+            }
+        }
     }
 
 //    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

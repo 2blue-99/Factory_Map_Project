@@ -5,6 +5,7 @@ import com.example.domain.repo.FactoryRepository
 import com.example.domain.util.GYEONGGI_DOWNLOAD_COUNT
 import com.example.domain.util.ResourceState
 import com.example.factory_map_project.ui.base.BaseViewModel
+import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
@@ -26,24 +27,30 @@ class DownloadViewModel @Inject constructor(
     //**********************************************************************************************
     fun onClickDownload() {
         modelScope.launch {
-            gyeonggiRepository.saveGyeonggiData().collect {
-                when(it){
-                    is ResourceState.Loading -> emitEvent(AppEvent.ShowLoading(true))
-                    is ResourceState.Success -> {
-                        val count = it.body
-                        val percentage = (count.toDouble() / GYEONGGI_DOWNLOAD_COUNT * 100).toInt()
-                        downloadPercentage.value = percentage
-                        if (it.body == GYEONGGI_DOWNLOAD_COUNT) {
-                            emitEvent(AppEvent.ShowLoading(false))
+            if(downloadPercentage.value == null){
+                gyeonggiRepository.saveGyeonggiData().collect {
+                    when(it){
+                        is ResourceState.Loading -> emitEvent(AppEvent.ShowLoading(true))
+                        is ResourceState.Success -> {
+                            val count = it.body
+                            val percentage = (count.toDouble() / GYEONGGI_DOWNLOAD_COUNT * 100).toInt()
+                            downloadPercentage.value = percentage
+                            if (it.body == GYEONGGI_DOWNLOAD_COUNT) {
+                                emitEvent(AppEvent.ShowLoading(false))
+                            }
                         }
-                    }
-                    else -> {
-                        emitEvent(AppEvent.ShowLoading(false))
-                        downloadPercentage.value = 100
-                        cancel()
+                        else -> {
+                            emitEvent(AppEvent.ShowLoading(false))
+                            downloadPercentage.value = 100
+                            cancel()
+                        }
                     }
                 }
             }
         }
+    }
+
+    fun onClickComplete(){
+        emitEvent(AppEvent.Action(ActionType.CONFIRM, null))
     }
 }
