@@ -1,10 +1,12 @@
 package com.example.factory_map_project.ui.maps
 
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
+import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
@@ -20,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -32,6 +35,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     // Mark: Variable
     //**********************************************************************************************
     override val viewModel: MapsViewModel by viewModels()
+    val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<FactoryCluster>
@@ -83,6 +87,13 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                     }
                     else -> {}
                 }
+            }
+        }
+
+        repeatOnFragmentStarted {
+            mainViewModel.currentLocation.collectLatest {
+                Timber.d("current location : $it")
+//                googleMap.addMarker()
             }
         }
     }

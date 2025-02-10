@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo
 import android.location.Geocoder
 import android.os.Build
 import androidx.activity.addCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -11,8 +12,10 @@ import com.example.domain.model.AllAreaInfo
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.ActivityMainBinding
 import com.example.factory_map_project.ui.base.BaseActivity
+import com.example.factory_map_project.util.PermissionUtil
 import com.example.factory_map_project.util.Util.repeatOnStarted
 import com.example.factory_map_project.util.event.AppEvent
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -26,6 +29,18 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     //**********************************************************************************************
     override val viewModel: MainViewModel by viewModels()
 
+    private val requestLocationPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ resultList ->
+        var permissionState = true
+        for(result in resultList){
+            if(!result.value){
+                permissionState = false
+                Timber.d("권한을 반대하셨습니다.")
+            }
+        }
+        if(permissionState){
+            updateLocation()
+        }
+    }
 
     //**********************************************************************************************
     // Mark: Lifecycle
@@ -37,6 +52,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 //        val navHostFragment =
 //            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
 //        binding.navBottom.setupWithNavController(navHostFragment.navController)
+
+        with(PermissionUtil(this)){
+            if(!checkLocationPermission()){
+                requestLocationPermission.launch(locationPermission)
+            }else if(shouldShowRequestPermissionRationale(locationPermission)
+        }
 
         lifecycleScope.launch {
             if(!viewModel.checkDownload()){
@@ -99,6 +120,25 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             }
             gap = findNavController(R.id.nav_host).currentDestination
             Timber.d("gap : $gap")
+        }
+    }
+
+    private fun updateLocation(){
+        val fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(this)
+
+        if(PermissionUtil(this).checkLocationPermission()){
+            fusedLocationProviderClient.lastLocation
+                .addOnSuccessListener { result ->
+                    result?.let {
+                        lifecycleScope.launch {
+                            viewModel.currentLocation.emit(it)
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    Timber.d("위치를 몰라요")
+                }
         }
     }
 }

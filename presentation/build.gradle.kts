@@ -93,4 +93,7 @@ dependencies {
     /* Google Map */
     implementation(libs.play.services.maps)
     implementation (libs.android.maps.utils)
+
+    /* Location */
+    implementation ("com.google.android.gms:play-services-location:21.3.0")
 }

@@ -1,12 +1,17 @@
 package com.example.factory_map_project.ui
 
+import android.location.Location
 import android.os.Build
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.data.datastore.UserDataStore
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -41,6 +46,8 @@ class MainViewModel @Inject constructor(
 //            }
 //        }
     }
+
+    var currentLocation = MutableSharedFlow<Location>()
 
 
     //**********************************************************************************************
