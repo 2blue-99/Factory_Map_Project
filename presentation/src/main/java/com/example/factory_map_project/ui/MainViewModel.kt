@@ -8,6 +8,7 @@ import com.example.data.datastore.UserDataStore
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.event.AppEvent
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -47,7 +48,7 @@ class MainViewModel @Inject constructor(
 //        }
     }
 
-    var currentLocation = MutableSharedFlow<Location>()
+    var currentLocation = MutableSharedFlow<LatLng>()
 
 
     //**********************************************************************************************

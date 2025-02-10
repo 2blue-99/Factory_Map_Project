@@ -1,14 +1,17 @@
 package com.example.factory_map_project.util
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import timber.log.Timber
 
-class PermissionUtil(private val context: Context) {
+class PermissionUtil(
+    private val activity: Activity
+) {
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
@@ -16,7 +19,7 @@ class PermissionUtil(private val context: Context) {
         arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+//            Manifest.permission.ACCESS_BACKGROUND_LOCATION
         )
     } else{
         arrayOf(
@@ -32,7 +35,8 @@ class PermissionUtil(private val context: Context) {
     private fun checkPermission(permissionArray: Array<String>): Boolean {
         var permissionState = true
         for(permission in permissionArray){
-            if(ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.checkSelfPermission(activity.applicationContext, permission) != PackageManager.PERMISSION_GRANTED){
+                Timber.d("what : $permission")
                 permissionState = false
                 break
             }
@@ -41,13 +45,23 @@ class PermissionUtil(private val context: Context) {
         return permissionState
     }
 
-    fun checkLocationPermission(): Boolean{
-        return checkPermission(locationPermission)
+    private fun checkRejectPermission(permissionArray: Array<String>): Boolean {
+        var permissionState = true
+        for(permission in permissionArray){
+            if(activity.shouldShowRequestPermissionRationale(permission)){
+                permissionState = false
+                break
+            }
+        }
+        Timber.d("checkRejectPermission : $permissionState")
+        return permissionState
     }
 
     fun checkLocationPermission(): Boolean{
         return checkPermission(locationPermission)
     }
 
-
+    fun checkLocationRejectPermission(): Boolean{
+        return checkRejectPermission(locationPermission)
+    }
 }

@@ -3,6 +3,7 @@ package com.example.factory_map_project.ui
 import android.content.pm.ActivityInfo
 import android.location.Geocoder
 import android.os.Build
+import android.os.Looper
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -15,7 +16,13 @@ import com.example.factory_map_project.ui.base.BaseActivity
 import com.example.factory_map_project.util.PermissionUtil
 import com.example.factory_map_project.util.Util.repeatOnStarted
 import com.example.factory_map_project.util.event.AppEvent
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -28,6 +35,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     // Mark: Variable
     //**********************************************************************************************
     override val viewModel: MainViewModel by viewModels()
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var locationRequest: LocationRequest
+
 
     private val requestLocationPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ resultList ->
         var permissionState = true
@@ -38,7 +49,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             }
         }
         if(permissionState){
-            updateLocation()
+            startObserveLocation()
         }
     }
 
@@ -53,10 +64,16 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 //            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
 //        binding.navBottom.setupWithNavController(navHostFragment.navController)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         with(PermissionUtil(this)){
-            if(!checkLocationPermission()){
+            if(checkLocationPermission()){
+                startObserveLocation()
+            }else if(checkLocationRejectPermission()){
+                // 설정 유도
+            }else{
                 requestLocationPermission.launch(locationPermission)
-            }else if(shouldShowRequestPermissionRationale(locationPermission)
+            }
         }
 
         lifecycleScope.launch {
@@ -123,22 +140,34 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         }
     }
 
-    private fun updateLocation(){
+    private fun startObserveLocation(){
+        Timber.d("startObserveLocation")
         val fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(this)
 
-        if(PermissionUtil(this).checkLocationPermission()){
-            fusedLocationProviderClient.lastLocation
-                .addOnSuccessListener { result ->
-                    result?.let {
-                        lifecycleScope.launch {
-                            viewModel.currentLocation.emit(it)
-                        }
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
+            .setMinUpdateIntervalMillis(1500) // 최소 업데이트 간격 2초
+            .build()
+
+        locationCallback = object : LocationCallback(){
+            override fun onLocationResult(result: LocationResult) {
+                lifecycleScope.launch {
+                    result.lastLocation?.let { location ->
+                        viewModel.currentLocation.emit(
+                            value = LatLng(location.latitude, location.longitude)
+                        )
                     }
                 }
-                .addOnFailureListener {
-                    Timber.d("위치를 몰라요")
-                }
+            }
+        }
+
+
+        if(PermissionUtil(this).checkLocationPermission()){
+            fusedLocationProviderClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
         }
     }
 }

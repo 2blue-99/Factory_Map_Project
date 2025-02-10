@@ -11,6 +11,7 @@ import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
+import com.example.factory_map_project.util.map.BitmapHelper
 import com.example.factory_map_project.util.map.CustomClusterRenderer
 import com.example.factory_map_project.util.map.FactoryCluster
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,6 +20,8 @@ import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +42,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<FactoryCluster>
+    private var currentMarker: Marker? = null
 
     private val callback = OnMapReadyCallback { map ->
         Timber.d("OnMapReadyCallback")
@@ -80,7 +84,9 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                     is AppEvent.Action<*> -> {
                         when(event.type){
                             ActionType.MY_LOCATION -> {
-                                // TODO 현재 내 위치로 셋
+                                currentMarker?.let { marker ->
+                                    moveCamera(marker.position, 14f, true)
+                                }
                             }
                             else -> {}
                         }
@@ -93,7 +99,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         repeatOnFragmentStarted {
             mainViewModel.currentLocation.collectLatest {
                 Timber.d("current location : $it")
-//                googleMap.addMarker()
+                currentMarker = addUserMarker(it)
             }
         }
     }
@@ -107,12 +113,8 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     // Mark: Function
     //**********************************************************************************************
     private fun initMap(smooth: Boolean){
-        val test = LatLng(36.65829047550215, 127.87665870040657)
-        if(smooth){
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(test, 7.4f))
-        }else{
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 7.4f))
-        }
+        val location = LatLng(36.65829047550215, 127.87665870040657)
+        moveCamera(location, 7.4f, smooth)
     }
 
     private fun setClusterManager() {
@@ -203,4 +205,24 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         val targetZoom = if(currentZoom < 11) 11f else currentZoom
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item.position, targetZoom))
     }
+
+    private fun addUserMarker(location: LatLng): Marker? {
+        currentMarker?.remove()
+        return googleMap.addMarker(
+            MarkerOptions()
+                .position(location)
+                .title("현위치")
+                .alpha(0.9f)
+                .icon(BitmapHelper(requireContext(), R.drawable.icon_current_location))
+        )
+    }
+
+    private fun moveCamera(location: LatLng, zoom: Float, smooth: Boolean){
+        if(smooth){
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, zoom))
+        }else{
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoom))
+        }
+    }
 }
+
