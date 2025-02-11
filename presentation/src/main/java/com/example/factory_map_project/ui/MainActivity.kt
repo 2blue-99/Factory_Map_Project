@@ -41,7 +41,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
-    lateinit var dialog: DialogUtil
+    lateinit var dialogManager: DialogUtil
 
 
     private val locationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ resultList ->
@@ -57,7 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         }
     }
 
-    private val settingLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+    val settingLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         if(PermissionUtil(this).checkLocationPermission()){
             startObserveLocation()
         }else{
@@ -71,7 +71,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     override fun setData() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT // 회전 불가 처리
         setBackPressListener()
-        dialog = DialogUtil(this)
+        dialogManager = DialogUtil(this)
 //        val navHostFragment =
 //            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
 //        binding.navBottom.setupWithNavController(navHostFragment.navController)
@@ -83,7 +83,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                 startObserveLocation()
             }else if(!checkLocationRejectPermission()){
                 try {
-                    dialog.showCallBackDialog(
+                    dialogManager.showCallBackDialog(
                         popup = PopupContent.NOTICE_PERMISSION,
                         positiveCallBack = { settingLauncher.launch(moveSettingIntent()) },
                         negativeCallBack = {},
@@ -109,7 +109,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             viewModel.eventFlow.collect { event ->
                 Timber.d("event : $event")
                 when(event){
-                    is AppEvent.ShowPopup -> dialog.showMessageDialog(event)
+                    is AppEvent.ShowPopup -> dialogManager.showMessageDialog(event)
                     is AppEvent.ShowToast -> showToast(event.message)
                     is AppEvent.ShowLoading -> {
                         Timber.d("loading state : ${event.state}")
@@ -167,7 +167,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             LocationServices.getFusedLocationProviderClient(this)
 
         locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
-            .setMinUpdateIntervalMillis(1500) // 최소 업데이트 간격 2초
+            .setMinUpdateIntervalMillis(1000) // 최소 업데이트 간격 2초
             .build()
 
         locationCallback = object : LocationCallback(){
@@ -181,7 +181,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                 }
             }
         }
-
 
         if(PermissionUtil(this).checkLocationPermission()){
             fusedLocationProviderClient.requestLocationUpdates(

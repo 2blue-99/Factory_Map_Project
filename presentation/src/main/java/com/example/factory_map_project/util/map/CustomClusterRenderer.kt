@@ -1,7 +1,11 @@
 package com.example.factory_map_project.util.map
 
 import android.content.Context
+import com.example.factory_map_project.R
+import com.example.factory_map_project.util.STATE_SUCCESS
+import com.example.factory_map_project.util.STATE_UNKNOWN
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -11,7 +15,7 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import timber.log.Timber
 
 class CustomClusterRenderer(
-    context: Context,
+    val context: Context,
     map: GoogleMap,
     clusterManager: ClusterManager<FactoryCluster>,
     clusterSize: Int
@@ -23,32 +27,21 @@ class CustomClusterRenderer(
     // 클러스터 아이템 렌더링 전 처리
     override fun onBeforeClusterItemRendered(item: FactoryCluster, markerOptions: MarkerOptions) {
         super.onBeforeClusterItemRendered(item, markerOptions)
-//        Timber.d("onBeforeClusterItemRendered : $item")
         // 예시: 마커의 색상이나 이미지 변경 가능
-        if(item.isClick){
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-        }else{
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-        }
+        markerOptions.icon(markIcon(item.isClick)).alpha(0.90f)
     }
 
     // 클러스터 아이템이 업데이트될 때 처리
     override fun onClusterItemUpdated(item: FactoryCluster, marker: Marker) {
         super.onClusterItemUpdated(item, marker)
-        // 예시: 마커의 스타일 업데이트
-//        Timber.d("onClusterItemUpdated : $item")
-        if(item.isClick){
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-        }else{
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-        }
+        marker.setIcon(markIcon(item.isClick))
+        marker.alpha = 0.90f
     }
 
     // 클러스터 렌더링 전 처리
     override fun onBeforeClusterRendered(cluster: Cluster<FactoryCluster>, markerOptions: MarkerOptions) {
         super.onBeforeClusterRendered(cluster, markerOptions)
         // 예시: 클러스터의 크기나 스타일을 조정 가능
-//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
     }
 
     // 클러스터 렌더링 후 처리
@@ -60,5 +53,13 @@ class CustomClusterRenderer(
     override fun setOnClusterItemClickListener(listener: ClusterManager.OnClusterItemClickListener<FactoryCluster>?) {
 //        Timber.d("setOnClusterItemClickListener")
         super.setOnClusterItemClickListener(listener)
+    }
+
+    private fun markIcon(state: Int): BitmapDescriptor {
+        return when(state){
+            STATE_UNKNOWN -> BitmapHelper(context, R.drawable.icon_unknown_marker)
+            STATE_SUCCESS -> BitmapHelper(context, R.drawable.icon_success_marker)
+            else -> BitmapHelper(context, R.drawable.icon_fail_marker)
+        }?: BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
     }
 }

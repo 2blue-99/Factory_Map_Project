@@ -23,7 +23,7 @@ data class FactoryInfo(
 
     val longitude: Double, // 정제 경도
 
-    val isClick: Boolean,
+    val isClick: Int, // 0 : Unknown, 1 : Success, 2: Fail
 
     val memo: String,
 ){

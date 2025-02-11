@@ -26,6 +26,10 @@ import java.io.Serializable
 
 const val ARG_CONTENT = "argument.content"
 
+const val STATE_UNKNOWN = 0
+const val STATE_SUCCESS = 1
+const val STATE_FAIL = 2
+
 object Util {
 
     fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {

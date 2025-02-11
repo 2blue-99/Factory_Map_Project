@@ -1,6 +1,7 @@
 package com.example.factory_map_project.util
 
 import android.graphics.Paint
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
@@ -27,4 +28,19 @@ fun setRecyclerViewDivider(recyclerView: RecyclerView, divider: Boolean){
         recyclerView.addItemDecoration(com.example.factory_map_project.util.adapter.DividerItemDecoration(recyclerView.context)
         )
     }
+}
+
+/**
+ *
+ */
+@BindingAdapter("setCheckBackground")
+fun setCheckBackground(view: ImageView, state: Int){
+    view.setImageResource(
+        when(state){
+            STATE_UNKNOWN -> R.drawable.icon_unknown_marker
+            STATE_SUCCESS -> R.drawable.icon_success_marker
+            else -> R.drawable.icon_fail_marker
+        }
+    )
+
 }

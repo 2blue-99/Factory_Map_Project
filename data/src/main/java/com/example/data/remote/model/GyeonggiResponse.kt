@@ -124,7 +124,7 @@ data class GyeonggiInfoResponse(
             loadAddress = refineRoadNameAddress ?: "확인 불가",
             longitude = refineLongitude ?: -1.0,
             latitude = refineLatitude ?: -1.0,
-            isClick = false,
+            isClick = 0,
             memo = ""
         )
     }

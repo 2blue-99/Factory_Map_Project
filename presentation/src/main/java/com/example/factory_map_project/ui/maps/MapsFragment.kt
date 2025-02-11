@@ -8,6 +8,9 @@ import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
 import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.base.BaseFragment
+import com.example.factory_map_project.util.PermissionUtil
+import com.example.factory_map_project.util.PopupContent
+import com.example.factory_map_project.util.Util.moveSettingIntent
 import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
@@ -84,9 +87,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                     is AppEvent.Action<*> -> {
                         when(event.type){
                             ActionType.MY_LOCATION -> {
-                                currentMarker?.let { marker ->
-                                    moveCamera(marker.position, 14f, true)
-                                }
+                                moveMyLocation()
                             }
                             else -> {}
                         }
@@ -223,6 +224,26 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, zoom))
         }else{
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoom))
+        }
+    }
+
+    private fun moveMyLocation(){
+        with(PermissionUtil(requireActivity())){
+            if(!checkLocationPermission()){
+                // TODO 이거 재활용시킬 수 있을 듯
+                mainActivity().dialogManager.showCallBackDialog(
+                    popup = PopupContent.NOTICE_PERMISSION,
+                    positiveCallBack = { mainActivity().settingLauncher.launch(moveSettingIntent()) },
+                    negativeCallBack = {},
+                    args = arrayOf("위치정보 접근")
+                )
+            }else{
+                currentMarker?.let { marker ->
+                    val currentZoom = googleMap.cameraPosition.zoom
+                    val targetZoom = if(currentZoom > 14f) currentZoom else 14f
+                    moveCamera(marker.position, targetZoom, true)
+                }
+            }
         }
     }
 }

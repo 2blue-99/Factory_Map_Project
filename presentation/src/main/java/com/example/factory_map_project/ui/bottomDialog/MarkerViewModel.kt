@@ -23,6 +23,8 @@ class MarkerViewModel @Inject constructor(
     private var _uiData = MutableLiveData<FactoryCluster>()
     val uiData: MutableLiveData<FactoryCluster> get() = _uiData
 
+    var currentCheckState = MutableLiveData(0)
+
 
 
     //**********************************************************************************************
@@ -174,12 +176,18 @@ class MarkerViewModel @Inject constructor(
         return true
     }
 
+    fun onClickCheckBox(){
+        var next = currentCheckState.value!! + 1
+        currentCheckState.value = if(next > 2) 0 else next
+    }
+
 
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
     fun loadData(data: FactoryCluster) {
         _uiData.value = data
+        currentCheckState.value = data.isClick
     }
 
     private fun updateCluster(cluster: FactoryCluster){

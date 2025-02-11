@@ -70,7 +70,7 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
                             else -> {}
                         }
                     }
-                    is AppEvent.ShowPopup -> mainActivity().dialog.showMessageDialog(event)
+                    is AppEvent.ShowPopup -> mainActivity().dialogManager.showMessageDialog(event)
                     is AppEvent.ShowInputDialog -> mainActivity().showInputDialog(event.text, event.onSaveData)
                     else -> {}
                 }
@@ -89,7 +89,7 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
         viewModel.uiData.value?.let { data ->
             updateCluster(
                 data.copy(
-                    isClick = binding.checkBox.isChecked,
+                    isClick = viewModel.currentCheckState.value?:0,
                     memo = binding.memo.text.toString()
                 )
             )

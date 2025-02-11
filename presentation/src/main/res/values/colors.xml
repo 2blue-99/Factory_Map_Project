@@ -8,6 +8,8 @@
     <color name="primary">#395AFF</color>
     <color name="background">#ECEFF3</color>
 
+    <color name="yellow">#FFC107</color>
+
 
     <color name="black_dim_20per">#33000000</color>
 </resources>
