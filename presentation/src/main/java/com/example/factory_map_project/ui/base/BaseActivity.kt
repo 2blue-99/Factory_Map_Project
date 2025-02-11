@@ -96,31 +96,17 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    fun showToast(text: String){
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-    }
-
-    fun showDialog(event: AppEvent.ShowPopup){
-        AlertDialog.Builder(this)
-            .setTitle(event.content.title)
-            .setMessage(event.content.content)
-            .setPositiveButton("확인"){ dialog, which ->
-                event.tryEmit(true)
-            }
-            .setNegativeButton("취소"){ dialog, which ->
-                event.cancel()
-            }
-            .setOnDismissListener {
-                event.cancel()
-            }
-            .show()
-    }
-
     fun setLoading(state: Boolean){
         if(viewModel is MainViewModel){
             viewModel.isLoading.value = state
         }
     }
+
+    fun showToast(text: String){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    }
+
+
 
     fun showDownloadBottomDialog(){
         DownloadBottomDialog

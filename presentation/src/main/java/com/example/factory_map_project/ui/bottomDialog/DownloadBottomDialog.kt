@@ -27,7 +27,7 @@ class DownloadBottomDialog: BaseBottomDialog<BottomDialogDownloadBinding, Downlo
     // Mark: Lifecycle
     //**********************************************************************************************
     override fun setData() {
-        bottomDialog.setCanceledOnTouchOutside(false)
+        bottomDialog.setCanceledOnTouchOutside(true)
         bottomDialog.behavior.isHideable = false
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }

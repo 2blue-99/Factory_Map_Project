@@ -30,14 +30,13 @@ abstract class BaseBottomDialog<VB: ViewDataBinding, VM: BaseViewModel>(
     private var _binding: VB? = null
     protected val binding get() = _binding!!
 
-    protected lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
-
     protected fun mainActivity() = activity as MainActivity
 
     /**
      * onCreateDialog()
      */
     lateinit var bottomDialog: BottomSheetDialog
+    protected lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
     /**
      * onCreate() | Data Setting

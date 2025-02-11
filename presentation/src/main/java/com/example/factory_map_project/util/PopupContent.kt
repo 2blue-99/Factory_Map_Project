@@ -7,7 +7,10 @@ enum class PopupContent(
     // APP
     NETWORK_ERR(title = "", content = ""),
     UNKNOWN_ERR(title = "", content = ""),
+    NOTICE_PERMISSION(title = "알림", content = "앱 이용을 위해 설정에서\n%s을 허용해주세요."),
+
 
     // MAP
-    MAP_MARKER_DELETE(title = "알림", content = "정말 삭제하시겠습니까")
+    MAP_MARKER_DELETE(title = "알림", content = "정말 삭제하시겠습니까"),
+
 }

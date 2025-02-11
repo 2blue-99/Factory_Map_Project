@@ -13,7 +13,10 @@ import com.example.domain.model.AllAreaInfo
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.ActivityMainBinding
 import com.example.factory_map_project.ui.base.BaseActivity
+import com.example.factory_map_project.util.DialogUtil
 import com.example.factory_map_project.util.PermissionUtil
+import com.example.factory_map_project.util.PopupContent
+import com.example.factory_map_project.util.Util.moveSettingIntent
 import com.example.factory_map_project.util.Util.repeatOnStarted
 import com.example.factory_map_project.util.event.AppEvent
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -38,9 +41,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
+    lateinit var dialog: DialogUtil
 
 
-    private val requestLocationPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ resultList ->
+    private val locationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ resultList ->
         var permissionState = true
         for(result in resultList){
             if(!result.value){
@@ -53,13 +57,21 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         }
     }
 
+    private val settingLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(PermissionUtil(this).checkLocationPermission()){
+            startObserveLocation()
+        }else{
+            Timber.d("권한 거부")
+        }
+    }
+
     //**********************************************************************************************
     // Mark: Lifecycle
     //**********************************************************************************************
     override fun setData() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT // 회전 불가 처리
         setBackPressListener()
-
+        dialog = DialogUtil(this)
 //        val navHostFragment =
 //            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
 //        binding.navBottom.setupWithNavController(navHostFragment.navController)
@@ -69,10 +81,19 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         with(PermissionUtil(this)){
             if(checkLocationPermission()){
                 startObserveLocation()
-            }else if(checkLocationRejectPermission()){
-                // 설정 유도
+            }else if(!checkLocationRejectPermission()){
+                try {
+                    dialog.showCallBackDialog(
+                        popup = PopupContent.NOTICE_PERMISSION,
+                        positiveCallBack = { settingLauncher.launch(moveSettingIntent()) },
+                        negativeCallBack = {},
+                        args = arrayOf("위치정보 접근")
+                    )
+                }catch (e: Exception){
+                    Timber.d("err : $e")
+                }
             }else{
-                requestLocationPermission.launch(locationPermission)
+                locationPermissionLauncher.launch(locationPermission)
             }
         }
 
@@ -88,7 +109,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             viewModel.eventFlow.collect { event ->
                 Timber.d("event : $event")
                 when(event){
-                    is AppEvent.ShowPopup -> showDialog(event)
+                    is AppEvent.ShowPopup -> dialog.showMessageDialog(event)
                     is AppEvent.ShowToast -> showToast(event.message)
                     is AppEvent.ShowLoading -> {
                         Timber.d("loading state : ${event.state}")

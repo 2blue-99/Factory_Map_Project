@@ -3,10 +3,14 @@ package com.example.factory_map_project.util
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import com.example.factory_map_project.BuildConfig
 import timber.log.Timber
 
 class PermissionUtil(

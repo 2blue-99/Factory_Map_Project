@@ -212,7 +212,8 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             MarkerOptions()
                 .position(location)
                 .title("현위치")
-                .alpha(0.9f)
+                .alpha(0.85f)
+                .zIndex(100f)
                 .icon(BitmapHelper(requireContext(), R.drawable.icon_current_location))
         )
     }

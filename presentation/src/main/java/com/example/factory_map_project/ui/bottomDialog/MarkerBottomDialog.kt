@@ -70,7 +70,7 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
                             else -> {}
                         }
                     }
-                    is AppEvent.ShowPopup -> mainActivity().showDialog(event)
+                    is AppEvent.ShowPopup -> mainActivity().dialog.showMessageDialog(event)
                     is AppEvent.ShowInputDialog -> mainActivity().showInputDialog(event.text, event.onSaveData)
                     else -> {}
                 }
