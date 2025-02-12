@@ -4,9 +4,11 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.viewModels
-import com.example.factory_map_project.databinding.BottomDialogDownloadBinding
+import com.example.domain.type.SelectType
+import com.example.factory_map_project.databinding.BottomDialogFilterBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.CommonUtil.repeatOnFragmentStarted
+import com.example.factory_map_project.util.adapter.PickerAdapter
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -14,56 +16,53 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class DownloadBottomDialog: BaseBottomDialog<BottomDialogDownloadBinding, DownloadViewModel>(
-    BottomDialogDownloadBinding::inflate
+class FilterBottomDialog: BaseBottomDialog<BottomDialogFilterBinding, FilterViewModel>(
+    BottomDialogFilterBinding::inflate
 ) {
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
-    override val viewModel: DownloadViewModel by viewModels()
+    override val viewModel: FilterViewModel by viewModels()
 
+    private lateinit var pickerAdapter: PickerAdapter
 
     //**********************************************************************************************
     // Mark: Lifecycle
     //**********************************************************************************************
     override fun setData() {
         bottomDialog.setCanceledOnTouchOutside(true)
-        bottomDialog.behavior.isHideable = false
+        bottomDialog.behavior.isHideable = true
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
-        return super.onCreateDialog(savedInstanceState).apply {
-            setOnKeyListener { _, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
-                    true
-                } else {
-                    false
-                }
-            }
-        }
-    }
-
 //    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-//        with(bottomDialog.behavior){
-//            peekHeight = 340
-//            isHideable = false
+//        return super.onCreateDialog(savedInstanceState).apply {
+//            setOnKeyListener { _, keyCode, event ->
+//                if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+//                    true
+//                } else {
+//                    false
+//                }
+//            }
 //        }
-//        bottomDialog.window?.setDimAmount(0f)
-//        bottomDialog.behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//        return bottomDialog
 //    }
 
-    override fun setUI() {}
+    override fun setUI() {
+        setRecyclerview()
+    }
 
     override fun setObserver() {
         repeatOnFragmentStarted {
             viewModel.eventFlow.collect { event ->
                 Timber.d("event : $event")
                 when(event){
-                    is AppEvent.ShowLoading -> mainActivity().setLoading(event.state)
+                    is AppEvent.ShowLoading -> {
+                        Timber.d("ㅇㅇ")
+                        mainActivity().setLoading(event.state)
+                    }
+                    is AppEvent.ShowToast -> {
+                        mainActivity().showToast(event.message)
+                    }
                     is AppEvent.Action<*> -> {
                         when(event.type){
                             ActionType.NEGATIVE -> onClickPositive()
@@ -74,6 +73,14 @@ class DownloadBottomDialog: BaseBottomDialog<BottomDialogDownloadBinding, Downlo
                     else -> {}
                 }
             }
+        }
+
+        viewModel.filterList.observe(viewLifecycleOwner){
+            pickerAdapter.inputList = it
+        }
+
+        binding.targetPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+            viewModel.targetWord.value = SelectType.toType(newVal).title
         }
     }
 
@@ -89,9 +96,17 @@ class DownloadBottomDialog: BaseBottomDialog<BottomDialogDownloadBinding, Downlo
         dismiss()
     }
 
+    private fun setRecyclerview(){
+        pickerAdapter = PickerAdapter {
+            viewModel.deleteTarget(it)
+            mainActivity().showToast("삭제 되었습니다.")
+        }
+        binding.priceSpinner.adapter = pickerAdapter
+    }
+
     companion object {
-        fun newInstance(): DownloadBottomDialog {
-            return DownloadBottomDialog()
+        fun newInstance(): FilterBottomDialog {
+            return FilterBottomDialog()
         }
     }
 }

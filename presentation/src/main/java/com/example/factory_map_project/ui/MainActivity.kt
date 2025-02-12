@@ -16,8 +16,8 @@ import com.example.factory_map_project.ui.base.BaseActivity
 import com.example.factory_map_project.util.DialogUtil
 import com.example.factory_map_project.util.PermissionUtil
 import com.example.factory_map_project.util.PopupContent
-import com.example.factory_map_project.util.Util.moveSettingIntent
-import com.example.factory_map_project.util.Util.repeatOnStarted
+import com.example.factory_map_project.util.CommonUtil.moveSettingIntent
+import com.example.factory_map_project.util.CommonUtil.repeatOnStarted
 import com.example.factory_map_project.util.event.AppEvent
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback

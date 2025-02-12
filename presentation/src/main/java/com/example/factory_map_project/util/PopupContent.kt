@@ -12,5 +12,4 @@ enum class PopupContent(
 
     // MAP
     MAP_MARKER_DELETE(title = "알림", content = "정말 삭제하시겠습니까"),
-
 }

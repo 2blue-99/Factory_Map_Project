@@ -4,11 +4,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.factory_map_project.databinding.FragmentSettingBinding
 import com.example.factory_map_project.ui.base.BaseFragment
-import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
+import com.example.factory_map_project.util.CommonUtil.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(
@@ -42,7 +41,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(
                     is AppEvent.Action<*> -> {
                         when(event.type){
                             ActionType.EXCLUSION -> {
-
+                                mainActivity().showFilterDialog()
                             }
                             else -> {}
                         }

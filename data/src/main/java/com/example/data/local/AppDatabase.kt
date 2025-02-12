@@ -3,9 +3,12 @@ package com.example.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.data.local.dao.FactoryDao
+import com.example.data.local.dao.FilterDao
 import com.example.data.local.entity.FactoryEntity
+import com.example.data.local.entity.FilterEntity
 
-@Database(entities = [FactoryEntity::class], version = 1)
+@Database(entities = [FactoryEntity::class, FilterEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase(){
-    abstract fun testDao(): FactoryDao
+    abstract fun factoryDao(): FactoryDao
+    abstract fun filterDao(): FilterDao
 }

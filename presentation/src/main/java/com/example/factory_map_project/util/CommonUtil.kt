@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
 import com.example.domain.model.FactoryInfo
+import com.example.domain.model.FilterData
 import com.example.factory_map_project.BuildConfig
 import com.example.factory_map_project.R
 import com.example.factory_map_project.util.map.FactoryCluster
@@ -30,7 +31,7 @@ const val STATE_UNKNOWN = 0
 const val STATE_SUCCESS = 1
 const val STATE_FAIL = 2
 
-object Util {
+object CommonUtil {
 
     fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {
         lifecycleScope.launch {
@@ -121,5 +122,13 @@ object Util {
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
             Uri.parse("package:" + BuildConfig.APPLICATION_ID)
         )
+    }
+
+    fun isListEmpty(list: List<*>?):Boolean {
+        return list.isNullOrEmpty()
+    }
+
+    fun List<FilterData>.isContain(target: String, keyword: String): Boolean{
+        return this.any { it.target == target && it.keyword == keyword }
     }
 }

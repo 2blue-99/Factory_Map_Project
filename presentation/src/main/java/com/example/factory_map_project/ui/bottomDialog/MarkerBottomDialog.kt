@@ -6,9 +6,9 @@ import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.BottomDialogMarkerBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.ARG_CONTENT
-import com.example.factory_map_project.util.Util.moveCall
-import com.example.factory_map_project.util.Util.moveTMap
-import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
+import com.example.factory_map_project.util.CommonUtil.moveCall
+import com.example.factory_map_project.util.CommonUtil.moveTMap
+import com.example.factory_map_project.util.CommonUtil.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster

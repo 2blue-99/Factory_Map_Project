@@ -1,7 +1,9 @@
 package com.example.data
 
 import com.example.data.local.entity.FactoryEntity
+import com.example.data.local.entity.FilterEntity
 import com.example.domain.model.FactoryInfo
+import com.example.domain.model.FilterData
 
 object Mapper {
     fun String?.toDateStringFormat(): String {
@@ -30,6 +32,14 @@ object Mapper {
             longitude = longitude,
             isClick = isClick,
             memo = memo
+        )
+    }
+
+    fun FilterData.toEntity(): FilterEntity {
+        return FilterEntity(
+            id = id,
+            target = target,
+            keyword = keyword
         )
     }
 }

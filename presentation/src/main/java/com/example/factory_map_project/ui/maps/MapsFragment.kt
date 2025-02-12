@@ -10,8 +10,8 @@ import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.PermissionUtil
 import com.example.factory_map_project.util.PopupContent
-import com.example.factory_map_project.util.Util.moveSettingIntent
-import com.example.factory_map_project.util.Util.repeatOnFragmentStarted
+import com.example.factory_map_project.util.CommonUtil.moveSettingIntent
+import com.example.factory_map_project.util.CommonUtil.repeatOnFragmentStarted
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.BitmapHelper
@@ -172,10 +172,12 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         mainActivity().showMarkerBottomDialog(
             item = item,
             updateCluster = { updateItem ->
+                clusterManager.clearItems()
                 viewModel.updateFactory(updateItem)
 //                updateCluster(item, updateItem)
             },
             deleteCluster = {
+                clusterManager.clearItems()
                 viewModel.deleteFactory(item.id)
 //                deleteCluster(item)
             }

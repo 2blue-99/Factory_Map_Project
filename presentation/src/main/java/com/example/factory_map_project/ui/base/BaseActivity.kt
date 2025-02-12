@@ -2,20 +2,17 @@ package com.example.factory_map_project.ui.base
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.addCallback
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.factory_map_project.BR
 import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.bottomDialog.DownloadBottomDialog
+import com.example.factory_map_project.ui.bottomDialog.FilterBottomDialog
 import com.example.factory_map_project.ui.bottomDialog.MarkerBottomDialog
 import com.example.factory_map_project.ui.dialog.InputDialog
 import com.example.factory_map_project.ui.dialog.SpinnerDialog
-import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
 import timber.log.Timber
 
@@ -98,6 +95,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     //**********************************************************************************************
     fun setLoading(state: Boolean){
         if(viewModel is MainViewModel){
+            Timber.d("ㅇㅇ2")
             viewModel.isLoading.value = state
         }
     }
@@ -133,6 +131,12 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     fun showInputDialog(text: String, onSave: (String) -> Unit){
         InputDialog
             .newInstance(text, onSave)
+            .show(supportFragmentManager, "input_dialog")
+    }
+
+    fun showFilterDialog(){
+        FilterBottomDialog
+            .newInstance()
             .show(supportFragmentManager, "input_dialog")
     }
 

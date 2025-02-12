@@ -34,14 +34,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:text="@{title ,default = `Text`}"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_gray"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:visibility="@{subTitle == null ? View.GONE : View.VISIBLE}"
                 android:text="@{subTitle ,default = `SubText`}"
                 />
@@ -50,11 +50,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="end"
             android:textColor="@color/primary"
             android:text="@{value, default = `Value`}"
             android:onClick="@{onClick}"
+            app:underline="@{true}"
             />
     </LinearLayout>
 

@@ -32,10 +32,6 @@ class SettingViewModel @Inject constructor(
         emitEvent(AppEvent.GoBack)
     }
 
-    fun onClickExclusionWord(){
-        emitEvent(AppEvent.Action(ActionType.EXCLUSION, null))
-    }
-
     fun onClickClusterTriggerType(){
         emitEvent(AppEvent.ShowSpinnerDialog(
             content = ClusterTriggerType.toList(),
@@ -43,6 +39,11 @@ class SettingViewModel @Inject constructor(
             onSelect = { updateClusterTriggerType(it) }
         ))
     }
+
+    fun onClickExclusionWord(){
+        emitEvent(AppEvent.Action(ActionType.EXCLUSION, null))
+    }
+
 
     //**********************************************************************************************
     // Mark: Function

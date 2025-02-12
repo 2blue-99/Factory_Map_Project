@@ -2,6 +2,7 @@ package com.example.data.local.di
 
 import com.example.data.local.AppDatabase
 import com.example.data.local.dao.FactoryDao
+import com.example.data.local.dao.FilterDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,6 +14,11 @@ import javax.inject.Singleton
 object DaoModule {
     @Singleton
     @Provides
-    fun provideTestDao(database: AppDatabase): FactoryDao =
-        database.testDao()
+    fun provideFactoryDao(database: AppDatabase): FactoryDao =
+        database.factoryDao()
+
+    @Singleton
+    @Provides
+    fun provideFilterDao(database: AppDatabase): FilterDao =
+        database.filterDao()
 }
