@@ -26,28 +26,6 @@ class MainViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
-    init {
-//        modelScope.launch {
-//            useCase.test().resourceHandler(_eventFlow) {
-//                Timber.d("viewModel : ${it.size}")
-//                ioScope.launch {
-//                    it.map { daoUseCase.upsert(it) }
-//                    Timber.d("룸 끝났어용")
-//                }
-//            }
-//        }
-//        ioScope.launch {
-//            daoUseCase.getAll().collect {
-//                Timber.d("room : $it")
-//            }
-//        }
-//        modelScope.launch {
-//            dataStoreRepo.dataStoreFlow.collect {
-//                Timber.d("data store : $it")
-//            }
-//        }
-    }
-
     var currentLocation = MutableSharedFlow<LatLng>()
 
 
