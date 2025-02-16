@@ -78,7 +78,6 @@ class MainViewModel @Inject constructor(
 
 
     private suspend fun requestAPIData(): String {
-        delay(2000)
         return "Test"
     }
 }
