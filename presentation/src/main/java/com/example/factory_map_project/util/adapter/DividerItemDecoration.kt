@@ -12,11 +12,7 @@ class DividerItemDecoration(
     private val context: Context
 ) : RecyclerView.ItemDecoration() {
 
-    private val divider: Drawable?
-
-    init {
-        divider = ContextCompat.getDrawable(context, R.drawable.shape_divider)
-    }
+    private val divider: Drawable? = ContextCompat.getDrawable(context, R.drawable.shape_divider)
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val childCount = parent.childCount
