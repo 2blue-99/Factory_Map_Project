@@ -45,17 +45,6 @@ class DownloadBottomDialog: BaseBottomDialog<BottomDialogDownloadBinding, Downlo
         }
     }
 
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-//        with(bottomDialog.behavior){
-//            peekHeight = 340
-//            isHideable = false
-//        }
-//        bottomDialog.window?.setDimAmount(0f)
-//        bottomDialog.behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//        return bottomDialog
-//    }
-
     override fun setUI() {}
 
     override fun setObserver() {
