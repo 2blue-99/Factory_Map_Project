@@ -3,8 +3,9 @@ package com.example.domain.type
 enum class SelectType(
     val title: String
 ) {
-    COMPANY_NAME(title = "상호명"),
-    PRODUCT(title = "대표상품"),
+    COMPANY(title = "상호"),
+    CATEGORY(title = "업종"),
+    PRODUCT(title = "대표 상품"),
     ;
 
     companion object {

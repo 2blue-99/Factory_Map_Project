@@ -25,8 +25,9 @@ object RepoModule {
     fun provideRepo(
         gyeonggiDatasource: GyeonggiDataSourceImpl,
         factoryDao: FactoryDao,
+        filterDao: FilterDao,
         userDataStore: UserDataStore
-    ): FactoryRepository = FactoryRepositoryImpl(gyeonggiDatasource, factoryDao, userDataStore)
+    ): FactoryRepository = FactoryRepositoryImpl(gyeonggiDatasource, factoryDao, filterDao, userDataStore)
 
     @Provides
     @Singleton

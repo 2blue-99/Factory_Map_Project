@@ -30,6 +30,7 @@ import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -53,6 +54,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         initMap(false)
         setClusterManager()
         setDaoListener()
+        setUserMarker()
     }
 
 
@@ -88,6 +90,9 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                         when(event.type){
                             ActionType.MY_LOCATION -> {
                                 moveMyLocation()
+                            }
+                            ActionType.POSITION_INIT -> {
+                                initMap(true)
                             }
                             else -> {}
                         }
@@ -128,6 +133,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                 clusterManager = clusterManager,
                 clusterSize = viewModel.getClusterTriggerSize()
             )
+
             clusterManager.renderer = customClusterRenderer
 
             googleMap.setOnCameraIdleListener(clusterManager)
@@ -148,7 +154,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             viewModel.factoryData
                 .filter { it.isNotEmpty() }
                 .collect { list ->
-                    Timber.d("list : ${list.size}")
                     clusterManager.clearItems()
                     clusterManager.addItems(list)
                     clusterManager.cluster()
@@ -247,6 +252,13 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                 }
             }
         }
+    }
+
+    /**
+     * 다른 화면으로 복귀 시, 유저 위치가 늦게 찍히는 이슈 보완
+     */
+    private fun setUserMarker(){
+        currentMarker?.let { addUserMarker(it.position) }
     }
 }
 

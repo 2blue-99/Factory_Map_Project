@@ -119,6 +119,7 @@ data class GyeonggiInfoResponse(
             employeeCount = "${employeeCount}명" ?: "확인 불가",
             scaleDivisionName = factoryScaleDivisionName ?: "확인 불가",
             registrationDate = factoryRegistrationDate.toDateStringFormat(),
+            category = "",
             productInfo = productInfo ?: "확인 불가",
             contact = telephoneNumber ?: "확인 불가",
             loadAddress = refineRoadNameAddress ?: "확인 불가",

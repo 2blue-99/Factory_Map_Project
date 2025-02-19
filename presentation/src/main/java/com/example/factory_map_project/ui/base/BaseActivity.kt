@@ -95,7 +95,6 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     //**********************************************************************************************
     fun setLoading(state: Boolean){
         if(viewModel is MainViewModel){
-            Timber.d("ㅇㅇ2")
             viewModel.isLoading.value = state
         }
     }
@@ -149,4 +148,12 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
             this.finish()
         }
     }
+}
+
+
+fun main(){
+    val gap = listOf("나는 탈모인입니다.", "나는 탈인입니다.", "나는 모인입니다.", "나는 입니다.")
+    val list = listOf("탈","인")
+    println(gap.filter { sample -> list.none { keyword -> sample.contains(keyword) } })
+
 }

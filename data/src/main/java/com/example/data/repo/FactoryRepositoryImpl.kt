@@ -10,14 +10,17 @@ import com.example.domain.model.FactoryInfo
 import com.example.domain.model.GyeonggiInfo
 import com.example.domain.repo.FactoryRepository
 import com.example.domain.type.AreaType
+import com.example.domain.type.SelectType
 import com.example.domain.util.GYEONGGI_DOWNLOAD_COUNT
 import com.example.domain.util.ResourceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class FactoryRepositoryImpl @Inject constructor(
@@ -66,29 +69,30 @@ class FactoryRepositoryImpl @Inject constructor(
         return factoryDao.getAllData().map { it.map { it.toDomain() } }
     }
 
-// ("A", "1") ("A", "2") ("A", "3") ("B", "4") ("B", "5")
-// [("A", ["1","2","3"]), ("B", ["4","5"])]
     override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {
-
         val targetArea = AreaType.toType(userDataSource.areaPositionFlow.first()).title
         val filterList = filterDao.getAllData().first()
-        val targetFilterList = filterList.map { it.target }.toSet().toList()
-        val gap = filterList.filter { it.target == targetFilterList[0] }.map { it.keyword }
 
-        val mapList = filterList.map { it.target }
-            .toSet()
-            .map { key ->
-                key to filterList.filter { it.target == key }.map { it.target }
+        val excludeCompany = filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
+        val excludeCategory = filterList.filter { it.target == SelectType.CATEGORY.title }.map { it.keyword }
+        val excludeProduct = filterList.filter { it.target == SelectType.PRODUCT.title }.map { it.keyword }
+
+        Timber.d("excludeCompany : $excludeCompany")
+        Timber.d("excludeCategory : $excludeCategory")
+
+        val entireList = factoryDao.getTargetData(targetArea).map {
+            it.filter { data ->
+                excludeCompany.none { keyword -> data.companyName.contains(keyword) }
+            }.filter { data ->
+                excludeCategory.none { keyword -> data.category.contains(keyword) }
+            }.filter { data ->
+                excludeProduct.none { keyword -> data.productInfo.contains(keyword) }
+            }.map {
+                it.toDomain()
+            }.apply {
+                Timber.d("size : ${it.size}")
             }
-        for((key, list) in mapList){
-            key
         }
-
-
-        val keywordFilterList = filterList.map { it.keyword }
-        val entireList = factoryDao.getTargetData(targetArea).map { it.map { it.toDomain() } }
-
-
         return entireList
     }
 

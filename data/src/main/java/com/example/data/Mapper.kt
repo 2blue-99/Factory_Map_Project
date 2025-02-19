@@ -26,6 +26,7 @@ object Mapper {
             contact = contact,
             employeeCount = employeeCount,
             registrationDate = registrationDate,
+            category = category, // 업종
             productInfo = productInfo,
             loadAddress = loadAddress,
             latitude = latitude,

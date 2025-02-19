@@ -23,7 +23,9 @@ data class FactoryEntity(
 
     val registrationDate: String, // 공장 등록 일자
 
-    val productInfo: String, // 제품 정보
+    val category: String, // 업종
+
+    val productInfo: String, // 대표 상품
 
     val loadAddress: String, // 정제 도로명 주소
 
@@ -44,6 +46,7 @@ data class FactoryEntity(
             contact = contact,
             employeeCount = employeeCount,
             registrationDate = registrationDate,
+            category = category,
             productInfo = productInfo,
             loadAddress = loadAddress,
             latitude = latitude,

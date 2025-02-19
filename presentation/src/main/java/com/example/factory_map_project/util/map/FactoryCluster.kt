@@ -20,6 +20,8 @@ data class FactoryCluster(
 
     val registrationDate: String, // 공장 등록 일자
 
+    val category: String,
+
     val productInfo: String, // 제품 정보
 
     val loadAddress: String, // 정제 도로명 주소
@@ -44,6 +46,7 @@ data class FactoryCluster(
             employeeCount = employeeCount,
             scaleDivisionName = scaleDivisionName,
             registrationDate = registrationDate,
+            category = category,
             productInfo = productInfo,
             contact = contact,
             loadAddress = loadAddress,

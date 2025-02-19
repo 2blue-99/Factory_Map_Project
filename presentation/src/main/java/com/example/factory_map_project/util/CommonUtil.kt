@@ -62,6 +62,7 @@ object CommonUtil {
             employeeCount = employeeCount,
             scaleDivisionName = scaleDivisionName,
             registrationDate = registrationDate,
+            category = category,
             productInfo = productInfo,
             contact = contact,
             loadAddress = loadAddress,

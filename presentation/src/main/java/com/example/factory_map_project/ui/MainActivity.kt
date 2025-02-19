@@ -20,6 +20,7 @@ import com.example.factory_map_project.util.CommonUtil.moveSettingIntent
 import com.example.factory_map_project.util.CommonUtil.repeatOnStarted
 import com.example.factory_map_project.util.event.AppEvent
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.Granularity
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -97,11 +98,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             }
         }
 
-        lifecycleScope.launch {
-            if(!viewModel.checkDownload()){
-                showDownloadBottomDialog()
-            }
-        }
+//        lifecycleScope.launch {
+//            if(!viewModel.checkDownload()){
+//                showDownloadBottomDialog()
+//            }
+//        }
     }
 
     override fun setObserver() {
@@ -166,14 +167,17 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         val fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(this)
 
-        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
-            .setMinUpdateIntervalMillis(1000) // 최소 업데이트 간격 2초
-            .build()
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000L).apply {
+            setMinUpdateIntervalMillis(1000L) // 최소 업데이트 간격 2초
+            .setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
+            .setWaitForAccurateLocation(true)
+        }.build()
 
         locationCallback = object : LocationCallback(){
             override fun onLocationResult(result: LocationResult) {
                 lifecycleScope.launch {
                     result.lastLocation?.let { location ->
+                        Timber.d("location : $location")
                         viewModel.currentLocation.emit(
                             value = LatLng(location.latitude, location.longitude)
                         )
@@ -186,7 +190,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             fusedLocationProviderClient.requestLocationUpdates(
                 locationRequest,
                 locationCallback,
-                Looper.getMainLooper()
+                null
             )
         }
     }
