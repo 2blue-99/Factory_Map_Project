@@ -35,18 +35,6 @@ class FilterBottomDialog: BaseBottomDialog<BottomDialogFilterBinding, FilterView
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        return super.onCreateDialog(savedInstanceState).apply {
-//            setOnKeyListener { _, keyCode, event ->
-//                if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
-//                    true
-//                } else {
-//                    false
-//                }
-//            }
-//        }
-//    }
-
     override fun setUI() {
         setRecyclerview()
     }
