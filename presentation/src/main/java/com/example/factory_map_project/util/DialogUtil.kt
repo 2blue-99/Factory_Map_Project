@@ -1,19 +1,9 @@
 package com.example.factory_map_project.util
 
-import android.Manifest
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
-import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
-import com.example.factory_map_project.BuildConfig
+import com.example.factory_map_project.R
 import com.example.factory_map_project.util.event.AppEvent
-import timber.log.Timber
 
 class DialogUtil(
     private val context: Context
@@ -33,7 +23,7 @@ class DialogUtil(
         negativeCallBack: () -> Unit = {},
         positiveCallBack: () -> Unit = {}
     ){
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(context, R.style.CustomAlertDialog)
             .setTitle(title)
             .setMessage(content)
             .setPositiveButton("확인"){ dialog, which ->
@@ -48,6 +38,10 @@ class DialogUtil(
                 event?.cancel()
             }
             .show()
+    }
+
+    fun showMessageDialog(popup: PopupContent, positiveCallBack: () -> Unit){
+        showDialog(popup.title, popup.content, null, {}, positiveCallBack)
     }
 
     fun showMessageDialog(event: AppEvent.ShowPopup){

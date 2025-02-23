@@ -1,5 +1,7 @@
 package com.example.factory_map_project.ui.maps
 
+import android.location.Geocoder
+import android.os.Build
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +14,7 @@ import com.example.factory_map_project.util.PermissionUtil
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.CommonUtil.moveSettingIntent
 import com.example.factory_map_project.util.CommonUtil.repeatOnFragmentStarted
+import com.example.factory_map_project.util.CommonUtil.toNoCountry
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.BitmapHelper
@@ -30,7 +33,6 @@ import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -47,6 +49,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<FactoryCluster>
     private var currentMarker: Marker? = null
+    private var longClickItem: FactoryCluster? = null
 
     private val callback = OnMapReadyCallback { map ->
         Timber.d("OnMapReadyCallback")
@@ -104,7 +107,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
         repeatOnFragmentStarted {
             mainViewModel.currentLocation.collectLatest {
-                Timber.d("current location : $it")
                 currentMarker = addUserMarker(it)
             }
         }
@@ -147,6 +149,11 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 //            Timber.d("현재 줌 : ${googleMap.cameraPosition.zoom}")
 //            Timber.d("현재 위치 : ${googleMap.cameraPosition.target}")
 //        }
+        googleMap.setOnMapLongClickListener {
+            mainActivity().dialogManager.showMessageDialog(PopupContent.MAP_ADD_ITEM){
+                addItemHandler(it)
+            }
+        }
     }
 
     private fun setDaoListener() {
@@ -154,9 +161,15 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             viewModel.factoryData
                 .filter { it.isNotEmpty() }
                 .collect { list ->
+                    Timber.d("size : ${list.size}")
                     clusterManager.clearItems()
                     clusterManager.addItems(list)
                     clusterManager.cluster()
+
+                    longClickItem?.let { item ->
+                        onClickMarker(item)
+                        longClickItem = null
+                    }
                 }
         }
     }
@@ -259,6 +272,26 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
      */
     private fun setUserMarker(){
         currentMarker?.let { addUserMarker(it.position) }
+    }
+
+    /**
+     *  공장 아이템 추가
+     */
+    private fun addItemHandler(latLng: LatLng){
+        val geocoder = Geocoder(requireContext())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1){
+                val noCountryAddress = it[0].getAddressLine(0).toNoCountry()
+                longClickItem = FactoryCluster.toLongClickItem(noCountryAddress, latLng)
+                viewModel.updateFactory(longClickItem!!)
+            }
+        } else {
+            geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)?.let {
+                val noCountryAddress = it[0].getAddressLine(0).toNoCountry()
+                longClickItem = FactoryCluster.toLongClickItem(noCountryAddress, latLng)
+                viewModel.updateFactory(longClickItem!!)
+            }
+        }
     }
 }
 

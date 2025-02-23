@@ -167,8 +167,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         val fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(this)
 
-        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000L).apply {
-            setMinUpdateIntervalMillis(1000L) // 최소 업데이트 간격 2초
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1500L).apply {
+            setMinUpdateIntervalMillis(1500L) // 최소 업데이트 간격 2초
             .setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
             .setWaitForAccurateLocation(true)
         }.build()

@@ -56,5 +56,26 @@ data class FactoryCluster(
             memo = memo,
         )
     }
+
+    companion object {
+        fun toLongClickItem(loadAddress: String, latLng: LatLng): FactoryCluster {
+            return FactoryCluster(
+                id = 0,
+                companyName = "",
+                lotArea = "",
+                employeeCount = "",
+                scaleDivisionName = "",
+                registrationDate = "",
+                category = "",
+                productInfo = "",
+                contact = "",
+                loadAddress = loadAddress,
+                latitude = latLng.latitude,
+                longitude = latLng.longitude,
+                isClick = 0,
+                memo = "",
+            )
+        }
+    }
 }
 

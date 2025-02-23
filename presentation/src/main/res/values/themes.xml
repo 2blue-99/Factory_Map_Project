@@ -19,4 +19,17 @@
     <style name="CustomRoundedBackgroundBottomSheet" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_background</item>
     </style>
+
+    <style name="CustomAlertDialog" parent="ThemeOverlay.Material3.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/CustomDialogPositiveButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/CustomDialogNegativeButton</item>
+    </style>
+
+    <style name="CustomDialogPositiveButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/primary</item> <!-- 버튼 텍스트 색상 -->
+    </style>
+
+    <style name="CustomDialogNegativeButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/black</item> <!-- 버튼 텍스트 색상 -->
+    </style>
 </resources>

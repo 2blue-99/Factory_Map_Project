@@ -132,4 +132,11 @@ object CommonUtil {
     fun List<FilterData>.isContain(target: String, keyword: String): Boolean{
         return this.any { it.target == target && it.keyword == keyword }
     }
+
+    /**
+     * Geocode를 통해 나온 도로명 주소의 "대한민국" 제거
+     */
+    fun String.toNoCountry(): String {
+        return this.removePrefix("대한민국 ")
+    }
 }
