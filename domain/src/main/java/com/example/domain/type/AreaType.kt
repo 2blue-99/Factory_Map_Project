@@ -5,8 +5,8 @@ enum class AreaType(
 ) {
     SEOUL(title = "서울"),
     INCHEON(title = "인천"),
-    GYEONGGI(title = "경기도"),
-    GANGWON(title = "강원도"),
+    GYEONGGI(title = "경기"),
+    GANGWON(title = "강원"),
     SEJONG(title = "세종"),
     NORTH_CHUNGCHEONG(title = "충청북도"),
     SOUTH_CHUNGCHEONG(title = "충청남도"),
