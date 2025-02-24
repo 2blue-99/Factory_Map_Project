@@ -48,7 +48,7 @@ class DialogUtil(
         showDialog(event.content.title, event.content.content, event)
     }
 
-    fun showCallBackDialog(
+    fun showMessageDialog(
         popup: PopupContent,
         negativeCallBack: () -> Unit,
         positiveCallBack: () -> Unit,
@@ -57,4 +57,10 @@ class DialogUtil(
         val dialogContent = String.format(popup.content, *args)
         showDialog(popup.title, dialogContent, null, negativeCallBack, positiveCallBack)
     }
+
+    fun showMessageDialog(popup: PopupContent, positiveCallBack: () -> Unit, vararg args: String){
+        val formatContent = String.format(popup.content, *args)
+        showDialog(popup.title, formatContent, null, {}, positiveCallBack)
+    }
+
 }

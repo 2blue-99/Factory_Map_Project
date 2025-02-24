@@ -95,7 +95,7 @@ class FactoryRepositoryImpl @Inject constructor(
                 }.map {
                     it.toDomain()
                 }.apply {
-                    Timber.d("list : ${this.size}")
+                    Timber.d("repo list size : ${this.size}")
                 }
             }
         }

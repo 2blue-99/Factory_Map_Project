@@ -13,4 +13,5 @@ enum class PopupContent(
     // MAP
     MAP_MARKER_DELETE(title = "알림", content = "정말 삭제하시겠습니까"),
     MAP_ADD_ITEM(title = "알림", content = "장소를 추가하시겠습니까?"),
+    MAP_NO_MATCH_AREA(title = "알림", content = "현재 선택한 지역[%s]과 추가할 업체의 지역[%s]이 다릅니다.\n\n[%s]로 지역을 변경하고 진행하시겠습니까?"),
 }

@@ -103,4 +103,12 @@ class MapsViewModel @Inject constructor(
         val triggerType = userDataStoreRepo.clusterTriggerTypePositionFlow.first()
         return ClusterTriggerType.toType(triggerType).size
     }
+
+    fun changeOptionArea(area: String){
+        modelScope.launch {
+            val gap = AreaType.toPosition(area)
+            userDataStoreRepo.setArea(gap)
+        }
+    }
+
 }

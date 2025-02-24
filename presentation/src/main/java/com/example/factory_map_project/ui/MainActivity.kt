@@ -3,7 +3,6 @@ package com.example.factory_map_project.ui
 import android.content.pm.ActivityInfo
 import android.location.Geocoder
 import android.os.Build
-import android.os.Looper
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -84,7 +83,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                 startObserveLocation()
             }else if(!checkLocationRejectPermission()){
                 try {
-                    dialogManager.showCallBackDialog(
+                    dialogManager.showMessageDialog(
                         popup = PopupContent.NOTICE_PERMISSION,
                         positiveCallBack = { settingLauncher.launch(moveSettingIntent()) },
                         negativeCallBack = {},
@@ -177,7 +176,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             override fun onLocationResult(result: LocationResult) {
                 lifecycleScope.launch {
                     result.lastLocation?.let { location ->
-                        Timber.d("location : $location")
+                        Timber.i("location : $location")
                         viewModel.currentLocation.emit(
                             value = LatLng(location.latitude, location.longitude)
                         )

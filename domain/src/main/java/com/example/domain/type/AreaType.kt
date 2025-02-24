@@ -26,6 +26,11 @@ enum class AreaType(
             return entries.indexOf(type)
         }
 
+        fun toPosition(text: String): Int{
+            val type = entries.find { text.startsWith(it.title) }
+            return entries.indexOf(type)
+        }
+
         fun toType(position: Int): AreaType {
             return entries[position]
         }

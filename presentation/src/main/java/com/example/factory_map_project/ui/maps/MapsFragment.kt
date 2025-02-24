@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.domain.type.AreaType
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
 import com.example.factory_map_project.ui.MainViewModel
@@ -49,7 +50,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<FactoryCluster>
     private var currentMarker: Marker? = null
-    private var longClickItem: FactoryCluster? = null
+    private var longClickItem: Boolean? = null
 
     private val callback = OnMapReadyCallback { map ->
         Timber.d("OnMapReadyCallback")
@@ -161,13 +162,14 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             viewModel.factoryData
                 .filter { it.isNotEmpty() }
                 .collect { list ->
+                    Timber.d("fragmen list size : ${list.size}")
                     clusterManager.clearItems()
                     clusterManager.addItems(list)
                     clusterManager.cluster()
 
-                    // 롱클릭 아이템이 있을 경우 바텀 시트 노출
+                    // 롱클릭 아이템이 있을 경우 리스트 마지막 값을 바텀 시트 노출
                     longClickItem?.let { item ->
-                        onClickMarker(item)
+                        onClickMarker(list.last())
                         longClickItem = null
                     }
                 }
@@ -192,12 +194,10 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             updateCluster = { updateItem ->
                 clusterManager.clearItems()
                 viewModel.updateFactory(updateItem)
-//                updateCluster(item, updateItem)
             },
             deleteCluster = {
                 clusterManager.clearItems()
                 viewModel.deleteFactory(item.id)
-//                deleteCluster(item)
             }
         )
         return true
@@ -251,7 +251,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         with(PermissionUtil(requireActivity())){
             if(!checkLocationPermission()){
                 // TODO 이거 재활용시킬 수 있을 듯
-                mainActivity().dialogManager.showCallBackDialog(
+                mainActivity().dialogManager.showMessageDialog(
                     popup = PopupContent.NOTICE_PERMISSION,
                     positiveCallBack = { mainActivity().settingLauncher.launch(moveSettingIntent()) },
                     negativeCallBack = {},
@@ -275,22 +275,50 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     /**
-     *  공장 아이템 추가
+     *  업체 추가 핸들러 | 버전에 따른 Geocode 함수 분기 처리
      */
     private fun addItemHandler(latLng: LatLng){
         val geocoder = Geocoder(requireContext())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1){
-                val noCountryAddress = it[0].getAddressLine(0).toNoCountry()
-                longClickItem = FactoryCluster.toLongClickItem(noCountryAddress, latLng)
-                viewModel.updateFactory(longClickItem!!)
+                // View 작업을 위해 Main Thread 변경
+                lifecycleScope.launch {
+                    val noCountryAddress = it[0].getAddressLine(0).toNoCountry()
+                    addItem(noCountryAddress, latLng)
+                }
             }
         } else {
             geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)?.let {
-                val noCountryAddress = it[0].getAddressLine(0).toNoCountry()
-                longClickItem = FactoryCluster.toLongClickItem(noCountryAddress, latLng)
-                viewModel.updateFactory(longClickItem!!)
+                // View 작업을 위해 Main Thread 변경
+                lifecycleScope.launch {
+                    val noCountryAddress = it[0].getAddressLine(0).toNoCountry()
+                    addItem(noCountryAddress, latLng)
+                }
             }
+        }
+    }
+
+    /**
+     * 업체 추가 | 선택 위치에 벗어날 경우 다이알로그
+     *
+     */
+    private fun addItem(itemAddress: String, latLng: LatLng){
+        val selectedOptionArea = viewModel.selectedPosition.value?.title ?: AreaType.GYEONGGI.title
+        val item = FactoryCluster.toLongClickItem(itemAddress, latLng)
+        if(!itemAddress.startsWith(selectedOptionArea)){
+            val itemFirstArea = itemAddress.split(" ")[0]
+            mainActivity().dialogManager.showMessageDialog(
+                popup = PopupContent.MAP_NO_MATCH_AREA,
+                positiveCallBack = {
+                    longClickItem = true
+                    viewModel.updateFactory(item)
+                    viewModel.changeOptionArea(itemFirstArea)
+                },
+                selectedOptionArea,itemFirstArea,itemFirstArea
+            )
+        }else{
+            longClickItem = true
+            viewModel.updateFactory(item)
         }
     }
 }
