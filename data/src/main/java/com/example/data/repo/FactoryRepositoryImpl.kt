@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -70,31 +71,62 @@ class FactoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {
-        val targetArea = AreaType.toType(userDataSource.areaPositionFlow.first()).title
-        val filterList = filterDao.getAllData().first()
+        return userDataSource.areaPositionFlow.flatMapLatest { areaPosition ->
+            val targetArea = AreaType.toType(areaPosition).title
+            Timber.d("targetArea : $targetArea")
 
-        val excludeCompany = filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
-        val excludeCategory = filterList.filter { it.target == SelectType.CATEGORY.title }.map { it.keyword }
-        val excludeProduct = filterList.filter { it.target == SelectType.PRODUCT.title }.map { it.keyword }
+            val filterList = filterDao.getAllData().first()
 
-        Timber.d("excludeCompany : $excludeCompany")
-        Timber.d("excludeCategory : $excludeCategory")
+            val excludeCompany =
+                filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
+            val excludeCategory =
+                filterList.filter { it.target == SelectType.CATEGORY.title }.map { it.keyword }
+            val excludeProduct =
+                filterList.filter { it.target == SelectType.PRODUCT.title }.map { it.keyword }
 
-        val entireList = factoryDao.getTargetData(targetArea).map {
-            it.filter { data ->
-                excludeCompany.none { keyword -> data.companyName.contains(keyword) }
-            }.filter { data ->
-                excludeCategory.none { keyword -> data.category.contains(keyword) }
-            }.filter { data ->
-                excludeProduct.none { keyword -> data.productInfo.contains(keyword) }
-            }.map {
-                it.toDomain()
-            }.apply {
-                Timber.d("size : ${it.size}")
+            Timber.d("excludeCompany : $excludeCompany")
+            Timber.d("excludeCategory : $excludeCategory")
+
+            factoryDao.getTargetData(targetArea).map { list ->
+                list.filter { data ->
+                    excludeCompany.none { keyword -> data.companyName.contains(keyword) }
+                    excludeCategory.none { keyword -> data.category.contains(keyword) }
+                    excludeProduct.none { keyword -> data.productInfo.contains(keyword) }
+                }.map {
+                    it.toDomain()
+                }.apply {
+                    Timber.d("list : ${this.size}")
+                }
             }
         }
-        return entireList
     }
+
+//    override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {
+//        val targetArea = AreaType.toType(userDataSource.areaPositionFlow.first()).title
+//        val filterList = filterDao.getAllData().first()
+//
+//        val excludeCompany = filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
+//        val excludeCategory = filterList.filter { it.target == SelectType.CATEGORY.title }.map { it.keyword }
+//        val excludeProduct = filterList.filter { it.target == SelectType.PRODUCT.title }.map { it.keyword }
+//
+//        Timber.d("excludeCompany : $excludeCompany")
+//        Timber.d("excludeCategory : $excludeCategory")
+//
+//        val entireList = factoryDao.getTargetData(targetArea).map {
+//            it.filter { data ->
+//                excludeCompany.none { keyword -> data.companyName.contains(keyword) }
+//            }.filter { data ->
+//                excludeCategory.none { keyword -> data.category.contains(keyword) }
+//            }.filter { data ->
+//                excludeProduct.none { keyword -> data.productInfo.contains(keyword) }
+//            }.map {
+//                it.toDomain()
+//            }.apply {
+//                Timber.d("size : ${it.size}")
+//            }
+//        }
+//        return entireList
+//    }
 
     override suspend fun upsertFactoryDao(data: FactoryInfo) {
         factoryDao.upsertData(data.toEntity())

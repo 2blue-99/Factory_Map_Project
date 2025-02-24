@@ -161,11 +161,11 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             viewModel.factoryData
                 .filter { it.isNotEmpty() }
                 .collect { list ->
-                    Timber.d("size : ${list.size}")
                     clusterManager.clearItems()
                     clusterManager.addItems(list)
                     clusterManager.cluster()
 
+                    // 롱클릭 아이템이 있을 경우 바텀 시트 노출
                     longClickItem?.let { item ->
                         onClickMarker(item)
                         longClickItem = null

@@ -58,7 +58,6 @@ class MapsViewModel @Inject constructor(
                         ioScope.launch {
                             userDataStoreRepo.setArea(position)
                             withContext(Dispatchers.Main){
-                                loadFactoryData()
                                 emitEvent(AppEvent.Action(ActionType.POSITION_INIT, null))
                             }
                         }
