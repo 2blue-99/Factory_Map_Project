@@ -19,17 +19,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MapsViewModel @Inject constructor(
     private val repo: FactoryRepository,
-    private val userDataStoreRepo: UserDataStore
+    private val dataStore: UserDataStore
 ) : BaseViewModel() {
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
-    var selectedPosition = userDataStoreRepo.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
+    var selectedPosition = dataStore.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
 
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
     val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
@@ -56,7 +57,7 @@ class MapsViewModel @Inject constructor(
                     position = AreaType.toPosition(selectedPosition.value),
                     onSelect = { position ->
                         ioScope.launch {
-                            userDataStoreRepo.setArea(position)
+                            dataStore.setArea(position)
                             withContext(Dispatchers.Main){
                                 emitEvent(AppEvent.Action(ActionType.POSITION_INIT, null))
                             }
@@ -73,6 +74,22 @@ class MapsViewModel @Inject constructor(
 
     fun onClickMyLocation(){
         emitEvent(AppEvent.Action(ActionType.MY_LOCATION, null))
+    }
+
+    fun onClickRefresh(){
+        modelScope.launch {
+            awaitEvent(AppEvent.GetLocation)?.let { (latLng, zoom) ->
+                Timber.d("latLng : $latLng, zoom: $zoom")
+                val gap = when {
+                    zoom >= 15f -> 0.01
+                    zoom >= 14f -> 0.02
+                    zoom >= 13f -> 0.03
+                    zoom >= 12f -> 0.04
+                    else -> 0.05
+                }
+                dataStore.setCurrentLocation(Triple(latLng.latitude, latLng.longitude, gap))
+            }
+        }
     }
 
 
@@ -100,14 +117,14 @@ class MapsViewModel @Inject constructor(
     }
 
     suspend fun getClusterTriggerSize(): Int {
-        val triggerType = userDataStoreRepo.clusterTriggerTypePositionFlow.first()
+        val triggerType = dataStore.clusterTriggerTypePositionFlow.first()
         return ClusterTriggerType.toType(triggerType).size
     }
 
     fun changeOptionArea(area: String){
         modelScope.launch {
             val gap = AreaType.toPosition(area)
-            userDataStoreRepo.setArea(gap)
+            dataStore.setArea(gap)
         }
     }
 

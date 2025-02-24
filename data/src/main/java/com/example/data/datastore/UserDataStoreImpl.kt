@@ -18,6 +18,7 @@ class UserDataStoreImpl @Inject constructor(
         val DOWNLOAD = booleanPreferencesKey("DOWNLOAD")
         val SELECTED_AREA = intPreferencesKey("AREA")
         val CLUSTER_TRIGGER_TYPE_POSITION = intPreferencesKey("CLUSTER_TRIGGER_TYPE_POSITION")
+        val CURRENT_POSITION = stringPreferencesKey("CURRENT_POSITION")
     }
 
     override val downloadFlow: Flow<Boolean> =
@@ -29,6 +30,15 @@ class UserDataStoreImpl @Inject constructor(
     // 디폴트 값은 3
     override val clusterTriggerTypePositionFlow: Flow<Int> =
         dataStore.data.map { dataStore -> dataStore[PreferencesKey.CLUSTER_TRIGGER_TYPE_POSITION] ?: 2 }
+
+    override val currentLocationFlow: Flow<Triple<Double, Double, Double>>
+        get() {
+            return dataStore.data.map { dataStore -> dataStore[PreferencesKey.CURRENT_POSITION] ?: "36.658,127.8766,0.1" }.map {
+                val data = it.split(",")
+                Triple(data[0].toDouble(), data[1].toDouble(), data[2].toDouble())
+            }
+        }
+
 
 
     override suspend fun setDownload(state: Boolean) {
@@ -46,6 +56,12 @@ class UserDataStoreImpl @Inject constructor(
     override suspend fun setClusterTriggerTypePosition(position: Int) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.CLUSTER_TRIGGER_TYPE_POSITION] = position
+        }
+    }
+
+    override suspend fun setCurrentLocation(location: Triple<Double, Double, Double>) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.CURRENT_POSITION] = "${location.first},${location.second},${location.third}"
         }
     }
 }

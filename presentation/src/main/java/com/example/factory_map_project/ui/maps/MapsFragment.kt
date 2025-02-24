@@ -50,7 +50,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<FactoryCluster>
     private var currentMarker: Marker? = null
-    private var longClickItem: Boolean? = null
+    private var longClickItem: Boolean = false
 
     private val callback = OnMapReadyCallback { map ->
         Timber.d("OnMapReadyCallback")
@@ -101,6 +101,11 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                             else -> {}
                         }
                     }
+                    is AppEvent.GetLocation -> {
+                        val gap = googleMap.projection.visibleRegion.latLngBounds.center
+                        Timber.d("googleMap.cameraPosition.zoom : ${googleMap.cameraPosition.zoom}")
+                        event.tryEmit(Pair(gap, googleMap.cameraPosition.zoom))
+                    }
                     else -> {}
                 }
             }
@@ -146,10 +151,12 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             clusterManager.setOnClusterItemClickListener { onClickMarker(it) }
         }
 
-//        googleMap.setOnCameraMoveListener {
+        googleMap.setOnCameraMoveListener {
+//            googleMap.projection.visibleRegion.latLngBounds.center
 //            Timber.d("현재 줌 : ${googleMap.cameraPosition.zoom}")
 //            Timber.d("현재 위치 : ${googleMap.cameraPosition.target}")
-//        }
+        }
+
         googleMap.setOnMapLongClickListener {
             mainActivity().dialogManager.showMessageDialog(PopupContent.MAP_ADD_ITEM){
                 addItemHandler(it)
@@ -167,10 +174,10 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                     clusterManager.addItems(list)
                     clusterManager.cluster()
 
-                    // 롱클릭 아이템이 있을 경우 리스트 마지막 값을 바텀 시트 노출
-                    longClickItem?.let { item ->
+                    // 롱클릭 추가로 인한 변경일 경우 리스트 마지막 값을 바텀 시트에 노출
+                    if(longClickItem){
                         onClickMarker(list.last())
-                        longClickItem = null
+                        longClickItem = false
                     }
                 }
         }
@@ -188,7 +195,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     private fun onClickMarker(item: FactoryCluster): Boolean {
-        setCamera(item)
+        setCamera(item.position)
         mainActivity().showMarkerBottomDialog(
             item = item,
             updateCluster = { updateItem ->
@@ -221,10 +228,12 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
      * 현재 Zoom 이 10보다 작을경우 11로 줌
      * 아닐 경우 줌 없이 카메라 이동
      */
-    private fun setCamera(item: FactoryCluster){
-        val currentZoom = googleMap.cameraPosition.zoom
-        val targetZoom = if(currentZoom < 11) 11f else currentZoom
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item.position, targetZoom))
+    private fun setCamera(item: LatLng?){
+        item?.let {
+            val currentZoom = googleMap.cameraPosition.zoom
+            val targetZoom = if(currentZoom < 11) 11f else currentZoom
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item, targetZoom))
+        }
     }
 
     private fun addUserMarker(location: LatLng): Marker? {

@@ -1,6 +1,7 @@
 package com.example.factory_map_project.util.event
 
 import com.example.factory_map_project.util.PopupContent
+import com.google.android.gms.maps.model.LatLng
 
 sealed class AppEvent {
     data class ShowPopup(val content: PopupContent): AppEvent(), EventDelegator<Boolean> by DelegatedEvent()
@@ -9,6 +10,8 @@ sealed class AppEvent {
     data class ShowToast(val message: String): AppEvent()
     data class ShowLoading(val state: Boolean): AppEvent()
     data class MovePage(val id: Int): AppEvent()
-    data object GoBack : AppEvent()
     data class Action<T>(val type: ActionType, val input: T? = null): AppEvent()
+    data object GetLocation : AppEvent(), EventDelegator<Pair<LatLng, Float>> by DelegatedEvent()
+
+    data object GoBack : AppEvent()
 }

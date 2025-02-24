@@ -1,5 +1,6 @@
 package com.example.data.repo
 
+import android.hardware.Camera.Area
 import com.example.data.Mapper.toEntity
 import com.example.data.datastore.UserDataStore
 import com.example.data.local.dao.FactoryDao
@@ -15,7 +16,7 @@ import com.example.domain.util.GYEONGGI_DOWNLOAD_COUNT
 import com.example.domain.util.ResourceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -71,10 +72,9 @@ class FactoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {
-        return userDataSource.areaPositionFlow.flatMapLatest { areaPosition ->
-            val targetArea = AreaType.toType(areaPosition).title
-            Timber.d("targetArea : $targetArea")
-
+        return userDataSource.areaPositionFlow.combine(userDataSource.currentLocationFlow) { areaPosition, mapInfo ->
+            AreaType.toType(areaPosition).title to mapInfo
+        }.flatMapLatest { (area, mapInfo) ->
             val filterList = filterDao.getAllData().first()
 
             val excludeCompany =
@@ -86,8 +86,14 @@ class FactoryRepositoryImpl @Inject constructor(
 
             Timber.d("excludeCompany : $excludeCompany")
             Timber.d("excludeCategory : $excludeCategory")
+            Timber.d("location.first : ${mapInfo.first}")
+            Timber.d("location.second : ${mapInfo.second}")
+            Timber.d("location.second : ${mapInfo.third}")
 
-            factoryDao.getTargetData(targetArea).map { list ->
+            val range = if(area == AreaType.ALL.title) 5.0 else mapInfo.third
+
+            factoryDao.getTargetData(area, mapInfo.first, mapInfo.second, range).map { list ->
+                Timber.d("repo list size before : ${list.size}")
                 list.filter { data ->
                     excludeCompany.none { keyword -> data.companyName.contains(keyword) }
                     excludeCategory.none { keyword -> data.category.contains(keyword) }
@@ -98,35 +104,10 @@ class FactoryRepositoryImpl @Inject constructor(
                     Timber.d("repo list size : ${this.size}")
                 }
             }
+
         }
     }
 
-//    override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {
-//        val targetArea = AreaType.toType(userDataSource.areaPositionFlow.first()).title
-//        val filterList = filterDao.getAllData().first()
-//
-//        val excludeCompany = filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
-//        val excludeCategory = filterList.filter { it.target == SelectType.CATEGORY.title }.map { it.keyword }
-//        val excludeProduct = filterList.filter { it.target == SelectType.PRODUCT.title }.map { it.keyword }
-//
-//        Timber.d("excludeCompany : $excludeCompany")
-//        Timber.d("excludeCategory : $excludeCategory")
-//
-//        val entireList = factoryDao.getTargetData(targetArea).map {
-//            it.filter { data ->
-//                excludeCompany.none { keyword -> data.companyName.contains(keyword) }
-//            }.filter { data ->
-//                excludeCategory.none { keyword -> data.category.contains(keyword) }
-//            }.filter { data ->
-//                excludeProduct.none { keyword -> data.productInfo.contains(keyword) }
-//            }.map {
-//                it.toDomain()
-//            }.apply {
-//                Timber.d("size : ${it.size}")
-//            }
-//        }
-//        return entireList
-//    }
 
     override suspend fun upsertFactoryDao(data: FactoryInfo) {
         factoryDao.upsertData(data.toEntity())

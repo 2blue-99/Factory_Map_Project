@@ -14,8 +14,15 @@ interface FactoryDao {
     @Query("SELECT * FROM factory")
     fun getAllData(): Flow<List<FactoryEntity>>
 
-    @Query("SELECT * FROM factory WHERE loadAddress LIKE :area || '%'")
-    fun getTargetData(area: String): Flow<List<FactoryEntity>>
+    @Query(
+        """
+        SELECT * FROM factory
+        WHERE loadAddress LIKE :area || '%'
+        AND latitude BETWEEN (:lat - :range) AND (:lat + :range)
+        AND longitude BETWEEN (:lon - :range) AND (:lon + :range)
+        """
+    )
+    fun getTargetData(area: String, lat: Double, lon: Double, range: Double): Flow<List<FactoryEntity>>
 
     @Transaction
     fun upsertDataList(data: List<FactoryEntity>){

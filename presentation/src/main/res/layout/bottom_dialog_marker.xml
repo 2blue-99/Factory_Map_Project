@@ -40,19 +40,22 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onLongClick="@{() -> viewModel.onLongClickCompanyName()}"
                     android:text="@{viewModel.uiData.companyName, default = `회사이름`}"
                     android:textSize="24sp"
-                    android:onLongClick="@{() -> viewModel.onLongClickCompanyName()}"
+                    android:textColorHint="@color/light_gray"
+                    android:hint="@string/marker_dialog_empty"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+                    app:layout_constraintStart_toEndOf="@+id/linearLayout2"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
+                    android:id="@+id/linearLayout2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"

@@ -3,6 +3,7 @@ package com.example.domain.type
 enum class AreaType(
     val title: String
 ) {
+    ALL(title = "전체"),
     SEOUL(title = "서울"),
     INCHEON(title = "인천"),
     GYEONGGI(title = "경기"),
