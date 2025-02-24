@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.BottomDialogMarkerBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.ARG_CONTENT
+import com.example.factory_map_project.util.CommonUtil.getData
 import com.example.factory_map_project.util.CommonUtil.moveCall
 import com.example.factory_map_project.util.CommonUtil.moveTMap
 import com.example.factory_map_project.util.CommonUtil.repeatOnFragmentStarted
@@ -35,10 +36,10 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
     // Mark: Lifecycle
     //**********************************************************************************************
     override fun setData() {
-        val data = this.arguments?.getSerializable(ARG_CONTENT)
-        if(data is FactoryCluster){
+        arguments?.getData<FactoryCluster>(ARG_CONTENT)?.let { data ->
             cluster = data
             viewModel.loadData(data)
+            Timber.d("data : $data")
         }
     }
 
