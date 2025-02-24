@@ -90,9 +90,10 @@ class FactoryRepositoryImpl @Inject constructor(
             Timber.d("location.second : ${mapInfo.second}")
             Timber.d("location.second : ${mapInfo.third}")
 
-            val range = if(area == AreaType.ALL.title) 5.0 else mapInfo.third
+            val range = if(area == AreaType.ALL.title) mapInfo.third else 5.0
+            val searchArea = if(area == AreaType.ALL.title) "" else area
 
-            factoryDao.getTargetData(area, mapInfo.first, mapInfo.second, range).map { list ->
+            factoryDao.getTargetData(searchArea, mapInfo.first, mapInfo.second, range).map { list ->
                 Timber.d("repo list size before : ${list.size}")
                 list.filter { data ->
                     excludeCompany.none { keyword -> data.companyName.contains(keyword) }
