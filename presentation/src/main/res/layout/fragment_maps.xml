@@ -6,6 +6,8 @@
     <data>
         <import type="com.example.domain.type.AreaType"/>
 
+        <import type="android.view.View"/>
+
         <variable
             name="viewModel"
             type="com.example.factory_map_project.ui.maps.MapsViewModel" />
@@ -36,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="160dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/base_round_button"
                 android:elevation="8dp"
@@ -71,10 +73,14 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.onClickRefresh()}"
-            android:text="refresh"
+            android:text="현 지역에서 검색"
+            android:paddingHorizontal="5dp"
+            android:background="@drawable/base_round_button"
+            android:textColor="@color/primary"
+            android:visibility="@{viewModel.}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
