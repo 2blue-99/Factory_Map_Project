@@ -85,7 +85,11 @@ class MapsViewModel @Inject constructor(
                     zoom >= 14f -> 0.02
                     zoom >= 13f -> 0.03
                     zoom >= 12f -> 0.04
-                    else -> 0.05
+                    zoom >= 11f -> 0.1
+                    zoom >= 10f -> 0.2
+                    zoom >= 9f -> 0.3
+                    zoom >= 8f -> 0.4
+                    else -> 0.5
                 }
                 dataStore.setCurrentLocation(Triple(latLng.latitude, latLng.longitude, gap))
             }

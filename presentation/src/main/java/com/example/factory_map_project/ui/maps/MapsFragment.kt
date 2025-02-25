@@ -27,6 +27,7 @@ import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
@@ -55,6 +56,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     private val callback = OnMapReadyCallback { map ->
         Timber.d("OnMapReadyCallback")
         googleMap = map
+        initSetting()
         initMap(false)
         setClusterManager()
         setDaoListener()
@@ -153,8 +155,8 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
         googleMap.setOnCameraMoveListener {
 //            googleMap.projection.visibleRegion.latLngBounds.center
-//            Timber.d("현재 줌 : ${googleMap.cameraPosition.zoom}")
-//            Timber.d("현재 위치 : ${googleMap.cameraPosition.target}")
+            Timber.d("현재 줌 : ${googleMap.cameraPosition.zoom}")
+            Timber.d("현재 위치 : ${googleMap.cameraPosition.target}")
         }
 
         googleMap.setOnMapLongClickListener {
@@ -166,9 +168,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     private fun setDaoListener() {
         repeatOnFragmentStarted {
-            viewModel.factoryData
-                .filter { it.isNotEmpty() }
-                .collect { list ->
+            viewModel.factoryData.collect { list ->
                     Timber.d("fragmen list size : ${list.size}")
                     clusterManager.clearItems()
                     clusterManager.addItems(list)
@@ -329,6 +329,16 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             longClickItem = true
             viewModel.updateFactory(item)
         }
+    }
+
+    private fun initSetting(){
+        val koreaRange = LatLngBounds(
+            LatLng(33.0, 125.0), // 하단, 왼쪽
+            LatLng(38.5, 130.0), // 상단 , 오른쪽
+        )
+        googleMap.setLatLngBoundsForCameraTarget(koreaRange)
+        googleMap.setMinZoomPreference(7.1f)
+        googleMap.setMaxZoomPreference(19.5f)
     }
 }
 
