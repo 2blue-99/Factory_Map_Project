@@ -46,21 +46,23 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     //**********************************************************************************************
     override val viewModel: MapsViewModel by viewModels()
     val mainViewModel: MainViewModel by activityViewModels()
-    var isInit:Boolean = false
 
     private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<FactoryCluster>
     private var currentMarker: Marker? = null
     private var longClickItem: Boolean = false
 
+    var isInit:Boolean = false
+
     private val callback = OnMapReadyCallback { map ->
         googleMap = map
-        initSetting()
         setClusterManager()
         setDaoListener()
-        setUserMarker()
-        if(!isInit) { // 최초 진입 한정하여 지도 위치 초기화
+
+        if(!isInit) { // 최초 진입 한정하여 설정
+            setUserMarker()
             initMap(false)
+            initSetting()
             isInit = true
         }
     }
@@ -240,6 +242,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     private fun addUserMarker(location: LatLng): Marker? {
+        Timber.d("addUserMarker : $currentMarker")
         currentMarker?.remove()
         return googleMap.addMarker(
             MarkerOptions()
