@@ -43,7 +43,7 @@
                 android:background="@drawable/base_round_button"
                 android:elevation="8dp"
                 android:onClick="@{() -> viewModel.onClickAreaButton()}"
-                android:text="@{viewModel.selectedPosition.title, default = `지역 이름`}"
+                android:text="@{viewModel.selectedAreaType.title, default = `지역 이름`}"
                 android:textColor="@color/dark_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +80,7 @@
             android:paddingHorizontal="5dp"
             android:background="@drawable/base_round_button"
             android:textColor="@color/primary"
-            android:visibility="@{viewModel.}"
+            android:visibility="@{viewModel.selectedAreaType == AreaType.ALL &amp;&amp; viewModel.isRefresh ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />

@@ -3,12 +3,13 @@ package com.example.factory_map_project.ui.maps
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import com.example.data.datastore.UserDataStore
-import com.example.domain.type.AreaType
 import com.example.domain.repo.FactoryRepository
+import com.example.domain.type.AreaType
 import com.example.domain.type.ClusterTriggerType
 import com.example.factory_map_project.R
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.CommonUtil.toCluster
+import com.example.factory_map_project.util.VerifiedMutableLiveData
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
@@ -30,10 +31,14 @@ class MapsViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
-    var selectedPosition = dataStore.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
+    var selectedAreaType = dataStore.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
+    var isRefresh = VerifiedMutableLiveData(true)
 
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
     val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
+
+    var isMapInit = false
+
 
     //**********************************************************************************************
     // Mark: Initialization
@@ -54,7 +59,7 @@ class MapsViewModel @Inject constructor(
             emitEvent(
                 AppEvent.ShowSpinnerDialog(
                     content = AreaType.toTitleList(),
-                    position = AreaType.toPosition(selectedPosition.value),
+                    position = AreaType.toPosition(selectedAreaType.value),
                     onSelect = { position ->
                         ioScope.launch {
                             dataStore.setArea(position)
@@ -78,6 +83,7 @@ class MapsViewModel @Inject constructor(
 
     fun onClickRefresh(){
         modelScope.launch {
+            isRefresh.value = false
             awaitEvent(AppEvent.GetLocation)?.let { (latLng, zoom) ->
                 Timber.d("latLng : $latLng, zoom: $zoom")
                 val gap = when {

@@ -34,7 +34,6 @@ import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -47,6 +46,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     //**********************************************************************************************
     override val viewModel: MapsViewModel by viewModels()
     val mainViewModel: MainViewModel by activityViewModels()
+    var isInit:Boolean = false
 
     private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<FactoryCluster>
@@ -54,13 +54,15 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     private var longClickItem: Boolean = false
 
     private val callback = OnMapReadyCallback { map ->
-        Timber.d("OnMapReadyCallback")
         googleMap = map
         initSetting()
-        initMap(false)
         setClusterManager()
         setDaoListener()
         setUserMarker()
+        if(!isInit) { // 최초 진입 한정하여 지도 위치 초기화
+            initMap(false)
+            isInit = true
+        }
     }
 
 
@@ -155,8 +157,9 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
         googleMap.setOnCameraMoveListener {
 //            googleMap.projection.visibleRegion.latLngBounds.center
-            Timber.d("현재 줌 : ${googleMap.cameraPosition.zoom}")
-            Timber.d("현재 위치 : ${googleMap.cameraPosition.target}")
+//            Timber.d("현재 줌 : ${googleMap.cameraPosition.zoom}")
+//            Timber.d("현재 위치 : ${googleMap.cameraPosition.target}")
+            viewModel.isRefresh.value = true
         }
 
         googleMap.setOnMapLongClickListener {
@@ -312,7 +315,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
      *
      */
     private fun addItem(itemAddress: String, latLng: LatLng){
-        val selectedOptionArea = viewModel.selectedPosition.value?.title ?: AreaType.GYEONGGI.title
+        val selectedOptionArea = viewModel.selectedAreaType.value?.title ?: AreaType.GYEONGGI.title
         val item = FactoryCluster.toLongClickItem(itemAddress, latLng)
         if(!itemAddress.startsWith(selectedOptionArea)){
             val itemFirstArea = itemAddress.split(" ")[0]
