@@ -33,6 +33,9 @@ data class FactoryCluster(
     val memo: String,
 
     val category: Int, // 아이콘 카테고리
+
+    val isDelete: Boolean, // 삭제 여부
+
 ) : ClusterItem, Serializable {
     override fun getPosition(): LatLng = LatLng(latitude, longitude)
     override fun getTitle(): String = companyName
@@ -53,7 +56,8 @@ data class FactoryCluster(
             longitude = longitude,
             isCheck = isCheck,
             memo = memo,
-            category = category
+            category = category,
+            isDelete = isDelete
         )
     }
 
@@ -73,7 +77,8 @@ data class FactoryCluster(
                 longitude = latLng.longitude,
                 isCheck = false,
                 memo = "",
-                category = 0
+                category = 0,
+                isDelete = false
             )
         }
     }

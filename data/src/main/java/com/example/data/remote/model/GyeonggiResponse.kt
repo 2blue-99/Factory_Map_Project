@@ -110,24 +110,5 @@ data class GyeonggiInfoResponse(
             latitude = refineLatitude ?: -1.0
         )
     }
-
-    fun toEntity(): FactoryEntity {
-        return FactoryEntity(
-            id = 0,
-            companyName = companyGroupName ?: "확인 불가",
-            companyScale = companyGroupName ?: "확인 불가",
-            lotArea = "${lotArea} m^2" ?: "확인 불가",
-            employeeCount = "${employeeCount}명" ?: "확인 불가",
-            contact = telephoneNumber ?: "확인 불가",
-            loadAddress = refineRoadNameAddress ?: "확인 불가",
-            longitude = refineLongitude ?: -1.0,
-            latitude = refineLatitude ?: -1.0,
-            memo = "",
-            category = 0,
-            businessType = "",
-            product = "",
-            isCheck = false,
-        )
-    }
 }
 

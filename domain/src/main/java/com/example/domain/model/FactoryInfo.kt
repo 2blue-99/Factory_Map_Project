@@ -28,4 +28,6 @@ data class FactoryInfo(
     val memo: String,
 
     val category: Int, // 아이콘 카테고리
+
+    val isDelete: Boolean, // 삭제 여부
 )

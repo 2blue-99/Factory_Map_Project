@@ -4,6 +4,7 @@ import com.example.data.Mapper.toEntity
 import com.example.data.datastore.UserDataStore
 import com.example.data.local.dao.FactoryDao
 import com.example.data.local.dao.FilterDao
+import com.example.data.local.entity.FactoryEntity
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.remote.util.toDomain
 import com.example.domain.model.FactoryInfo
@@ -48,7 +49,7 @@ class FactoryRepositoryImpl @Inject constructor(
             emit(ResourceState.Loading())
             for(index in 1..GYEONGGI_DOWNLOAD_COUNT) {
                 val result = gyeonggiDataSource.getDataSource(index).toDomain { data ->
-                    data.factoryRegistTm[1].rows.map { it.toEntity() }
+                    data.factoryRegistTm[1].rows.map { it as FactoryEntity }
                 }
                 val dataResource = when(result){
                     is ResourceState.Success -> {

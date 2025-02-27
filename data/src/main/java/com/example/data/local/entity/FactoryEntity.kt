@@ -36,6 +36,8 @@ data class FactoryEntity(
     val memo: String,
 
     val category: Int, // 아이콘 카테고리
+
+    val isDelete: Boolean, // 삭제 여부
 ){
     fun toDomain(): FactoryInfo {
         return FactoryInfo(
@@ -52,7 +54,8 @@ data class FactoryEntity(
             longitude = longitude,
             isCheck = isCheck,
             memo = memo,
-            category = category
+            category = category,
+            isDelete = isDelete
         )
     }
 }

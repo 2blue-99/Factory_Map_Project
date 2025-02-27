@@ -32,7 +32,8 @@ object Mapper {
             longitude = longitude,
             isCheck = isCheck,
             memo = memo,
-            category = category
+            category = category,
+            isDelete = isDelete
         )
     }
 
