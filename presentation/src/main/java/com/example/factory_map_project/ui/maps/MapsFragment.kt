@@ -319,9 +319,9 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
      *
      */
     private fun addItem(itemAddress: String, latLng: LatLng){
-        val selectedOptionArea = viewModel.selectedAreaType.value?.title ?: AreaType.GYEONGGI.title
+        val selectedOptionArea = viewModel.selectedAreaType.value?.title ?: AreaType.ALL.title
         val item = FactoryCluster.toLongClickItem(itemAddress, latLng)
-        if(!itemAddress.startsWith(selectedOptionArea)){
+        if(selectedOptionArea != AreaType.ALL.title && !itemAddress.startsWith(selectedOptionArea)){
             val itemFirstArea = itemAddress.split(" ")[0]
             mainActivity().dialogManager.showMessageDialog(
                 popup = PopupContent.MAP_NO_MATCH_AREA,
