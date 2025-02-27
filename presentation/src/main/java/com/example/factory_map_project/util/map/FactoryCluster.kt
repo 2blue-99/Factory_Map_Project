@@ -1,6 +1,7 @@
 package com.example.factory_map_project.util.map
 
 import com.example.domain.model.FactoryInfo
+import com.example.factory_map_project.util.CommonUtil
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import java.io.Serializable
@@ -34,8 +35,9 @@ data class FactoryCluster(
 
     val category: Int, // 아이콘 카테고리
 
-    val isDelete: Boolean, // 삭제 여부
+    val isDeleted: Boolean, // 삭제 여부
 
+    val lastTime: String
 ) : ClusterItem, Serializable {
     override fun getPosition(): LatLng = LatLng(latitude, longitude)
     override fun getTitle(): String = companyName
@@ -57,7 +59,8 @@ data class FactoryCluster(
             isCheck = isCheck,
             memo = memo,
             category = category,
-            isDelete = isDelete
+            isDeleted = isDeleted,
+            lastTime = lastTime
         )
     }
 
@@ -78,7 +81,8 @@ data class FactoryCluster(
                 isCheck = false,
                 memo = "",
                 category = 0,
-                isDelete = false
+                isDeleted = false,
+                lastTime = CommonUtil.currentTime()
             )
         }
     }

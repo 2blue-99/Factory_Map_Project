@@ -33,7 +33,8 @@ object Mapper {
             isCheck = isCheck,
             memo = memo,
             category = category,
-            isDelete = isDelete
+            isDeleted = isDeleted,
+            lastTime = lastTime
         )
     }
 

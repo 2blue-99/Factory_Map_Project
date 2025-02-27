@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.BottomDialogMarkerBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.ARG_CONTENT
+import com.example.factory_map_project.util.CommonUtil
 import com.example.factory_map_project.util.CommonUtil.getData
 import com.example.factory_map_project.util.CommonUtil.moveCall
 import com.example.factory_map_project.util.CommonUtil.moveTMap
@@ -90,9 +91,9 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
         viewModel.uiData.value?.let { data ->
             updateCluster(
                 data.copy(
-//                    isCheck = viewModel.currentCheckState.value?:0,
                     isCheck = binding.checkBox.isChecked,
-                    memo = binding.memo.text.toString()
+                    memo = binding.memo.text.toString(),
+                    lastTime = CommonUtil.currentTime()
                 )
             )
         }

@@ -32,7 +32,7 @@ interface FactoryDao {
     fun upsertData(data: FactoryEntity)
 
 
-    @Query("UPDATE factory SET isDelete = 1 WHERE id = :id")
+    @Query("UPDATE factory SET isDeleted = 1 WHERE id = :id")
     fun deleteData(id: Int)
 
     @Query("DELETE FROM factory")

@@ -29,5 +29,7 @@ data class FactoryInfo(
 
     val category: Int, // 아이콘 카테고리
 
-    val isDelete: Boolean, // 삭제 여부
+    val isDeleted: Boolean, // 삭제 여부
+
+    val lastTime: String
 )

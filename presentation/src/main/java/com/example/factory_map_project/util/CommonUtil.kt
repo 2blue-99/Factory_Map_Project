@@ -24,6 +24,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.io.Serializable
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 const val ARG_CONTENT = "argument.content"
 
@@ -74,7 +77,8 @@ object CommonUtil {
             isCheck = isCheck,
             memo = memo,
             category = category,
-            isDelete = isDelete
+            isDeleted = isDeleted,
+            lastTime = lastTime
         )
 
     fun moveCall(context: Context, number: String){
@@ -143,5 +147,32 @@ object CommonUtil {
      */
     fun String.toNoCountry(): String {
         return this.removePrefix("대한민국 ")
+    }
+
+    fun currentTime(): String{
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val current = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            current.format(formatter)
+        }else{
+            val currentTimeMillis = System.currentTimeMillis()
+            val calendar = Calendar.getInstance().apply {
+                timeInMillis = currentTimeMillis
+            }
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH) + 1 // 월은 0부터 시작하므로 +1
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+            val hour = calendar.get(Calendar.HOUR_OF_DAY) // 24시간제
+            val minute = calendar.get(Calendar.MINUTE)
+            val second = calendar.get(Calendar.SECOND)
+            "$year-$month-$day $hour:$minute:$second"
+        }
+    }
+
+    /**
+     * 2 : Gone
+     */
+    fun isEmpty(text: String?): Int{
+        return if(text.isNullOrBlank()) 2 else 0
     }
 }

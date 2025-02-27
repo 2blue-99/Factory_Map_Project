@@ -2,9 +2,7 @@ package com.example.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.domain.model.AllAreaInfo
 import com.example.domain.model.FactoryInfo
-import com.example.domain.model.GyeonggiInfo
 
 @Entity(tableName = "factory")
 data class FactoryEntity(
@@ -37,7 +35,9 @@ data class FactoryEntity(
 
     val category: Int, // 아이콘 카테고리
 
-    val isDelete: Boolean, // 삭제 여부
+    val isDeleted: Boolean, // 삭제 여부
+
+    val lastTime: String, // 삭제 여부
 ){
     fun toDomain(): FactoryInfo {
         return FactoryInfo(
@@ -55,7 +55,8 @@ data class FactoryEntity(
             isCheck = isCheck,
             memo = memo,
             category = category,
-            isDelete = isDelete
+            isDeleted = isDeleted,
+            lastTime = lastTime
         )
     }
 }
