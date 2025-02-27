@@ -31,16 +31,16 @@ fun setRecyclerViewDivider(recyclerView: RecyclerView, divider: Boolean){
 /**
  *
  */
-@BindingAdapter("setCheckBackground")
-fun setCheckBackground(view: ImageView, state: Int){
-    view.setImageResource(
-        when(state){
-            STATE_UNKNOWN -> R.drawable.icon_unknown_marker
-            STATE_SUCCESS -> R.drawable.icon_success_marker
-            else -> R.drawable.icon_fail_marker
-        }
-    )
-}
+//@BindingAdapter("setCheckBackground")
+//fun setCheckBackground(view: ImageView, state: Int){
+//    view.setImageResource(
+//        when(state){
+//            STATE_UNKNOWN -> R.drawable.icon_check_box
+//            STATE_CHECK -> R.drawable.icon_check_box
+//            else -> R.drawable.icon_fail_marker
+//        }
+//    )
+//}
 
 /**
  *

@@ -13,7 +13,7 @@ data class FactoryEntity(
 
     val companyName: String, // 기업 그룹 이름
 
-    val scaleDivisionName: String, // 공장 규모 구분 이름
+    val companyScale: String, // 공장 규모 구분 이름
 
     val lotArea: String, // 부지 면적
 
@@ -21,11 +21,9 @@ data class FactoryEntity(
 
     val employeeCount: String, // 고용 인원
 
-    val registrationDate: String, // 공장 등록 일자
+    val businessType: String, // 업종
 
-    val category: String, // 업종
-
-    val productInfo: String, // 대표 상품
+    val product: String, // 대표 상품
 
     val loadAddress: String, // 정제 도로명 주소
 
@@ -33,26 +31,28 @@ data class FactoryEntity(
 
     val longitude: Double, // 정제 경도
 
-    val isClick: Int, // 0 : Unknown, 1 : Success, 2: Fail
+    val isCheck: Boolean, // 0 : Unknown, 1 : Success, 2: Fail
 
     val memo: String,
+
+    val category: Int, // 아이콘 카테고리
 ){
     fun toDomain(): FactoryInfo {
         return FactoryInfo(
             id = id,
             companyName = companyName,
-            scaleDivisionName = scaleDivisionName,
+            companyScale = companyScale,
             lotArea = lotArea,
             contact = contact,
             employeeCount = employeeCount,
-            registrationDate = registrationDate,
-            category = category,
-            productInfo = productInfo,
+            businessType = businessType,
+            product = product,
             loadAddress = loadAddress,
             latitude = latitude,
             longitude = longitude,
-            isClick = isClick,
-            memo = memo
+            isCheck = isCheck,
+            memo = memo,
+            category = category
         )
     }
 }

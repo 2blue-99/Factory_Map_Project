@@ -142,18 +142,10 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     fun onBackPressedFinish() {
         val pressedTime = backKeyPressedTime?.plus(2000) ?: 0
         if (System.currentTimeMillis() > pressedTime) {
-            Toast.makeText(this, "‘뒤로’버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "‘뒤로’버튼을 한번 더 누르시면 종료돼요", Toast.LENGTH_SHORT).show()
             backKeyPressedTime = System.currentTimeMillis()
         } else {
             this.finish()
         }
     }
-}
-
-
-fun main(){
-    val gap = listOf("나는 탈모인입니다.", "나는 탈인입니다.", "나는 모인입니다.", "나는 입니다.")
-    val list = listOf("탈","인")
-    println(gap.filter { sample -> list.none { keyword -> sample.contains(keyword) } })
-
 }

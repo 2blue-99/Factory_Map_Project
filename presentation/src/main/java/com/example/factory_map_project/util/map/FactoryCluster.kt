@@ -10,7 +10,7 @@ data class FactoryCluster(
 
     val companyName: String, // 기업 그룹 이름
 
-    val scaleDivisionName: String, // 공장 규모 구분 이름
+    val companyScale: String, // 공장 규모 구분 이름
 
     val lotArea: String, // 부지 면적
 
@@ -18,11 +18,9 @@ data class FactoryCluster(
 
     val employeeCount: String, // 고용 인원
 
-    val registrationDate: String, // 공장 등록 일자
+    val businessType: String, // 업종
 
-    val category: String,
-
-    val productInfo: String, // 제품 정보
+    val product: String, // 대표 상품
 
     val loadAddress: String, // 정제 도로명 주소
 
@@ -30,30 +28,32 @@ data class FactoryCluster(
 
     val longitude: Double, // 정제 경도
 
-    val isClick: Int, // 0 : Unknown, 1 : Success 2: Fail
+    val isCheck: Boolean,
 
     val memo: String,
+
+    val category: Int, // 아이콘 카테고리
 ) : ClusterItem, Serializable {
     override fun getPosition(): LatLng = LatLng(latitude, longitude)
     override fun getTitle(): String = companyName
-    override fun getSnippet(): String = productInfo
+    override fun getSnippet(): String = product
 
     fun toDomain(): FactoryInfo {
         return FactoryInfo(
             id = id,
             companyName = companyName,
+            companyScale = companyScale,
             lotArea = lotArea,
-            employeeCount = employeeCount,
-            scaleDivisionName = scaleDivisionName,
-            registrationDate = registrationDate,
-            category = category,
-            productInfo = productInfo,
             contact = contact,
+            employeeCount = employeeCount,
+            businessType = businessType,
+            product = product,
             loadAddress = loadAddress,
             latitude = latitude,
             longitude = longitude,
-            isClick = isClick,
+            isCheck = isCheck,
             memo = memo,
+            category = category
         )
     }
 
@@ -62,18 +62,18 @@ data class FactoryCluster(
             return FactoryCluster(
                 id = 0,
                 companyName = "",
+                companyScale = "",
                 lotArea = "",
                 employeeCount = "",
-                scaleDivisionName = "",
-                registrationDate = "",
-                category = "",
-                productInfo = "",
+                businessType = "",
+                product = "",
                 contact = "",
                 loadAddress = loadAddress,
                 latitude = latLng.latitude,
                 longitude = latLng.longitude,
-                isClick = 0,
+                isCheck = false,
                 memo = "",
+                category = 0
             )
         }
     }

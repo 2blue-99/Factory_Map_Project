@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.onClickRefresh()}"
             android:text="현 지역에서 검색"
-            android:paddingHorizontal="5dp"
+            android:paddingHorizontal="6dp"
             android:background="@drawable/base_round_button"
             android:textColor="@color/primary"
             android:visibility="@{viewModel.selectedAreaType == AreaType.ALL &amp;&amp; viewModel.isRefresh ? View.VISIBLE : View.INVISIBLE}"

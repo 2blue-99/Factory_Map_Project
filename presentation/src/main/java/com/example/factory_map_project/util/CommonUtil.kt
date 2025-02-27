@@ -27,9 +27,16 @@ import java.io.Serializable
 
 const val ARG_CONTENT = "argument.content"
 
-const val STATE_UNKNOWN = 0
-const val STATE_SUCCESS = 1
-const val STATE_FAIL = 2
+//const val STATE_UNKNOWN = 0
+//const val STATE_CHECK = 1
+
+const val MARKER_UNKNOWN = 0
+const val MARKER_HOTEL = 1
+const val MARKER_RESORT = 2
+
+const val CHECK_ALPHA = 0.9f
+const val NONE_CHECK_ALPHA = 0.6f
+
 
 object CommonUtil {
 
@@ -58,18 +65,18 @@ object CommonUtil {
         FactoryCluster(
             id = id,
             companyName = companyName,
+            companyScale = companyScale,
             lotArea = lotArea,
-            employeeCount = employeeCount,
-            scaleDivisionName = scaleDivisionName,
-            registrationDate = registrationDate,
-            category = category,
-            productInfo = productInfo,
             contact = contact,
+            employeeCount = employeeCount,
+            businessType = businessType,
+            product = product,
             loadAddress = loadAddress,
             latitude = latitude,
             longitude = longitude,
-            isClick = isClick,
+            isCheck = isCheck,
             memo = memo,
+            category = category
         )
 
     fun moveCall(context: Context, number: String){

@@ -49,7 +49,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         for(result in resultList){
             if(!result.value){
                 permissionState = false
-                Timber.d("권한을 반대하셨습니다.")
             }
         }
         if(permissionState){

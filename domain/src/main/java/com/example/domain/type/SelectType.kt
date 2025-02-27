@@ -4,7 +4,7 @@ enum class SelectType(
     val title: String
 ) {
     COMPANY(title = "상호"),
-    CATEGORY(title = "업종"),
+    BUSINESS_TYPE(title = "업종"),
     PRODUCT(title = "대표 상품"),
     ;
 

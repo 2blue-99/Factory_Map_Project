@@ -9,18 +9,18 @@
 
     <!-- setting -->
     <string name="setting_cluster_trigger_title">그룹화 감도</string>
-    <string name="setting_cluster_trigger_sub_title">높은 감도일수록 그룹화가 쉽게 됩니다.</string>
+    <string name="setting_cluster_trigger_sub_title">높은 감도일수록 그룹화가 쉽게 돼요.</string>
     <string name="setting_exclusive_title">제거 키워드</string>
-    <string name="setting_exclusive_sub_title">표시되는 데이터의 필터 키워드를 지정할 수 있습니다.</string>
+    <string name="setting_exclusive_sub_title">표시되는 데이터의 필터 키워드를 지정할 수 있어요.</string>
 
 
     <!-- download dialog -->
     <string name="download_dialog_title">경기도 데이터 다운로드</string>
-    <string name="download_dialog_sub_start">최초 1회만 다운하며, 1분정도 소요됩니다.</string>
-    <string name="download_dialog_sub_end">다운로드가 완료되었습니다.</string>
+    <string name="download_dialog_sub_start">최초 1회만 다운하며, 1분정도 소요돼요.</string>
+    <string name="download_dialog_sub_end">다운로드가 완료되었어요.</string>
 
     <!-- exclusion dialog -->
     <string name="filter_dialog_title">필터 추가</string>
-    <string name="filter_dialog_sub_title">제외를 위한 필터를 추가할 수 있습니다.\n(길게 눌러 삭제)</string>
+    <string name="filter_dialog_sub_title">제외를 위한 필터를 추가할 수 있어요.\n(길게 눌러 삭제)</string>
 
 </resources>

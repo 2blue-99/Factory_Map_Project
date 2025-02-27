@@ -21,18 +21,18 @@ object Mapper {
         return FactoryEntity(
             id = id,
             companyName = companyName,
-            scaleDivisionName = scaleDivisionName,
+            companyScale = companyScale,
             lotArea = lotArea,
             contact = contact,
             employeeCount = employeeCount,
-            registrationDate = registrationDate,
-            category = category, // 업종
-            productInfo = productInfo,
+            businessType = businessType,
+            product = product,
             loadAddress = loadAddress,
             latitude = latitude,
             longitude = longitude,
-            isClick = isClick,
-            memo = memo
+            isCheck = isCheck,
+            memo = memo,
+            category = category
         )
     }
 

@@ -90,12 +90,13 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
         viewModel.uiData.value?.let { data ->
             updateCluster(
                 data.copy(
-                    isClick = viewModel.currentCheckState.value?:0,
+//                    isCheck = viewModel.currentCheckState.value?:0,
+                    isCheck = binding.checkBox.isChecked,
                     memo = binding.memo.text.toString()
                 )
             )
         }
-        Toast.makeText(requireContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "저장되었어요.", Toast.LENGTH_SHORT).show()
         dismiss()
     }
 

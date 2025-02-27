@@ -34,7 +34,7 @@ class FilterViewModel @Inject constructor(
             if(inputFilterText.value.isNullOrBlank()){
                 emitEvent(AppEvent.ShowToast("키워드를 입력해주세요."))
             }else if(filterList.value?.isContain(targetWord.value?:"", inputFilterText.value?:"") == true){
-                emitEvent(AppEvent.ShowToast("존재하는 키워드입니다."))
+                emitEvent(AppEvent.ShowToast("존재하는 키워드에요."))
             }else{
                 filterRepository.upsertFilterDao(
                     FilterData(
@@ -43,7 +43,7 @@ class FilterViewModel @Inject constructor(
                         keyword = inputFilterText.value ?: ""
                     )
                 )
-                emitEvent(AppEvent.ShowToast("저장 되었습니다."))
+                emitEvent(AppEvent.ShowToast("저장 되었어요."))
             }
         }
     }

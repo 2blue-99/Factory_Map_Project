@@ -1,6 +1,5 @@
 package com.example.data.repo
 
-import android.hardware.Camera.Area
 import com.example.data.Mapper.toEntity
 import com.example.data.datastore.UserDataStore
 import com.example.data.local.dao.FactoryDao
@@ -79,13 +78,13 @@ class FactoryRepositoryImpl @Inject constructor(
 
             val excludeCompany =
                 filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
-            val excludeCategory =
-                filterList.filter { it.target == SelectType.CATEGORY.title }.map { it.keyword }
+            val excludeBusinessType =
+                filterList.filter { it.target == SelectType.BUSINESS_TYPE.title }.map { it.keyword }
             val excludeProduct =
                 filterList.filter { it.target == SelectType.PRODUCT.title }.map { it.keyword }
 
             Timber.d("excludeCompany : $excludeCompany")
-            Timber.d("excludeCategory : $excludeCategory")
+            Timber.d("excludeCategory : $excludeBusinessType")
             Timber.d("location.first : ${mapInfo.first}")
             Timber.d("location.second : ${mapInfo.second}")
             Timber.d("location.second : ${mapInfo.third}")
@@ -97,9 +96,9 @@ class FactoryRepositoryImpl @Inject constructor(
                 list.filter { data ->
                     excludeCompany.none { keyword -> data.companyName.contains(keyword) }
                 }.filter { data ->
-                    excludeCategory.none { keyword -> data.category.contains(keyword) }
+                    excludeBusinessType.none { keyword -> data.businessType.contains(keyword) }
                 }.filter { data ->
-                    excludeProduct.none { keyword -> data.productInfo.contains(keyword) }
+                    excludeProduct.none { keyword -> data.product.contains(keyword) }
                 }.map {
                     it.toDomain()
                 }

@@ -7,6 +7,8 @@
         <variable
             name="viewModel"
             type="com.example.factory_map_project.ui.bottomDialog.MarkerViewModel" />
+
+        <import type="com.example.factory_map_project.util.CommonUtil"/>
     </data>
 
     <LinearLayout
@@ -25,6 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,14 +87,22 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
+                    <CheckBox
                         android:id="@+id/check_box"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/icon_unknown_marker"
-                        android:onClick="@{() -> viewModel.onClickCheckBox()}"
-                        app:setCheckBackground="@{viewModel.currentCheckState}"
-                        />
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/button_custom_check"
+                        android:button="@drawable/icon_check_box"
+                        android:checked="@{viewModel.uiData.isCheck}" />
+
+                    <!--                    <ImageView-->
+<!--                        android:id="@+id/check_box"-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:src="@drawable/icon_unknown_marker"-->
+<!--                        android:onClick="@{() -> viewModel.onClickCheckBox()}"-->
+<!--                        app:setCheckBackground="@{viewModel.currentCheckState}"-->
+<!--                        />-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -106,8 +117,59 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/memo"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:background="@drawable/edit_text_memo"
+                    android:hint="메모 사항을 입력해주세요."
+                    android:textColorHint="@color/light_gray"
+                    android:text="@{viewModel.uiData.memo}"
+                    android:gravity="top|start"
+                    android:padding="12dp"
+                    android:scrollbars="vertical"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:overScrollMode="always"
+                    android:imeOptions="actionNone"
+                    android:textSize="16sp"
+                    android:scrollbarStyle="insideInset"
+                    android:fadeScrollbars="false"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginVertical="6dp"
+                android:layout_marginVertical="4dp"
+                >
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="규모분류"
+                    android:textSize="16sp" />
+                <TextView
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.uiData.companyScale, default = `규모분류`}"
+                    android:textSize="16sp"
+                    android:textColorHint="@color/light_gray"
+                    android:hint="@string/marker_dialog_empty"
+                    android:onLongClick="@{() -> viewModel.onLongClickScaleDivisionName()}"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginVertical="4dp"
                 >
                 <TextView
                     android:layout_weight="2"
@@ -132,7 +194,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginVertical="6dp"
+                android:layout_marginVertical="4dp"
                 >
                 <TextView
                     android:layout_weight="2"
@@ -157,24 +219,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginVertical="6dp"
+                android:layout_marginVertical="4dp"
                 >
                 <TextView
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="규모분류"
+                    android:text="업종"
                     android:textSize="16sp" />
                 <TextView
                     android:layout_weight="1"
                     android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.uiData.scaleDivisionName, default = `규모분류`}"
+                    android:text="@{viewModel.uiData.businessType, default = `등록일자`}"
                     android:textSize="16sp"
                     android:textColorHint="@color/light_gray"
                     android:hint="@string/marker_dialog_empty"
-                    android:onLongClick="@{() -> viewModel.onLongClickScaleDivisionName()}"
+                    android:onLongClick="@{() -> viewModel.onLongClickBusinessType()}"
                     />
             </LinearLayout>
 
@@ -182,32 +244,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginVertical="6dp"
-                >
-                <TextView
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="등록일자"
-                    android:textSize="16sp" />
-                <TextView
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.uiData.registrationDate, default = `등록일자`}"
-                    android:textSize="16sp"
-                    android:textColorHint="@color/light_gray"
-                    android:hint="@string/marker_dialog_empty"
-                    android:onLongClick="@{() -> viewModel.onLongClickRegistrationDate()}"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginVertical="6dp"
+                android:layout_marginVertical="4dp"
                 >
                 <TextView
                     android:layout_weight="2"
@@ -220,11 +257,11 @@
                     android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.uiData.productInfo, default = `대표상품`}"
+                    android:text="@{viewModel.uiData.product, default = `대표상품`}"
                     android:textSize="16sp"
                     android:textColorHint="@color/light_gray"
                     android:hint="@string/marker_dialog_empty"
-                    android:onLongClick="@{() -> viewModel.onLongClickProductInfo()}"
+                    android:onLongClick="@{() -> viewModel.onLongClickProduct()}"
                     />
             </LinearLayout>
 
@@ -232,7 +269,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginVertical="6dp"
+                android:layout_marginVertical="4dp"
                 android:onClick="@{() -> viewModel.onClickContact(viewModel.uiData.contact)}"
                 >
                 <TextView
@@ -259,7 +296,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginVertical="6dp"
+                android:layout_marginVertical="4dp"
                 android:onClick="@{() -> viewModel.onClickAddress()}"
                 >
                 <TextView
@@ -279,36 +316,6 @@
                     android:textColorHint="@color/light_gray"
                     android:hint="@string/marker_dialog_empty"
                     />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="14dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="메모"
-                    android:textSize="16sp" />
-                <EditText
-                    android:id="@+id/memo"
-                    android:layout_marginTop="4dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="@drawable/edit_text_memo"
-                    android:hint="메모 사항을 입력해주세요."
-                    android:textColorHint="@color/light_gray"
-                    android:text="@{viewModel.uiData.memo}"
-                    android:gravity="top|start"
-                    android:padding="16dp"
-                    android:scrollbars="vertical"
-                    android:inputType="textMultiLine"
-                    android:maxLines="5"
-                    android:overScrollMode="always"
-                    android:imeOptions="actionNone"
-                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
 

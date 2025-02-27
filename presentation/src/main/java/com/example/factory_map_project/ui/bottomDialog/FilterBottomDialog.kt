@@ -87,7 +87,7 @@ class FilterBottomDialog: BaseBottomDialog<BottomDialogFilterBinding, FilterView
     private fun setRecyclerview(){
         pickerAdapter = PickerAdapter {
             viewModel.deleteTarget(it)
-            mainActivity().showToast("삭제 되었습니다.")
+            mainActivity().showToast("삭제 되었어요.")
         }
         binding.priceSpinner.adapter = pickerAdapter
     }

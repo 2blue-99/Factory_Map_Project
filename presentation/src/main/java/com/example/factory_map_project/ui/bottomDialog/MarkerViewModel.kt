@@ -10,7 +10,6 @@ import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +22,7 @@ class MarkerViewModel @Inject constructor(
     private var _uiData = MutableLiveData<FactoryCluster>()
     val uiData: MutableLiveData<FactoryCluster> get() = _uiData
 
-    var currentCheckState = MutableLiveData(0)
+//    var currentCheckState = MutableLiveData(0)
 
 
 
@@ -82,9 +81,9 @@ class MarkerViewModel @Inject constructor(
         viewModelScope.launch {
             uiData.value?.let { clusterData ->
                 emitEvent(AppEvent.ShowInputDialog(
-                    text = uiData.value?.scaleDivisionName ?: "",
+                    text = uiData.value?.companyScale ?: "",
                     onSaveData = {
-                        updateCluster(clusterData.copy(scaleDivisionName = it))
+                        updateCluster(clusterData.copy(companyScale = it))
                     }
                 ))
             }
@@ -134,13 +133,13 @@ class MarkerViewModel @Inject constructor(
         return true
     }
 
-    fun onLongClickRegistrationDate(): Boolean {
+    fun onLongClickBusinessType(): Boolean {
         viewModelScope.launch {
             uiData.value?.let { clusterData ->
                 emitEvent(AppEvent.ShowInputDialog(
-                    text = uiData.value?.registrationDate ?: "",
+                    text = uiData.value?.businessType ?: "",
                     onSaveData = {
-                        updateCluster(clusterData.copy(registrationDate = it))
+                        updateCluster(clusterData.copy(businessType = it))
                     }
                 ))
             }
@@ -148,13 +147,13 @@ class MarkerViewModel @Inject constructor(
         return true
     }
 
-    fun onLongClickProductInfo(): Boolean {
+    fun onLongClickProduct(): Boolean {
         viewModelScope.launch {
             uiData.value?.let { clusterData ->
                 emitEvent(AppEvent.ShowInputDialog(
-                    text = uiData.value?.productInfo ?: "",
+                    text = uiData.value?.product ?: "",
                     onSaveData = {
-                        updateCluster(clusterData.copy(productInfo = it))
+                        updateCluster(clusterData.copy(product = it))
                     }
                 ))
             }
@@ -176,10 +175,10 @@ class MarkerViewModel @Inject constructor(
         return true
     }
 
-    fun onClickCheckBox(){
-        var next = currentCheckState.value!! + 1
-        currentCheckState.value = if(next > 2) 0 else next
-    }
+//    fun onClickCheckBox(){
+//        var next = currentCheckState.value!! + 1
+//        currentCheckState.value = if(next > 2) 0 else next
+//    }
 
 
     //**********************************************************************************************
@@ -187,7 +186,7 @@ class MarkerViewModel @Inject constructor(
     //**********************************************************************************************
     fun loadData(data: FactoryCluster) {
         _uiData.value = data
-        currentCheckState.value = data.isClick
+//        currentCheckState.value = data.isCheck
     }
 
     private fun updateCluster(cluster: FactoryCluster){
