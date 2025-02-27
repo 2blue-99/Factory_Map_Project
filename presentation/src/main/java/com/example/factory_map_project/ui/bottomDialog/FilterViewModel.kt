@@ -9,7 +9,9 @@ import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.CommonUtil.isContain
 import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,6 +38,7 @@ class FilterViewModel @Inject constructor(
             }else if(filterList.value?.isContain(targetWord.value?:"", inputFilterText.value?:"") == true){
                 emitEvent(AppEvent.ShowToast("존재하는 키워드에요."))
             }else{
+
                 filterRepository.upsertFilterDao(
                     FilterData(
                         id = 0,
@@ -43,7 +46,10 @@ class FilterViewModel @Inject constructor(
                         keyword = inputFilterText.value ?: ""
                     )
                 )
-                emitEvent(AppEvent.ShowToast("저장 되었어요."))
+                withContext(Dispatchers.Main){
+                    inputFilterText.value = ""
+                    emitEvent(AppEvent.ShowToast("저장 되었어요."))
+                }
             }
         }
     }

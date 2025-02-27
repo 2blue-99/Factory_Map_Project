@@ -71,11 +71,9 @@ class FactoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {
-        return userDataSource.areaPositionFlow.combine(userDataSource.currentLocationFlow) { areaPosition, mapInfo ->
-            AreaType.toType(areaPosition).title to mapInfo
-        }.flatMapLatest { (area, mapInfo) ->
-            val filterList = filterDao.getAllData().first()
-
+        return combine(userDataSource.areaPositionFlow, userDataSource.currentLocationFlow, filterDao.getAllData()) { areaPosition, mapInfo, filterList ->
+            Triple(AreaType.toType(areaPosition).title,mapInfo, filterList)
+        }.flatMapLatest { (area, mapInfo, filterList) ->
             val excludeCompany =
                 filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
             val excludeBusinessType =
@@ -85,6 +83,7 @@ class FactoryRepositoryImpl @Inject constructor(
 
             Timber.d("excludeCompany : $excludeCompany")
             Timber.d("excludeCategory : $excludeBusinessType")
+            Timber.d("excludeProduct : $excludeProduct")
             Timber.d("location.first : ${mapInfo.first}")
             Timber.d("location.second : ${mapInfo.second}")
 

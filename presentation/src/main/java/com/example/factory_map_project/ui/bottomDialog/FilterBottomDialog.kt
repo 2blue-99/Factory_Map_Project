@@ -64,7 +64,7 @@ class FilterBottomDialog: BaseBottomDialog<BottomDialogFilterBinding, FilterView
         }
 
         viewModel.filterList.observe(viewLifecycleOwner){
-            pickerAdapter.inputList = it
+            pickerAdapter.inputList = it.reversed()
         }
 
         binding.targetPicker.setOnValueChangedListener { picker, oldVal, newVal ->
