@@ -7,6 +7,9 @@
 
     <string name="marker_dialog_empty">(길게 클릭하여 편집)</string>
 
+    <!-- Marker Dialog -->
+    <string name="marker_dialog_last_time">%s 마지막 수정</string>
+
     <!-- setting -->
     <string name="setting_cluster_trigger_title">그룹화 감도</string>
     <string name="setting_cluster_trigger_sub_title">높은 감도일수록 그룹화가 쉽게 돼요.</string>

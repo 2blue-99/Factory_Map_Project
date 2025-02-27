@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.Serializable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -35,7 +36,7 @@ const val MARKER_HOTEL = 1
 const val MARKER_RESORT = 2
 
 const val CHECK_ALPHA = 0.95f
-const val NONE_CHECK_ALPHA = 0.5f
+const val NONE_CHECK_ALPHA = 0.6f
 
 
 object CommonUtil {
@@ -152,7 +153,7 @@ object CommonUtil {
     fun currentTime(): String{
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val current = LocalDateTime.now()
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
             current.format(formatter)
         }else{
             val currentTimeMillis = System.currentTimeMillis()
@@ -165,14 +166,15 @@ object CommonUtil {
             val hour = calendar.get(Calendar.HOUR_OF_DAY) // 24시간제
             val minute = calendar.get(Calendar.MINUTE)
             val second = calendar.get(Calendar.SECOND)
-            "$year-$month-$day $hour:$minute:$second"
+            "$year-$month-$day $hour:$minute"
         }
     }
 
     /**
      * 2 : Gone
      */
-    fun isEmpty(text: String?): Int{
-        return if(text.isNullOrBlank()) 2 else 0
+    fun isEmpty(text: String?): Boolean{
+        Timber.d("text : ${text.isNullOrBlank()}")
+        return text.isNullOrBlank()
     }
 }

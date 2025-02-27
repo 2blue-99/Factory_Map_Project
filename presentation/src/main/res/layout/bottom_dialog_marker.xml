@@ -9,6 +9,8 @@
             type="com.example.factory_map_project.ui.bottomDialog.MarkerViewModel" />
 
         <import type="com.example.factory_map_project.util.CommonUtil"/>
+
+        <import type="android.view.View"/>
     </data>
 
     <LinearLayout
@@ -46,36 +48,31 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/linearLayout"
                     app:layout_constraintStart_toEndOf="@+id/linearLayout2">
 
                     <TextView
                         android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:hint="@string/marker_dialog_empty"
                         android:onLongClick="@{() -> viewModel.onLongClickCompanyName()}"
                         android:text="@{viewModel.uiData.companyName, default = `회사이름`}"
                         android:textColorHint="@color/light_gray"
-                        android:textSize="24sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-                        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textSize="24sp" />
 
                     <TextView
                         android:id="@+id/timeText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@{viewModel.uiData.lastTime, default = `마지막 편집 시간`}"
-                        android:visibility="@{CommonUtil.INSTANCE.isEmpty(viewModel.uiData.lastTime)}"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-                        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:text="@{@string/marker_dialog_last_time(viewModel.uiData.lastTime), default = `마지막 수정 시간`}"
+                        android:visibility="@{CommonUtil.INSTANCE.isEmpty(viewModel.uiData.lastTime) ? View.GONE : View.VISIBLE}"
+                        android:textSize="12sp" />
+
                 </LinearLayout>
 
                 <LinearLayout

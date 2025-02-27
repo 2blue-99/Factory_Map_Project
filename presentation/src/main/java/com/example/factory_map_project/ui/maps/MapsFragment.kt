@@ -278,7 +278,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                     val currentZoom = googleMap.cameraPosition.zoom
                     val targetZoom = if(currentZoom > 14f) currentZoom else 14f
                     moveCamera(marker.position, targetZoom, true)
-                }
+                } ?: mainActivity().showToast("잠시만 기다려주세요.")
             }
         }
     }
