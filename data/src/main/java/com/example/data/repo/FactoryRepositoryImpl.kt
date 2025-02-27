@@ -87,18 +87,17 @@ class FactoryRepositoryImpl @Inject constructor(
             Timber.d("excludeCategory : $excludeBusinessType")
             Timber.d("location.first : ${mapInfo.first}")
             Timber.d("location.second : ${mapInfo.second}")
-            Timber.d("location.second : ${mapInfo.third}")
 
             val range = if(area == AreaType.ALL.title) mapInfo.third else 5.0
             val searchArea = if(area == AreaType.ALL.title) "" else area
 
             factoryDao.getTargetData(searchArea, mapInfo.first, mapInfo.second, range).map { list ->
                 list.filter { data ->
-                    excludeCompany.none { keyword -> data.companyName.contains(keyword) }
+                    excludeCompany.none { keyword -> data.companyName.contains(keyword) && !data.isCheck }
                 }.filter { data ->
-                    excludeBusinessType.none { keyword -> data.businessType.contains(keyword) }
+                    excludeBusinessType.none { keyword -> data.businessType.contains(keyword) && !data.isCheck }
                 }.filter { data ->
-                    excludeProduct.none { keyword -> data.product.contains(keyword) }
+                    excludeProduct.none { keyword -> data.product.contains(keyword) && !data.isCheck }
                 }.map {
                     it.toDomain()
                 }

@@ -21,6 +21,6 @@
 
     <!-- exclusion dialog -->
     <string name="filter_dialog_title">필터 추가</string>
-    <string name="filter_dialog_sub_title">제외를 위한 필터를 추가할 수 있어요.\n(길게 눌러 삭제)</string>
+    <string name="filter_dialog_sub_title">■ 제외 필터를 추가할 수 있어요.\n■ 길게 눌러 삭제가 가능해요.\n■ 방문 체크된 데이터는 필터에 영향을 받지 않아요.</string>
 
 </resources>
