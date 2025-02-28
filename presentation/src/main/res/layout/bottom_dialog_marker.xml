@@ -69,9 +69,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@{@string/marker_dialog_last_time(viewModel.uiData.lastTime), default = `마지막 수정 시간`}"
+                        android:text="@{@string/marker_dialog_last_time(viewModel.uiData.lastTime), default = `마지막 수정`}"
                         android:visibility="@{CommonUtil.INSTANCE.isEmpty(viewModel.uiData.lastTime) ? View.GONE : View.VISIBLE}"
-                        android:textSize="12sp" />
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 

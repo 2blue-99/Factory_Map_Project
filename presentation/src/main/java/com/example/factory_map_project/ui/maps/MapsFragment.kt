@@ -204,7 +204,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         mainActivity().showMarkerBottomDialog(
             item = item,
             updateCluster = { updateItem ->
-                Timber.d("updateItem : $updateItem")
                 clusterManager.clearItems()
                 viewModel.updateFactory(updateItem)
             },

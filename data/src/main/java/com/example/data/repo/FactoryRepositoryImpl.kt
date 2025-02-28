@@ -16,11 +16,14 @@ import com.example.domain.util.GYEONGGI_DOWNLOAD_COUNT
 import com.example.domain.util.ResourceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -73,8 +76,11 @@ class FactoryRepositoryImpl @Inject constructor(
 
     override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {
         return combine(userDataSource.areaPositionFlow, userDataSource.currentLocationFlow, filterDao.getAllData()) { areaPosition, mapInfo, filterList ->
+            Timber.d("areaPosition : $areaPosition / mapInfo : $mapInfo, filterList : $filterList")
             Triple(AreaType.toType(areaPosition).title,mapInfo, filterList)
-        }.flatMapLatest { (area, mapInfo, filterList) ->
+        }.distinctUntilChanged()
+            .flatMapLatest { (areaTitle, mapInfo, filterList) ->
+            Timber.d("areaPosition : $areaTitle / mapInfo : $mapInfo, filterList : $filterList")
             val excludeCompany =
                 filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
             val excludeBusinessType =
@@ -87,9 +93,10 @@ class FactoryRepositoryImpl @Inject constructor(
             Timber.d("excludeProduct : $excludeProduct")
             Timber.d("location.first : ${mapInfo.first}")
             Timber.d("location.second : ${mapInfo.second}")
+            Timber.d("location.second : ${mapInfo.third}")
 
-            val range = if(area == AreaType.ALL.title) mapInfo.third else 5.0
-            val searchArea = if(area == AreaType.ALL.title) "" else area
+            val range = if(areaTitle == AreaType.ALL.title) mapInfo.third else 5.0
+            val searchArea = if(areaTitle == AreaType.ALL.title) "" else areaTitle
 
             factoryDao.getTargetData(searchArea, mapInfo.first, mapInfo.second, range).map { list ->
                 list.filter { data ->

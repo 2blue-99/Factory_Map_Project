@@ -24,6 +24,10 @@ class MarkerViewModel @Inject constructor(
 
 //    var currentCheckState = MutableLiveData(0)
 
+    /**
+     *  데이터 변경 여부를 체크하기 위한 초기값
+     */
+    var originCluster: FactoryCluster? = null
 
 
     //**********************************************************************************************
@@ -185,6 +189,7 @@ class MarkerViewModel @Inject constructor(
     // Mark: Function
     //**********************************************************************************************
     fun loadData(data: FactoryCluster) {
+        originCluster = data
         _uiData.value = data
 //        currentCheckState.value = data.isCheck
     }

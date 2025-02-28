@@ -18,6 +18,7 @@ interface FactoryDao {
         """
         SELECT * FROM factory
         WHERE loadAddress LIKE :area || '%'
+        AND isDeleted = 0
         AND latitude BETWEEN (:lat - :range) AND (:lat + :range)
         AND longitude BETWEEN (:lon - :range) AND (:lon + :range)
         """

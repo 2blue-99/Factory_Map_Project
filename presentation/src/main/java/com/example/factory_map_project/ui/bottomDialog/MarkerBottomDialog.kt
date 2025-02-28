@@ -89,15 +89,18 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
 
     override fun onClickPositive() {
         viewModel.uiData.value?.let { data ->
-            updateCluster(
-                data.copy(
-                    isCheck = binding.checkBox.isChecked,
-                    memo = binding.memo.text.toString(),
-                    lastTime = CommonUtil.currentTime()
-                )
+            val origin = viewModel.originCluster
+            val change = data.copy(
+                isCheck = binding.checkBox.isChecked,
+                memo = binding.memo.text.toString(),
             )
+            if (origin?.hashCode() != change.hashCode()) {
+                updateCluster(change.copy(lastTime = CommonUtil.currentTime()))
+                Toast.makeText(requireContext(), "저장되었어요.", Toast.LENGTH_SHORT).show()
+            } else {
+                Timber.d("변경안됨")
+            }
         }
-        Toast.makeText(requireContext(), "저장되었어요.", Toast.LENGTH_SHORT).show()
         dismiss()
     }
 
@@ -121,3 +124,17 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
         }
     }
 }
+
+fun main(){
+    val data = AA("1",1)
+    val data2 = AA("1",1)
+
+    println(data == data2)
+    println(data === data2)
+    println(data.hashCode() == data2.hashCode())
+}
+
+data class AA(
+    val gap: String,
+    val gap2: Int
+)
