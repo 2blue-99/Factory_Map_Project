@@ -2,6 +2,7 @@ package com.example.factory_map_project.ui.maps
 
 import android.location.Geocoder
 import android.os.Build
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -9,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.domain.type.AreaType
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
+import com.example.factory_map_project.ui.MainActivity
 import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.PermissionUtil
@@ -121,6 +123,16 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             mainViewModel.currentLocation.collectLatest {
                 currentMarker = addUserMarker(it)
             }
+        }
+
+        repeatOnFragmentStarted {
+            mainViewModel.isNetworkConnected.collectLatest {
+                binding.disconnectIcon.visibility = if(it) View.INVISIBLE else View.VISIBLE
+            }
+        }
+
+        binding.disconnectIcon.setOnClickListener {
+            mainActivity().showSnackBar(it, PopupContent.MAP_DISCONNECT.content)
         }
     }
 

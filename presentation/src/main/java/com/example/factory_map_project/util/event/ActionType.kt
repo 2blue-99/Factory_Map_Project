@@ -15,5 +15,5 @@ enum class ActionType {
 
     // Map
     POSITION_INIT,
-    MY_LOCATION
+    MY_LOCATION,
 }

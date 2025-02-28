@@ -9,6 +9,7 @@ import com.example.domain.type.ClusterTriggerType
 import com.example.factory_map_project.R
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.CommonUtil.toCluster
+import com.example.factory_map_project.util.CommonUtil.toDoubleRange
 import com.example.factory_map_project.util.VerifiedMutableLiveData
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
@@ -32,6 +33,7 @@ class MapsViewModel @Inject constructor(
     // Mark: Variable
     //**********************************************************************************************
     var selectedAreaType = dataStore.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
+
     var isRefresh = VerifiedMutableLiveData(true)
 
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
@@ -86,18 +88,7 @@ class MapsViewModel @Inject constructor(
             isRefresh.value = false
             awaitEvent(AppEvent.GetLocation)?.let { (latLng, zoom) ->
                 Timber.d("latLng : $latLng, zoom: $zoom")
-                val gap = when {
-                    zoom >= 15f -> 0.01
-                    zoom >= 14f -> 0.02
-                    zoom >= 13f -> 0.03
-                    zoom >= 12f -> 0.04
-                    zoom >= 11f -> 0.1
-                    zoom >= 10f -> 0.2
-                    zoom >= 9f -> 0.4
-                    zoom >= 8f -> 0.5
-                    else -> 0.6
-                }
-                dataStore.setCurrentLocation(Triple(latLng.latitude, latLng.longitude, gap))
+                dataStore.setCurrentLocation(Triple(latLng.latitude, latLng.longitude, zoom.toDoubleRange()))
             }
         }
     }

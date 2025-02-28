@@ -17,6 +17,7 @@ import com.example.factory_map_project.util.PermissionUtil
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.CommonUtil.moveSettingIntent
 import com.example.factory_map_project.util.CommonUtil.repeatOnStarted
+import com.example.factory_map_project.util.NetworkUtil
 import com.example.factory_map_project.util.event.AppEvent
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Granularity
@@ -69,8 +70,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     //**********************************************************************************************
     override fun setData() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT // 회전 불가 처리
+
         setBackPressListener()
         dialogManager = DialogUtil(this)
+        NetworkUtil(this, viewModel.isNetworkConnected)
+
 //        val navHostFragment =
 //            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
 //        binding.navBottom.setupWithNavController(navHostFragment.navController)

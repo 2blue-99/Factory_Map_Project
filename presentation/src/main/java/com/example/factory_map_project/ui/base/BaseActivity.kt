@@ -1,6 +1,8 @@
 package com.example.factory_map_project.ui.base
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,7 @@ import com.example.factory_map_project.ui.bottomDialog.MarkerBottomDialog
 import com.example.factory_map_project.ui.dialog.InputDialog
 import com.example.factory_map_project.ui.dialog.SpinnerDialog
 import com.example.factory_map_project.util.map.FactoryCluster
+import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
 
@@ -103,7 +106,11 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
-
+    fun showSnackBar(view: View, text: String){
+        Snackbar.make(view, text, Snackbar.LENGTH_SHORT).apply {
+            setTextColor(Color.WHITE)
+        }.show()
+    }
 
     fun showDownloadBottomDialog(){
         DownloadBottomDialog

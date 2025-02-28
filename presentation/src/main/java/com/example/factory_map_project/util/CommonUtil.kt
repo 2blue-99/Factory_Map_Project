@@ -177,4 +177,18 @@ object CommonUtil {
         Timber.d("text : ${text.isNullOrBlank()}")
         return text.isNullOrBlank()
     }
+
+    fun Float.toDoubleRange(): Double{
+        return when {
+            this >= 15f -> 0.01
+            this >= 14f -> 0.02
+            this >= 13f -> 0.03
+            this >= 12f -> 0.04
+            this >= 11f -> 0.1
+            this >= 10f -> 0.2
+            this >= 9f -> 0.4
+            this >= 8f -> 0.5
+            else -> 0.6
+        }
+    }
 }

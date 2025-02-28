@@ -10,7 +10,9 @@ sealed class AppEvent {
     data class ShowToast(val message: String): AppEvent()
     data class ShowLoading(val state: Boolean): AppEvent()
     data class MovePage(val id: Int): AppEvent()
+
     data class Action<T>(val type: ActionType, val input: T? = null): AppEvent()
+
     data object GetLocation : AppEvent(), EventDelegator<Pair<LatLng, Float>> by DelegatedEvent()
 
     data object GoBack : AppEvent()
