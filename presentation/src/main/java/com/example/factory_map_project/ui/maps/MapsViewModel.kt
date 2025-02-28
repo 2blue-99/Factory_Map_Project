@@ -39,7 +39,7 @@ class MapsViewModel @Inject constructor(
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
     val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
 
-    var isMapInit = false
+    var connectedState = dataStore.connectedStateFlow.asLiveData().map { VerifiedMutableLiveData(it) }
 
 
     //**********************************************************************************************

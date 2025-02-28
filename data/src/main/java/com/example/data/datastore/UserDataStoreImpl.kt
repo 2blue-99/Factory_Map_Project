@@ -20,6 +20,7 @@ class UserDataStoreImpl @Inject constructor(
         val SELECTED_AREA = intPreferencesKey("AREA")
         val CLUSTER_TRIGGER_TYPE_POSITION = intPreferencesKey("CLUSTER_TRIGGER_TYPE_POSITION")
         val CURRENT_POSITION = stringPreferencesKey("CURRENT_POSITION")
+        val CONNECTED_STATE = booleanPreferencesKey("CONNECTED_STATE")
     }
 
     override val downloadFlow: Flow<Boolean> =
@@ -39,6 +40,9 @@ class UserDataStoreImpl @Inject constructor(
                 Triple(data[0].toDouble(), data[1].toDouble(), data[2].toDouble())
             }
         }
+
+    override val connectedStateFlow: Flow<Boolean> =
+        dataStore.data.map { dataStore -> dataStore[PreferencesKey.CONNECTED_STATE] ?:true }
 
 
 
@@ -63,6 +67,12 @@ class UserDataStoreImpl @Inject constructor(
     override suspend fun setCurrentLocation(location: Triple<Double, Double, Double>) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.CURRENT_POSITION] = "${location.first},${location.second},${location.third}"
+        }
+    }
+
+    override suspend fun setConnectedState(state: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.CONNECTED_STATE] = state
         }
     }
 }

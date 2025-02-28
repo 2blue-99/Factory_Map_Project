@@ -125,12 +125,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             }
         }
 
-        repeatOnFragmentStarted {
-            mainViewModel.isNetworkConnected.collectLatest {
-                binding.disconnectIcon.visibility = if(it) View.INVISIBLE else View.VISIBLE
-            }
-        }
-
         binding.disconnectIcon.setOnClickListener {
             mainActivity().showSnackBar(it, PopupContent.MAP_DISCONNECT.content)
         }

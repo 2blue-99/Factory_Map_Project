@@ -13,7 +13,7 @@ import timber.log.Timber
 
 class NetworkUtil(
     private val context: Context,
-    private val isConnected: MutableStateFlow<Boolean>
+    private val updateState: (Boolean) -> Unit
 ) {
     //**********************************************************************************************
     // Mark: Variable
@@ -65,7 +65,7 @@ class NetworkUtil(
             Timber.d("checkNetworkState : ${connectivityManager.activeNetwork}")
             delay(500)
             val currentNetwork = connectivityManager.activeNetwork != null
-            isConnected.emit(currentNetwork)
+            updateState(currentNetwork)
         }
     }
 }
