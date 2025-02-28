@@ -1,7 +1,10 @@
 package com.example.data.remote.di
 
+import com.example.data.remote.datasource.FirebaseDataSource
+import com.example.data.remote.datasource.FirebaseDataSourceImpl
 import com.example.data.remote.datasource.GyeonggiDataSource
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,4 +26,11 @@ object DataSourceModule {
     fun provideGyeonggiDataSource(
         dataSource: GyeonggiDataSource
     ): GyeonggiDataSourceImpl = GyeonggiDataSourceImpl(dataSource)
+
+    @Provides
+    @Singleton
+    fun provideFireStoreDataSource(
+        fireStore: FirebaseFirestore
+    ): FirebaseDataSource = FirebaseDataSourceImpl(fireStore)
+
 }

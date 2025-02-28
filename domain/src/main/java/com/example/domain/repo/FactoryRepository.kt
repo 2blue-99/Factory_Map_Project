@@ -22,4 +22,7 @@ interface FactoryRepository {
     suspend fun deleteFactoryDao(id: Int)
 
     suspend fun deleteAllFactoryDao()
+
+    fun insertRemoteFactory()
+    fun getRemoteFactory()
 }

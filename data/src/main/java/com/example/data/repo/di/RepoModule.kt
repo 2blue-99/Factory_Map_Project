@@ -6,6 +6,8 @@ import com.example.data.datastore.UserDataStore
 import com.example.data.datastore.UserDataStoreImpl
 import com.example.data.local.dao.FactoryDao
 import com.example.data.local.dao.FilterDao
+import com.example.data.remote.datasource.FirebaseDataSource
+import com.example.data.remote.datasource.FirebaseDataSourceImpl
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.repo.FactoryRepositoryImpl
 import com.example.data.repo.FilterRepositoryImpl
@@ -24,10 +26,11 @@ object RepoModule {
     @Singleton
     fun provideRepo(
         gyeonggiDatasource: GyeonggiDataSourceImpl,
+        firebaseDataSource: FirebaseDataSource,
         factoryDao: FactoryDao,
         filterDao: FilterDao,
         userDataStore: UserDataStore
-    ): FactoryRepository = FactoryRepositoryImpl(gyeonggiDatasource, factoryDao, filterDao, userDataStore)
+    ): FactoryRepository = FactoryRepositoryImpl(gyeonggiDatasource, firebaseDataSource, factoryDao, filterDao, userDataStore)
 
     @Provides
     @Singleton

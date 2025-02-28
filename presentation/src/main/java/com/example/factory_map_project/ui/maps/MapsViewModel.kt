@@ -16,6 +16,7 @@ import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -50,6 +51,16 @@ class MapsViewModel @Inject constructor(
      */
     init {
         loadFactoryData()
+        modelScope.launch {
+            delay(300)
+            repo.insertRemoteFactory()
+            delay(300)
+            repo.insertRemoteFactory()
+            delay(300)
+            repo.insertRemoteFactory()
+            repo.getRemoteFactory()
+        }
+
     }
 
 

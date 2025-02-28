@@ -5,6 +5,8 @@ import com.example.data.datastore.UserDataStore
 import com.example.data.local.dao.FactoryDao
 import com.example.data.local.dao.FilterDao
 import com.example.data.local.entity.FactoryEntity
+import com.example.data.remote.datasource.FirebaseDataSource
+import com.example.data.remote.datasource.FirebaseDataSourceImpl
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.remote.util.toDomain
 import com.example.domain.model.FactoryInfo
@@ -30,6 +32,7 @@ import javax.inject.Inject
 
 class FactoryRepositoryImpl @Inject constructor(
     private val gyeonggiDataSource: GyeonggiDataSourceImpl,
+    private val firebaseDataSource: FirebaseDataSource,
     private val factoryDao: FactoryDao,
     private val filterDao: FilterDao,
     private val userDataSource: UserDataStore
@@ -113,7 +116,6 @@ class FactoryRepositoryImpl @Inject constructor(
         }
     }
 
-
     override suspend fun upsertFactoryDao(data: FactoryInfo) {
         factoryDao.upsertData(data.toEntity())
     }
@@ -124,5 +126,14 @@ class FactoryRepositoryImpl @Inject constructor(
 
     override suspend fun deleteAllFactoryDao() {
         factoryDao.deleteAllData()
+    }
+
+    override fun insertRemoteFactory() {
+        firebaseDataSource.insertData()
+    }
+
+
+    override fun getRemoteFactory() {
+        firebaseDataSource.getAllData()
     }
 }

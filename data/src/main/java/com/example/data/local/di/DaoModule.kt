@@ -3,6 +3,8 @@ package com.example.data.local.di
 import com.example.data.local.AppDatabase
 import com.example.data.local.dao.FactoryDao
 import com.example.data.local.dao.FilterDao
+import com.example.data.local.dao.ReceiveDao
+import com.example.data.local.dao.UpdateDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +23,14 @@ object DaoModule {
     @Provides
     fun provideFilterDao(database: AppDatabase): FilterDao =
         database.filterDao()
+
+    @Singleton
+    @Provides
+    fun provideReceiveDao(database: AppDatabase): ReceiveDao =
+        database.receiveDao()
+
+    @Singleton
+    @Provides
+    fun provideUpdateDao(database: AppDatabase): UpdateDao =
+        database.updateDao()
 }

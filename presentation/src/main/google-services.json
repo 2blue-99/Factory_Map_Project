@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "505639045154",
+    "project_id": "factory-dev-dfe38",
+    "storage_bucket": "factory-dev-dfe38.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505639045154:android:597ef9dddb81b2d56ce27b",
+        "android_client_info": {
+          "package_name": "com.example.factory_map_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdfSeBxKkvBGvporkpGDZOxTDabnYe0PQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

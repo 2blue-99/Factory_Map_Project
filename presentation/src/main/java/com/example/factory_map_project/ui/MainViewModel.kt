@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val userDataStoreRepo: UserDataStore
+    private val userDataStoreRepo: UserDataStore,
 ): BaseViewModel() {
     //**********************************************************************************************
     // Mark: Variable
