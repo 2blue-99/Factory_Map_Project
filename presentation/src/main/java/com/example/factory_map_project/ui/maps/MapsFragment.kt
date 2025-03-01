@@ -2,7 +2,6 @@ package com.example.factory_map_project.ui.maps
 
 import android.location.Geocoder
 import android.os.Build
-import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,14 +9,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.domain.type.AreaType
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.FragmentMapsBinding
-import com.example.factory_map_project.ui.MainActivity
 import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.base.BaseFragment
-import com.example.factory_map_project.util.PermissionUtil
-import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.CommonUtil.moveSettingIntent
 import com.example.factory_map_project.util.CommonUtil.repeatOnFragmentStarted
 import com.example.factory_map_project.util.CommonUtil.toNoCountry
+import com.example.factory_map_project.util.PermissionUtil
+import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.BitmapHelper
