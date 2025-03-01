@@ -2,7 +2,11 @@ package com.example.factory_map_project.util.map
 
 import android.content.Context
 import com.example.factory_map_project.R
-import com.example.factory_map_project.util.*
+import com.example.factory_map_project.util.CHECK_ALPHA
+import com.example.factory_map_project.util.MARKER_HOTEL
+import com.example.factory_map_project.util.MARKER_RESORT
+import com.example.factory_map_project.util.MARKER_UNKNOWN
+import com.example.factory_map_project.util.NONE_CHECK_ALPHA
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
