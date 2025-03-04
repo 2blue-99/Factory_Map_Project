@@ -65,8 +65,4 @@ class CustomClusterRenderer(
             else -> BitmapHelper(context, R.drawable.icon_unknown_marker)
         }?: BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
     }
-
-    private fun setAlpha(){
-
-    }
 }
