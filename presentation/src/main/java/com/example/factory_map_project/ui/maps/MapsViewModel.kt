@@ -52,13 +52,13 @@ class MapsViewModel @Inject constructor(
     init {
         loadFactoryData()
         modelScope.launch {
-            delay(300)
-            repo.insertRemoteFactory()
-            delay(300)
-            repo.insertRemoteFactory()
-            delay(300)
-            repo.insertRemoteFactory()
-            repo.getRemoteFactory()
+//            delay(300)
+//            repo.insertRemoteFactory()
+//            delay(300)
+//            repo.insertRemoteFactory()
+//            delay(300)
+//            repo.insertRemoteFactory()
+//            repo.getRemoteFactory()
         }
 
     }

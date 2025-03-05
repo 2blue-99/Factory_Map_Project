@@ -14,6 +14,7 @@ class FirebaseDataSourceImpl @Inject constructor(
 ): FirebaseDataSource {
     override fun getAllData(): Flow<List<FactoryResponse>> {
         return flow {
+            Timber.d("getAllData")
             fireStore.collection("factory")
                 .whereNotEqualTo("user_id", "123")
                 .get()
@@ -26,6 +27,7 @@ class FirebaseDataSourceImpl @Inject constructor(
     }
 
     override fun insertData(): Boolean {
+        Timber.d("insertData")
         fireStore.collection("factory")
             .document("document")
             .collection("collection")

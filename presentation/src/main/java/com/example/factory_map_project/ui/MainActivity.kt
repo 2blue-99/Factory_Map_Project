@@ -3,11 +3,13 @@ package com.example.factory_map_project.ui
 import android.content.pm.ActivityInfo
 import android.location.Geocoder
 import android.os.Build
+import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.example.data.remote.model.FactoryResponse
 import com.example.domain.model.AllAreaInfo
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.ActivityMainBinding
@@ -27,8 +29,15 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -43,7 +52,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
     lateinit var dialogManager: DialogUtil
-
+    private lateinit var fireStore: FirebaseFirestore
 
     private val locationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ resultList ->
         var permissionState = true
@@ -74,6 +83,21 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         setBackPressListener()
         dialogManager = DialogUtil(this)
         NetworkUtil(this){ viewModel.updateConnectState(it) }
+
+        fireStore = Firebase.firestore
+
+        lifecycleScope.launch {
+            insert()
+            delay(1000)
+            insert()
+            delay(1000)
+            insert()
+            delay(1000)
+            getList().collect{
+                Log.e("TAG", "setData: $it", )
+            }
+        }
+
 
 //        val navHostFragment =
 //            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
@@ -194,6 +218,33 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                 locationCallback,
                 null
             )
+        }
+    }
+
+    fun insert(){
+        fireStore.collection("factory")
+            .document("document")
+            .collection("collection")
+            .add(FactoryResponse(1, "title"))
+            .addOnSuccessListener {
+                Timber.d("success")
+            }
+            .addOnFailureListener {
+                Timber.d("fail")
+            }
+    }
+
+    suspend fun getList(): Flow<List<FactoryResponse>> {
+        return flow {
+            Timber.d("getAllData")
+            fireStore.collection("factory")
+                .whereNotEqualTo("user_id", "123")
+                .get()
+                .await()
+                .mapNotNull  { result ->
+                    Timber.d("result : $result")
+                    emit(emptyList())
+                }
         }
     }
 }

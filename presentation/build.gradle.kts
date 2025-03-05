@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android)
+
+    id("com.google.gms.google-services")
 }
 
 val properties = Properties()
@@ -96,4 +98,9 @@ dependencies {
 
     /* Location */
     implementation (libs.play.services.location)
+
+
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
 }
