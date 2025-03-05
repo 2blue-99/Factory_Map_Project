@@ -1,13 +1,9 @@
 package com.example.data.repo.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.example.data.datastore.UserDataStore
-import com.example.data.datastore.UserDataStoreImpl
 import com.example.data.local.dao.FactoryDao
 import com.example.data.local.dao.FilterDao
 import com.example.data.remote.datasource.FirebaseDataSource
-import com.example.data.remote.datasource.FirebaseDataSourceImpl
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.repo.FactoryRepositoryImpl
 import com.example.data.repo.FilterRepositoryImpl

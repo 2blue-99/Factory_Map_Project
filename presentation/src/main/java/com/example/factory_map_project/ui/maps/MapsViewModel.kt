@@ -10,7 +10,7 @@ import com.example.factory_map_project.R
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.CommonUtil.toCluster
 import com.example.factory_map_project.util.CommonUtil.toDoubleRange
-import com.example.factory_map_project.util.VerifiedMutableLiveData
+import com.example.factory_map_project.util.InitialMutableLiveData
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
@@ -35,12 +35,12 @@ class MapsViewModel @Inject constructor(
     //**********************************************************************************************
     var selectedAreaType = dataStore.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
 
-    var isRefresh = VerifiedMutableLiveData(true)
+    var isRefresh = InitialMutableLiveData(true)
 
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
     val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
 
-    var connectedState = dataStore.connectedStateFlow.asLiveData().map { VerifiedMutableLiveData(it) }
+    var connectedState = dataStore.connectedStateFlow.asLiveData().map { InitialMutableLiveData(it) }
 
 
     //**********************************************************************************************

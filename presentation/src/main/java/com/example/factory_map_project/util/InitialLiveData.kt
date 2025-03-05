@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
-open class VerifiedLiveData<T: Any>(value: T): LiveData<T>(value) {
+open class InitialLiveData<T: Any>(value: T): LiveData<T>(value) {
     override fun getValue(): T {
         return super.getValue() as T
     }
@@ -16,7 +16,7 @@ open class VerifiedLiveData<T: Any>(value: T): LiveData<T>(value) {
     }
 }
 
-class VerifiedMutableLiveData<T: Any>(value: T): VerifiedLiveData<T>(value) {
+class InitialMutableLiveData<T: Any>(value: T): InitialLiveData<T>(value) {
     public override fun setValue(value: T) {
         super.setValue(value)
     }
