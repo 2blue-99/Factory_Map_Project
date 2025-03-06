@@ -1,9 +1,9 @@
 package com.example.factory_map_project.util
 
-import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
+import com.example.data.util.NetworkInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -13,14 +13,12 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class NetworkUtil @Inject constructor(
-    private val context: Context,
-    private val updateState: (Boolean) -> Unit
-) {
+    private val connectivityManager: ConnectivityManager
+): NetworkInterface {
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
-    private val connectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    override val networkState = MutableStateFlow(true)
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
@@ -66,7 +64,7 @@ class NetworkUtil @Inject constructor(
             Timber.d("checkNetworkState : ${connectivityManager.activeNetwork}")
             delay(500)
             val currentNetwork = connectivityManager.activeNetwork != null
-            updateState(currentNetwork)
+            networkState.emit(currentNetwork)
         }
     }
 }

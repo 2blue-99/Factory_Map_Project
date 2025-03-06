@@ -72,7 +72,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
         setBackPressListener()
         dialogManager = DialogUtil(this)
-        NetworkUtil(this){ viewModel.updateConnectState(it) }
 
 //        val navHostFragment =
 //            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment

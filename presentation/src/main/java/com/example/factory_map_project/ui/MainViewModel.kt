@@ -13,15 +13,11 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val userDataStoreRepo: UserDataStore,
-): BaseViewModel() {
+class MainViewModel @Inject constructor(): BaseViewModel() {
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
     var currentLocation = MutableSharedFlow<LatLng>()
-
-    var isNetworkConnected = MutableStateFlow<Boolean>(true)
 
 
     //**********************************************************************************************
@@ -47,11 +43,4 @@ class MainViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    fun updateConnectState(state: Boolean){
-        ioScope.launch {
-            userDataStoreRepo.setConnectedState(state)
-        }
-    }
-
-
 }

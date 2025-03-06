@@ -3,6 +3,7 @@ package com.example.factory_map_project.ui.maps
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import com.example.data.datastore.UserDataStore
+import com.example.data.util.NetworkInterface
 import com.example.domain.repo.FactoryRepository
 import com.example.domain.repo.FireStoreRepository
 import com.example.domain.type.AreaType
@@ -29,7 +30,8 @@ import javax.inject.Inject
 class MapsViewModel @Inject constructor(
     private val factoryRepo: FactoryRepository,
     private val fireStoreRepository: FireStoreRepository,
-    private val userData: UserDataStore
+    private val userData: UserDataStore,
+    private val networkUtil: NetworkInterface
 ) : BaseViewModel() {
     //**********************************************************************************************
     // Mark: Variable
@@ -41,7 +43,7 @@ class MapsViewModel @Inject constructor(
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
     val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
 
-    var connectedState = userData.connectedStateFlow.asLiveData().map { InitialMutableLiveData(it) }
+    var connectedState = networkUtil.networkState.asLiveData().map { InitialMutableLiveData(it) }
 
 
     //**********************************************************************************************

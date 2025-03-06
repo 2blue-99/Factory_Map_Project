@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class UserDataStoreImpl @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ): UserDataStore {
 
     object PreferencesKey {
@@ -40,6 +40,9 @@ class UserDataStoreImpl @Inject constructor(
                 Triple(data[0].toDouble(), data[1].toDouble(), data[2].toDouble())
             }
         }
+
+
+
 
     override val connectedStateFlow: Flow<Boolean> =
         dataStore.data.map { dataStore -> dataStore[PreferencesKey.CONNECTED_STATE] ?:true }
