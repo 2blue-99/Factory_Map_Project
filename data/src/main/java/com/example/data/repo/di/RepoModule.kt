@@ -1,6 +1,6 @@
 package com.example.data.repo.di
 
-import com.example.data.datastore.DataStore
+import com.example.data.datastore.UserDataStore
 import com.example.data.local.dao.FactoryDao
 import com.example.data.local.dao.FilterDao
 import com.example.data.local.dao.ReceiveDao
@@ -26,7 +26,7 @@ object RepoModule {
     fun provideRepo(
         factoryDao: FactoryDao,
         filterDao: FilterDao,
-        userDataStore: DataStore
+        userDataStore: UserDataStore
     ): FactoryRepository = FactoryRepositoryImpl(factoryDao, filterDao, userDataStore)
 
     @Provides
@@ -41,7 +41,7 @@ object RepoModule {
         fireStoreDataSource: FireStoreDataSource,
         receiveDao: ReceiveDao,
         sendDao: SendDao,
-        userDataStore: DataStore
+        userDataStore: UserDataStore
     ): FireStoreRepository = FireStoreRepositoryImpl(fireStoreDataSource, receiveDao, sendDao, userDataStore)
 
 }

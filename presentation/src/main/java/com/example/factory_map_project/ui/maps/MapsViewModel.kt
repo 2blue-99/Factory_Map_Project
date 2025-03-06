@@ -2,7 +2,7 @@ package com.example.factory_map_project.ui.maps
 
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import com.example.data.datastore.DataStore
+import com.example.data.datastore.UserDataStore
 import com.example.domain.repo.FactoryRepository
 import com.example.domain.repo.FireStoreRepository
 import com.example.domain.type.AreaType
@@ -29,19 +29,19 @@ import javax.inject.Inject
 class MapsViewModel @Inject constructor(
     private val factoryRepo: FactoryRepository,
     private val fireStoreRepository: FireStoreRepository,
-    private val dataStore: DataStore
+    private val userData: UserDataStore
 ) : BaseViewModel() {
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
-    var selectedAreaType = dataStore.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
+    var selectedAreaType = userData.areaPositionFlow.asLiveData().map { AreaType.toType(it) }
 
     var isRefresh = InitialMutableLiveData(true)
 
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
     val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
 
-    var connectedState = dataStore.connectedStateFlow.asLiveData().map { InitialMutableLiveData(it) }
+    var connectedState = userData.connectedStateFlow.asLiveData().map { InitialMutableLiveData(it) }
 
 
     //**********************************************************************************************
@@ -69,7 +69,7 @@ class MapsViewModel @Inject constructor(
                     position = AreaType.toPosition(selectedAreaType.value),
                     onSelect = { position ->
                         ioScope.launch {
-                            dataStore.setArea(position)
+                            userData.setArea(position)
                             withContext(Dispatchers.Main){
                                 emitEvent(AppEvent.Action(ActionType.POSITION_INIT, null))
                             }
@@ -93,7 +93,7 @@ class MapsViewModel @Inject constructor(
             isRefresh.value = false
             awaitEvent(AppEvent.GetLocation)?.let { (latLng, zoom) ->
                 Timber.d("latLng : $latLng, zoom: $zoom")
-                dataStore.setCurrentLocation(Triple(latLng.latitude, latLng.longitude, zoom.toDoubleRange()))
+                userData.setCurrentLocation(Triple(latLng.latitude, latLng.longitude, zoom.toDoubleRange()))
             }
         }
     }
@@ -125,14 +125,14 @@ class MapsViewModel @Inject constructor(
     }
 
     suspend fun getClusterTriggerSize(): Int {
-        val triggerType = dataStore.clusterTriggerTypePositionFlow.first()
+        val triggerType = userData.clusterTriggerTypePositionFlow.first()
         return ClusterTriggerType.toType(triggerType).size
     }
 
     fun changeOptionArea(area: String){
         modelScope.launch {
             val gap = AreaType.toPosition(area)
-            dataStore.setArea(gap)
+            userData.setArea(gap)
         }
     }
 

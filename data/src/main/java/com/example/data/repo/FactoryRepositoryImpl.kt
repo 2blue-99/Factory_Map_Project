@@ -1,7 +1,7 @@
 package com.example.data.repo
 
 import com.example.data.Mapper.toEntity
-import com.example.data.datastore.DataStore
+import com.example.data.datastore.UserDataStore
 import com.example.data.local.dao.FactoryDao
 import com.example.data.local.dao.FilterDao
 import com.example.domain.model.FactoryInfo
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class FactoryRepositoryImpl @Inject constructor(
     private val factoryDao: FactoryDao,
     private val filterDao: FilterDao,
-    private val userDataSource: DataStore
+    private val userDataSource: UserDataStore
 ): FactoryRepository {
     override fun getFactoryAllDao(): Flow<List<FactoryInfo>> {
         return factoryDao.getAllData().map { it.map { it.toDomain() } }

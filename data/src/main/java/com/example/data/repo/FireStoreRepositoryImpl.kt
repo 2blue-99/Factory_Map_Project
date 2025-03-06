@@ -2,7 +2,7 @@ package com.example.data.repo
 
 import com.example.data.Mapper.toEntity
 import com.example.data.Mapper.toResponse
-import com.example.data.datastore.DataStore
+import com.example.data.datastore.UserDataStore
 import com.example.data.local.dao.ReceiveDao
 import com.example.data.local.dao.SendDao
 import com.example.data.local.entity.SendEntity
@@ -18,7 +18,7 @@ class FireStoreRepositoryImpl @Inject constructor(
     private val fireStoreDataSource: FireStoreDataSource,
     private val receiveDao: ReceiveDao,
     private val sendDao: SendDao,
-    private val userDataSource: DataStore
+    private val userDataSource: UserDataStore
 
 ): FireStoreRepository {
     override fun login() {}
