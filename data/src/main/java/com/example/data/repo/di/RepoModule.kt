@@ -9,6 +9,7 @@ import com.example.data.remote.datasource.FireStoreDataSource
 import com.example.data.repo.FactoryRepositoryImpl
 import com.example.data.repo.FilterRepositoryImpl
 import com.example.data.repo.FireStoreRepositoryImpl
+import com.example.data.util.NetworkInterface
 import com.example.domain.repo.FactoryRepository
 import com.example.domain.repo.FilterRepository
 import com.example.domain.repo.FireStoreRepository
@@ -24,10 +25,12 @@ object RepoModule {
     @Provides
     @Singleton
     fun provideRepo(
+        fireStoreRepository: FireStoreRepository,
         factoryDao: FactoryDao,
         filterDao: FilterDao,
-        userDataStore: UserDataStore
-    ): FactoryRepository = FactoryRepositoryImpl(factoryDao, filterDao, userDataStore)
+        userDataStore: UserDataStore,
+        networkUtil: NetworkInterface
+    ): FactoryRepository = FactoryRepositoryImpl(fireStoreRepository, factoryDao, filterDao, userDataStore, networkUtil)
 
     @Provides
     @Singleton

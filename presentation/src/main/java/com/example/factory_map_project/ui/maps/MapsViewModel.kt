@@ -114,9 +114,7 @@ class MapsViewModel @Inject constructor(
 
     fun updateFactory(data: FactoryCluster) {
         ioScope.launch {
-            val inputData = data.toDomain()
-            factoryRepo.upsertFactoryDao(inputData)
-            fireStoreRepository.insertRemoteFactory(inputData)
+            factoryRepo.upsertFactoryDao(data.toDomain())
         }
     }
 

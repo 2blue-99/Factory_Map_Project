@@ -4,22 +4,27 @@ import com.example.data.Mapper.toEntity
 import com.example.data.datastore.UserDataStore
 import com.example.data.local.dao.FactoryDao
 import com.example.data.local.dao.FilterDao
+import com.example.data.util.NetworkInterface
 import com.example.domain.model.FactoryInfo
 import com.example.domain.repo.FactoryRepository
+import com.example.domain.repo.FireStoreRepository
 import com.example.domain.type.AreaType
 import com.example.domain.type.SelectType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
 
 class FactoryRepositoryImpl @Inject constructor(
+    private val fireStoreRepository: FireStoreRepository,
     private val factoryDao: FactoryDao,
     private val filterDao: FilterDao,
-    private val userDataSource: UserDataStore
+    private val userDataSource: UserDataStore,
+    private val networkUtil: NetworkInterface
 ): FactoryRepository {
     override fun getFactoryAllDao(): Flow<List<FactoryInfo>> {
         return factoryDao.getAllData().map { it.map { it.toDomain() } }
@@ -66,6 +71,9 @@ class FactoryRepositoryImpl @Inject constructor(
 
     override suspend fun upsertFactoryDao(data: FactoryInfo) {
         factoryDao.upsertData(data.toEntity())
+        if(networkUtil.networkState.first()){
+            fireStoreRepository.insertRemoteFactory(data)
+        }
     }
 
     override suspend fun deleteFactoryDao(id: Int) {
