@@ -10,8 +10,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class NetworkUtil(
+class NetworkUtil @Inject constructor(
     private val context: Context,
     private val updateState: (Boolean) -> Unit
 ) {
