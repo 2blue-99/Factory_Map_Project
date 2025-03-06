@@ -32,4 +32,27 @@ data class FactoryInfo(
     val isDeleted: Boolean, // 삭제 여부
 
     val lastTime: String
-)
+){
+    companion object {
+        fun empty(): FactoryInfo{
+            return FactoryInfo(
+                id = 0,
+                companyName = "test",
+                companyScale = "대대기업",
+                lotArea = "0",
+                contact = "010",
+                employeeCount = "100",
+                businessType = "기모종",
+                product = "성인용품",
+                loadAddress = "김포시",
+                latitude = 0.0,
+                longitude = 0.0,
+                isCheck = false,
+                memo = "memo",
+                category = 0,
+                isDeleted = false,
+                lastTime = "lastTime"
+            )
+        }
+    }
+}

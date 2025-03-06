@@ -153,7 +153,7 @@ object CommonUtil {
     fun currentTime(): String{
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val current = LocalDateTime.now()
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             current.format(formatter)
         }else{
             val currentTimeMillis = System.currentTimeMillis()
@@ -166,7 +166,7 @@ object CommonUtil {
             val hour = calendar.get(Calendar.HOUR_OF_DAY) // 24시간제
             val minute = calendar.get(Calendar.MINUTE)
             val second = calendar.get(Calendar.SECOND)
-            "$year-$month-$day $hour:$minute"
+            "$year-$month-$day $hour:$minute:$second"
         }
     }
 

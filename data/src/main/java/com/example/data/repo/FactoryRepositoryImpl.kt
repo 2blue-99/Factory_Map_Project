@@ -6,7 +6,6 @@ import com.example.data.local.dao.FactoryDao
 import com.example.data.local.dao.FilterDao
 import com.example.data.local.entity.FactoryEntity
 import com.example.data.remote.datasource.FirebaseDataSource
-import com.example.data.remote.datasource.FirebaseDataSourceImpl
 import com.example.data.remote.datasource.GyeonggiDataSourceImpl
 import com.example.data.remote.util.toDomain
 import com.example.domain.model.FactoryInfo
@@ -16,16 +15,15 @@ import com.example.domain.type.AreaType
 import com.example.domain.type.SelectType
 import com.example.domain.util.GYEONGGI_DOWNLOAD_COUNT
 import com.example.domain.util.ResourceState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject

@@ -1,6 +1,7 @@
 package com.example.data.remote.datasource
 
 import com.example.data.remote.model.FactoryResponse
+import com.example.domain.model.FactoryInfo
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,8 +17,15 @@ class FirebaseDataSourceImpl @Inject constructor(
         return flow {
             Timber.d("getAllData")
             fireStore.collection("factory")
-                .whereNotEqualTo("user_id", "123")
+//                .whereNotEqualTo("user_id", "123")
                 .get()
+                .addOnSuccessListener { result ->
+                    Timber.d("result : $result")
+                    val gap = result.map {
+                        it.toObject(FactoryResponse::class.java)
+                    }
+                    Timber.d("gap : $gap")
+                }
                 .await()
                 .mapNotNull  { result ->
                     Timber.d("result : $result")
@@ -29,9 +37,7 @@ class FirebaseDataSourceImpl @Inject constructor(
     override fun insertData(): Boolean {
         Timber.d("insertData")
         fireStore.collection("factory")
-            .document("document")
-            .collection("collection")
-            .add(FactoryResponse(1, "title"))
+            .add(FactoryResponse(1,"앙", FactoryInfo.empty() ,"오늘인데요"))
             .addOnSuccessListener {
                 Timber.d("success")
             }
