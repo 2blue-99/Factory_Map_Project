@@ -8,7 +8,6 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 import javax.inject.Inject
 
 class UserDataStoreImpl @Inject constructor(
@@ -21,6 +20,7 @@ class UserDataStoreImpl @Inject constructor(
         val CLUSTER_TRIGGER_TYPE_POSITION = intPreferencesKey("CLUSTER_TRIGGER_TYPE_POSITION")
         val CURRENT_POSITION = stringPreferencesKey("CURRENT_POSITION")
         val CONNECTED_STATE = booleanPreferencesKey("CONNECTED_STATE")
+        val USER_CODE = stringPreferencesKey("USER_CODE")
     }
 
     override val downloadFlow: Flow<Boolean> =
@@ -44,6 +44,8 @@ class UserDataStoreImpl @Inject constructor(
     override val connectedStateFlow: Flow<Boolean> =
         dataStore.data.map { dataStore -> dataStore[PreferencesKey.CONNECTED_STATE] ?:true }
 
+    override val userCodeFlow: Flow<String> =
+        dataStore.data.map { dataStore -> dataStore[PreferencesKey.USER_CODE] ?: "1234" }
 
 
     override suspend fun setDownload(state: Boolean) {
@@ -73,6 +75,12 @@ class UserDataStoreImpl @Inject constructor(
     override suspend fun setConnectedState(state: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.CONNECTED_STATE] = state
+        }
+    }
+
+    override suspend fun setUserCode(state: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.USER_CODE] = state
         }
     }
 }

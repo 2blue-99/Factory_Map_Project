@@ -43,6 +43,9 @@ data class FactoryCluster(
     override fun getTitle(): String = companyName
     override fun getSnippet(): String = product
 
+    /**
+     * lastTime = CommonUtil.currentTime()
+     */
     fun toDomain(): FactoryInfo {
         return FactoryInfo(
             id = id,
@@ -60,7 +63,7 @@ data class FactoryCluster(
             memo = memo,
             category = category,
             isDeleted = isDeleted,
-            lastTime = lastTime
+            lastTime = CommonUtil.currentTime()
         )
     }
 

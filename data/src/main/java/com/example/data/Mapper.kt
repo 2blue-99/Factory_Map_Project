@@ -2,6 +2,7 @@ package com.example.data
 
 import com.example.data.local.entity.FactoryEntity
 import com.example.data.local.entity.FilterEntity
+import com.example.data.remote.model.FactoryInfoResponse
 import com.example.domain.model.FactoryInfo
 import com.example.domain.model.FilterData
 
@@ -45,4 +46,24 @@ object Mapper {
             keyword = keyword
         )
     }
+
+    fun  FactoryInfo.toResponse(): FactoryInfoResponse =
+        FactoryInfoResponse(
+            id = id,
+            companyName = companyName,
+            companyScale = companyScale,
+            lotArea = lotArea,
+            contact = contact,
+            employeeCount = employeeCount,
+            businessType = businessType,
+            product = product,
+            loadAddress = loadAddress,
+            latitude = latitude,
+            longitude = longitude,
+            isCheck = isCheck,
+            memo = memo,
+            category = category,
+            isDeleted = isDeleted,
+            lastTime = lastTime
+        )
 }

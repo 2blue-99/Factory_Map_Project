@@ -95,7 +95,7 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
                 memo = binding.memo.text.toString(),
             )
             if (origin?.hashCode() != change.hashCode()) {
-                updateCluster(change.copy(lastTime = CommonUtil.currentTime()))
+                updateCluster(change)
                 Toast.makeText(requireContext(), "저장되었어요.", Toast.LENGTH_SHORT).show()
             } else {
                 Timber.d("변경안됨")

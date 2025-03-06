@@ -4,7 +4,7 @@ import com.example.data.local.AppDatabase
 import com.example.data.local.dao.FactoryDao
 import com.example.data.local.dao.FilterDao
 import com.example.data.local.dao.ReceiveDao
-import com.example.data.local.dao.UpdateDao
+import com.example.data.local.dao.SendDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +31,6 @@ object DaoModule {
 
     @Singleton
     @Provides
-    fun provideUpdateDao(database: AppDatabase): UpdateDao =
-        database.updateDao()
+    fun provideSendDao(database: AppDatabase): SendDao =
+        database.sendDao()
 }

@@ -9,10 +9,13 @@ interface UserDataStore {
     val clusterTriggerTypePositionFlow: Flow<Int>
     val currentLocationFlow: Flow<Triple<Double, Double, Double>> // 위도, 경도, Zoom
     val connectedStateFlow: Flow<Boolean> // 위도, 경도, Zoom
+    val userCodeFlow: Flow<String>
 
     suspend fun setDownload(state: Boolean)
     suspend fun setArea(position: Int)
     suspend fun setClusterTriggerTypePosition(position: Int)
     suspend fun setCurrentLocation(location: Triple<Double, Double, Double>)
     suspend fun setConnectedState(state: Boolean)
+    suspend fun setUserCode(state: String)
+
 }

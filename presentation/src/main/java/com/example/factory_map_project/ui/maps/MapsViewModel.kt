@@ -2,8 +2,9 @@ package com.example.factory_map_project.ui.maps
 
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import com.example.data.datastore.UserDataStore
+import com.example.data.datastore.DataStore
 import com.example.domain.repo.FactoryRepository
+import com.example.domain.repo.FireStoreRepository
 import com.example.domain.type.AreaType
 import com.example.domain.type.ClusterTriggerType
 import com.example.factory_map_project.R
@@ -26,8 +27,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapsViewModel @Inject constructor(
-    private val repo: FactoryRepository,
-    private val dataStore: UserDataStore
+    private val factoryRepo: FactoryRepository,
+    private val fireStoreRepository: FireStoreRepository,
+    private val dataStore: DataStore
 ) : BaseViewModel() {
     //**********************************************************************************************
     // Mark: Variable
@@ -51,10 +53,8 @@ class MapsViewModel @Inject constructor(
     init {
         loadFactoryData()
         modelScope.launch {
-            repo.insertRemoteFactory()
-            repo.getRemoteFactory()
+            fireStoreRepository.getRemoteFactory()
         }
-
     }
 
 
@@ -104,7 +104,7 @@ class MapsViewModel @Inject constructor(
     //**********************************************************************************************
     private fun loadFactoryData() {
         modelScope.launch {
-            repo.getFactoryDao().collect {
+            factoryRepo.getFactoryDao().collect {
                 _factoryData.emit(it.map { it.toCluster() })
             }
         }
@@ -112,13 +112,15 @@ class MapsViewModel @Inject constructor(
 
     fun updateFactory(data: FactoryCluster) {
         ioScope.launch {
-            repo.upsertFactoryDao(data.toDomain())
+            val inputData = data.toDomain()
+            factoryRepo.upsertFactoryDao(inputData)
+            fireStoreRepository.insertRemoteFactory(inputData)
         }
     }
 
     fun deleteFactory(id: Int) {
         ioScope.launch {
-            repo.deleteFactoryDao(id)
+            factoryRepo.deleteFactoryDao(id)
         }
     }
 
