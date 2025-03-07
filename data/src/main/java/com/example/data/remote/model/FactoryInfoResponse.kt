@@ -37,7 +37,7 @@ data class FactoryInfoResponse(
 ) {
     fun toDomain(): FactoryInfo =
         FactoryInfo(
-            id = 0,
+            id = id,
             companyName = companyName,
             companyScale = companyScale,
             lotArea = lotArea,

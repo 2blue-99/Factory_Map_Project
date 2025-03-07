@@ -1,19 +1,13 @@
 package com.example.factory_map_project.ui
 
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
-import com.example.data.datastore.UserDataStore
 import com.example.data.util.NetworkInterface
-import com.example.domain.repo.FireStoreRepository
+import com.example.domain.repo.FactoryRepository
 import com.example.factory_map_project.ui.base.BaseViewModel
-import com.example.factory_map_project.util.InitialMutableLiveData
-import com.example.factory_map_project.util.NetworkUtil
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.event.AppEvent
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val networkUtil: NetworkInterface,
-    private val repository: FireStoreRepository
+    private val factoryRepository: FactoryRepository
 ): BaseViewModel() {
     //**********************************************************************************************
     // Mark: Variable
@@ -55,12 +49,14 @@ class MainViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    fun getRemoteData(){
+    fun syncRemoteData(){
         modelScope.launch {
             if(networkUtil.networkState.first()){
-                if(repository.getRemoteFactory()){
-                    emitEvent(AppEvent.ShowInputDialog())
-                }
+                val syncList = factoryRepository.localSync()
+                if(syncList.isEmpty())
+                    return@launch
+                val localList = factoryRepository.getTargetFactoryDao(syncList.map { it.id })
+                emitEvent(AppEvent.ShowCompareDialog(localList, syncList))
             }
         }
     }

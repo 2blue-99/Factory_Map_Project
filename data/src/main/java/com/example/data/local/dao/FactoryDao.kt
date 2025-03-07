@@ -25,6 +25,9 @@ interface FactoryDao {
     )
     fun getTargetData(area: String, lat: Double, lon: Double, range: Double): Flow<List<FactoryEntity>>
 
+    @Query("SELECT * FROM factory WHERE id in (:id)")
+    fun getTargetIdData(id: List<Int>): List<FactoryEntity>
+
     @Transaction
     fun upsertDataList(data: List<FactoryEntity>){
         data.forEach { upsertData(it) }

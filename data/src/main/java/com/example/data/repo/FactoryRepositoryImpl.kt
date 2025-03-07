@@ -14,7 +14,6 @@ import com.example.data.remote.model.toEntity
 import com.example.data.util.NetworkInterface
 import com.example.domain.model.FactoryInfo
 import com.example.domain.repo.FactoryRepository
-import com.example.domain.repo.FireStoreRepository
 import com.example.domain.type.AreaType
 import com.example.domain.type.SelectType
 import kotlinx.coroutines.flow.Flow
@@ -40,54 +39,61 @@ class FactoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {
-        return combine(userDataSource.areaPositionFlow, userDataSource.currentLocationFlow, filterDao.getAllData()) { areaPosition, mapInfo, filterList ->
+        return combine(
+            userDataSource.areaPositionFlow,
+            userDataSource.currentLocationFlow,
+            filterDao.getAllData()
+        ) { areaPosition, mapInfo, filterList ->
             Timber.d("areaPosition : $areaPosition / mapInfo : $mapInfo, filterList : $filterList")
-            Triple(AreaType.toType(areaPosition).title,mapInfo, filterList)
+            Triple(AreaType.toType(areaPosition).title, mapInfo, filterList)
         }.distinctUntilChanged()
             .flatMapLatest { (areaTitle, mapInfo, filterList) ->
-            Timber.d("areaPosition : $areaTitle / mapInfo : $mapInfo, filterList : $filterList")
-            val excludeCompany =
-                filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
-            val excludeBusinessType =
-                filterList.filter { it.target == SelectType.BUSINESS_TYPE.title }.map { it.keyword }
-            val excludeProduct =
-                filterList.filter { it.target == SelectType.PRODUCT.title }.map { it.keyword }
+                Timber.d("areaPosition : $areaTitle / mapInfo : $mapInfo, filterList : $filterList")
+                val excludeCompany =
+                    filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
+                val excludeBusinessType =
+                    filterList.filter { it.target == SelectType.BUSINESS_TYPE.title }
+                        .map { it.keyword }
+                val excludeProduct =
+                    filterList.filter { it.target == SelectType.PRODUCT.title }.map { it.keyword }
 
-            Timber.d("excludeCompany : $excludeCompany")
-            Timber.d("excludeCategory : $excludeBusinessType")
-            Timber.d("excludeProduct : $excludeProduct")
-            Timber.d("location.first : ${mapInfo.first}")
-            Timber.d("location.second : ${mapInfo.second}")
-            Timber.d("location.second : ${mapInfo.third}")
+                Timber.d("excludeCompany : $excludeCompany")
+                Timber.d("excludeCategory : $excludeBusinessType")
+                Timber.d("excludeProduct : $excludeProduct")
+                Timber.d("location.first : ${mapInfo.first}")
+                Timber.d("location.second : ${mapInfo.second}")
+                Timber.d("location.second : ${mapInfo.third}")
 
-            val range = if(areaTitle == AreaType.ALL.title) mapInfo.third else 5.0
-            val searchArea = if(areaTitle == AreaType.ALL.title) "" else areaTitle
+                val range = if (areaTitle == AreaType.ALL.title) mapInfo.third else 5.0
+                val searchArea = if (areaTitle == AreaType.ALL.title) "" else areaTitle
 
-            factoryDao.getTargetData(searchArea, mapInfo.first, mapInfo.second, range).map { list ->
-                list.filter { data ->
-                    excludeCompany.none { keyword -> data.companyName.contains(keyword) && !data.isCheck }
-                }.filter { data ->
-                    excludeBusinessType.none { keyword -> data.businessType.contains(keyword) && !data.isCheck }
-                }.filter { data ->
-                    excludeProduct.none { keyword -> data.product.contains(keyword) && !data.isCheck }
-                }.map {
-                    it.toDomain()
-                }
+                factoryDao.getTargetData(searchArea, mapInfo.first, mapInfo.second, range)
+                    .map { list ->
+                        list.filter { data ->
+                            excludeCompany.none { keyword -> data.companyName.contains(keyword) && !data.isCheck }
+                        }.filter { data ->
+                            excludeBusinessType.none { keyword -> data.businessType.contains(keyword) && !data.isCheck }
+                        }.filter { data ->
+                            excludeProduct.none { keyword -> data.product.contains(keyword) && !data.isCheck }
+                        }.map {
+                            it.toDomain()
+                        }
+                    }
+
             }
+    }
 
-        }
+    override suspend fun getTargetFactoryDao(updateListId: List<Int>): List<FactoryInfo> {
+        return factoryDao.getTargetIdData(updateListId).map { it.toDomain() }
     }
 
     /**
-     * 1. Local DB 업데이트
-     *
-     * 네트워크 연결 이라면,
-     * 2. Sync 작업
-     *
+     * Local DB 업데이트
+     * 네트워크 연결 시 Remote Sync 작업
      */
     override suspend fun upsertFactoryDao(data: FactoryInfo) {
         factoryDao.upsertData(data.toEntity())
-        if(networkUtil.networkState.first()){
+        if (networkUtil.networkState.first()) {
             remoteSync(data)
         }
     }
@@ -103,14 +109,20 @@ class FactoryRepositoryImpl @Inject constructor(
 
     /**
      * Local 변경 사항을 Remote 에 반영
+     *
+     * 1. Send DB 추가
+     * 2. Send DB Update == false 항목 조회
+     * 3. Remote Data Class - FactoryResponse 로 변경
+     * 4. Remote 업데이트
+     * 5. 성공 시, Send DB Update = true 처리
      */
-    private suspend fun remoteSync(factoryInfo: FactoryInfo){
+    override suspend fun remoteSync(factoryInfo: FactoryInfo) {
         sendDao.upsertData(
             SendEntity(
-            sendId = 0,
-            factory = factoryInfo.toEntity(),
-            isUpdate = false
-        )
+                sendId = 0,
+                factory = factoryInfo.toEntity(),
+                isUpdate = false
+            )
         )
 
         val notUpdateList = sendDao.getNotUpdateData()
@@ -122,12 +134,12 @@ class FactoryRepositoryImpl @Inject constructor(
             )
         }
 
-        if(fireStoreDataSource.insertData(sendList)){
+        if (fireStoreDataSource.insertData(sendList)) {
             Timber.d("Remote Update 성공")
             notUpdateList.forEach {
                 sendDao.upsertData(it.copy(isUpdate = true))
             }
-        }else{
+        } else {
             Timber.d("Remote Update 실패")
         }
     }
@@ -135,32 +147,30 @@ class FactoryRepositoryImpl @Inject constructor(
     /**
      * Remote 변경 사항을 Local 에 반영
      *
-     * true  : Local DB와 동기화 필요 + 비교 후 반영 작업 필요
-     * false : 동기화 불필요
+     * 1. Remote DB 전체 조회
+     * 2. Receive DB 전체 조회
+     * 3. 사이즈가 같을 경우 emptyList 반환 (동기화 불필요)
+     * 4. 사이즈가 같을 경우 Remote ID != Receive DB ID 필터링
+     * 5. 필터링 데이터 Receive DB 에 업데이트
+     * 6. FactoryInfo 로 형변환 후 반환
      */
-    suspend fun localSync(): Boolean {
-        try {
-            val existDataList = receiveDao.getAllData().first()
-            val existIdList = existDataList.map { it.remoteId }
+    override suspend fun localSync(): List<FactoryInfo> {
+        val existDataList = receiveDao.getAllData().first()
+        val existIdList = existDataList.map { it.remoteId }
 
-            val remoteList = fireStoreDataSource.getAllData()
+        val remoteList = fireStoreDataSource.getAllData()
 
-            if(existIdList.size == remoteList.size){
-                Timber.d("동기화 할 항목이 없습니다.")
-                return false
-            }
-
-            val filterRemoteList = remoteList.filter { !existIdList.contains(it.first) }
-
-            filterRemoteList.forEach { data ->
-                receiveDao.upsertData(data.toEntity())
-            }
-
-            return true
-        }catch (e: Exception){
-            Timber.d("err : $e")
-            return false
+        if (existIdList.size == remoteList.size) {
+            Timber.d("동기화 할 항목이 없습니다.")
+            return emptyList()
         }
-    }
 
+        val filterRemoteList = remoteList.filter { !existIdList.contains(it.first) }
+
+        filterRemoteList.forEach { data ->
+            receiveDao.upsertData(data.toEntity())
+        }
+
+        return filterRemoteList.map { it.second.factory.toDomain() }
+    }
 }

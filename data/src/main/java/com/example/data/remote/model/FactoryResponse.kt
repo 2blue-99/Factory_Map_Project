@@ -1,6 +1,7 @@
 package com.example.data.remote.model
 
 import com.example.data.local.entity.ReceiveEntity
+import com.example.domain.model.FactoryInfo
 
 data class FactoryResponse(
     val userCode: String = "",

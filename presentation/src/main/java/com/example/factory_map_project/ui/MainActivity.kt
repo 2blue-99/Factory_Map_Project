@@ -81,10 +81,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
         checkMapPermission()
 
+
+
         lifecycleScope.launch {
             if(viewModel.connectedState.first()){
                 // 데이터 가져오기
-                viewModel.getRemoteData()
+                viewModel.syncRemoteData()
             }
         }
 
