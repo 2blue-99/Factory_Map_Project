@@ -15,7 +15,6 @@ import com.example.factory_map_project.ui.base.BaseActivity
 import com.example.factory_map_project.util.CommonUtil.moveSettingIntent
 import com.example.factory_map_project.util.CommonUtil.repeatOnStarted
 import com.example.factory_map_project.util.DialogUtil
-import com.example.factory_map_project.util.NetworkUtil
 import com.example.factory_map_project.util.PermissionUtil
 import com.example.factory_map_project.util.PopupContent
 import com.example.factory_map_project.util.event.AppEvent
@@ -28,6 +27,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -79,22 +79,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        with(PermissionUtil(this)){
-            if(checkLocationPermission()){
-                startObserveLocation()
-            }else if(!checkLocationRejectPermission()){
-                try {
-                    dialogManager.showMessageDialog(
-                        popup = PopupContent.NOTICE_PERMISSION,
-                        positiveCallBack = { settingLauncher.launch(moveSettingIntent()) },
-                        negativeCallBack = {},
-                        args = arrayOf("위치정보 접근")
-                    )
-                }catch (e: Exception){
-                    Timber.d("err : $e")
-                }
-            }else{
-                locationPermissionLauncher.launch(locationPermission)
+        checkMapPermission()
+
+        lifecycleScope.launch {
+            if(viewModel.connectedState.first()){
+                // 데이터 가져오기
+                viewModel.getRemoteData()
             }
         }
 
@@ -192,6 +182,27 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                 locationCallback,
                 null
             )
+        }
+    }
+
+    private fun checkMapPermission(){
+        with(PermissionUtil(this)){
+            if(checkLocationPermission()){
+                startObserveLocation()
+            }else if(!checkLocationRejectPermission()){
+                try {
+                    dialogManager.showMessageDialog(
+                        popup = PopupContent.NOTICE_PERMISSION,
+                        positiveCallBack = { settingLauncher.launch(moveSettingIntent()) },
+                        negativeCallBack = {},
+                        args = arrayOf("위치정보 접근")
+                    )
+                }catch (e: Exception){
+                    Timber.d("err : $e")
+                }
+            }else{
+                locationPermissionLauncher.launch(locationPermission)
+            }
         }
     }
 }

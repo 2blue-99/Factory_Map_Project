@@ -7,5 +7,5 @@ interface FireStoreRepository {
 
     suspend fun insertRemoteFactory(factoryInfo: FactoryInfo)
 
-    suspend fun getRemoteFactory()
+    suspend fun getRemoteFactory(): Boolean
 }

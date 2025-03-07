@@ -35,6 +35,26 @@ data class FactoryInfoResponse(
 
     val lastTime: String = ""
 ) {
+    fun toDomain(): FactoryInfo =
+        FactoryInfo(
+            id = 0,
+            companyName = companyName,
+            companyScale = companyScale,
+            lotArea = lotArea,
+            contact = contact,
+            employeeCount = employeeCount,
+            businessType = businessType,
+            product = product,
+            loadAddress = loadAddress,
+            latitude = latitude,
+            longitude = longitude,
+            isCheck = isCheck,
+            memo = memo,
+            category = category,
+            isDeleted = isDeleted,
+            lastTime = lastTime
+        )
+
     companion object {
         fun empty() = FactoryInfoResponse(
                 id = 0,

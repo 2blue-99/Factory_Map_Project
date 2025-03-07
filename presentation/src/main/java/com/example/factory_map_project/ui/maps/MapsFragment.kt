@@ -71,7 +71,9 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     //**********************************************************************************************
     // Mark: Lifecycle
     //**********************************************************************************************
-    override fun setData() {}
+    override fun setData() {
+        viewModel.factoryData
+    }
 
     override fun setUI() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?

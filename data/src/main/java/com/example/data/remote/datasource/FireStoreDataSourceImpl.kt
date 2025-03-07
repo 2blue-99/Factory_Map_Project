@@ -11,12 +11,12 @@ import javax.inject.Inject
 class FireStoreDataSourceImpl @Inject constructor(
     private val fireStore: FirebaseFirestore
 ): FireStoreDataSource {
-    override suspend fun getAllData(): List<FactoryResponse> {
+    override suspend fun getAllData(): List<Pair<String,FactoryResponse>> {
         val result = fireStore.collection("factory")
             .whereNotEqualTo("user_code", "1234")
             .get()
             .await()
-        return result.map { it.toObject(FactoryResponse::class.java) }
+        return result.map { Pair(it.id, it.toObject(FactoryResponse::class.java)) }
     }
 
     override suspend fun insertData(dataList: List<FactoryResponse>): Boolean {
