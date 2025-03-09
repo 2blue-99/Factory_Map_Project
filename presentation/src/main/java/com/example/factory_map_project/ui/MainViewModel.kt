@@ -37,7 +37,6 @@ class MainViewModel @Inject constructor(
             )
             // 멈춰있음
             if(isSuccess == true){
-//                requestAPIData()
                 emitEvent(
                     AppEvent.ShowToast("로그아웃 완료")
                 )
