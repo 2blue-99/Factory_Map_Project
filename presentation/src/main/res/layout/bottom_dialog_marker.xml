@@ -338,7 +338,7 @@
         </LinearLayout>
 
         <include
-            layout="@layout/include_button_bottom_sheet"
+            layout="@layout/include_button_dialog"
             app:onNegativeClick="@{() -> viewModel.onClickNegative()}"
             app:onPositiveClick="@{() -> viewModel.onClickConfirm()}"
             />

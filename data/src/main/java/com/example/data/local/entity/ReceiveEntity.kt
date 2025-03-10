@@ -8,7 +8,7 @@ import com.example.domain.model.FactoryInfo
 @Entity(tableName = "receive_db")
 data class ReceiveEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val receiveId: Int,
     val remoteId: String,
     @Embedded val factory: FactoryInfo,
     val userCode: String,

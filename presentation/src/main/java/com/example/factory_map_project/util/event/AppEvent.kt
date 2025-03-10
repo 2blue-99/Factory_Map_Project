@@ -10,7 +10,7 @@ sealed class AppEvent {
     data class ShowInputDialog(val text: String, val onSaveData: (String) -> Unit): AppEvent()
     data class ShowToast(val message: String): AppEvent()
     data class ShowLoading(val state: Boolean): AppEvent()
-    data class ShowCompareDialog(val existList: List<FactoryInfo>, val newList: List<FactoryInfo>): AppEvent()
+    data class ShowCompareDialog(val existList: List<FactoryInfo>, val newList: List<FactoryInfo>): AppEvent(), EventDelegator<List<FactoryInfo>> by DelegatedEvent()
     data class MovePage(val id: Int): AppEvent()
 
     data class Action<T>(val type: ActionType, val input: T? = null): AppEvent()

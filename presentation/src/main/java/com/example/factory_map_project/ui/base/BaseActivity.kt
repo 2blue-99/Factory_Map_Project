@@ -13,6 +13,7 @@ import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.bottomDialog.DownloadBottomDialog
 import com.example.factory_map_project.ui.bottomDialog.FilterBottomDialog
 import com.example.factory_map_project.ui.bottomDialog.MarkerBottomDialog
+import com.example.factory_map_project.ui.dialog.CompareDialog
 import com.example.factory_map_project.ui.dialog.InputDialog
 import com.example.factory_map_project.ui.dialog.SpinnerDialog
 import com.example.factory_map_project.util.map.FactoryCluster
@@ -143,6 +144,13 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     fun showFilterDialog(){
         FilterBottomDialog
             .newInstance()
+            .show(supportFragmentManager, "input_dialog")
+    }
+
+    fun showCompareDialog(){
+        Timber.d("showCompareDialog")
+        CompareDialog
+            .newInstance(emptyList(), emptyList())
             .show(supportFragmentManager, "input_dialog")
     }
 

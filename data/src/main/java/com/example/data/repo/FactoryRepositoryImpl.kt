@@ -98,6 +98,10 @@ class FactoryRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun upsertFactoryListDao(data: List<FactoryInfo>) {
+        factoryDao.upsertDataList(data.map { it.toEntity() })
+    }
+
     override suspend fun deleteFactoryDao(id: Int) {
         factoryDao.deleteData(id)
     }
@@ -105,6 +109,8 @@ class FactoryRepositoryImpl @Inject constructor(
     override suspend fun deleteAllFactoryDao() {
         factoryDao.deleteAllData()
     }
+
+
 
 
     /**
@@ -145,16 +151,22 @@ class FactoryRepositoryImpl @Inject constructor(
     }
 
     /**
-     * Remote 변경 사항을 Local 에 반영
+     * Remote 변경사항을 Receive DB와 비교하여 업데이트 리스트 반환
      *
+     * 0. 네트워크 미연결 시, emptyList 반환
      * 1. Remote DB 전체 조회
      * 2. Receive DB 전체 조회
      * 3. 사이즈가 같을 경우 emptyList 반환 (동기화 불필요)
-     * 4. 사이즈가 같을 경우 Remote ID != Receive DB ID 필터링
+     * 4. 사이즈가 다를 경우 Remote ID != Receive DB ID 필터링
      * 5. 필터링 데이터 Receive DB 에 업데이트
      * 6. FactoryInfo 로 형변환 후 반환
+     * --> 사용자 데이터 지정 후 Local DB에 반영
      */
     override suspend fun localSync(): List<FactoryInfo> {
+        if(!networkUtil.networkState.value){
+            return emptyList()
+        }
+
         val existDataList = receiveDao.getAllData().first()
         val existIdList = existDataList.map { it.remoteId }
 

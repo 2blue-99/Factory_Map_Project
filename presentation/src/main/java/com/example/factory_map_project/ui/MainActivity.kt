@@ -84,17 +84,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
 
         lifecycleScope.launch {
-            if(viewModel.connectedState.first()){
-                // 데이터 가져오기
-                viewModel.syncRemoteData()
-            }
+            Timber.d("syncRemoteData")
+            viewModel.syncRemoteData()
         }
-
-//        lifecycleScope.launch {
-//            if(!viewModel.checkDownload()){
-//                showDownloadBottomDialog()
-//            }
-//        }
     }
 
     override fun setObserver() {
@@ -107,6 +99,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                     is AppEvent.ShowLoading -> {
                         Timber.d("loading state : ${event.state}")
                         setLoading(event.state)
+                    }
+                    is AppEvent.ShowCompareDialog -> {
+                        showCompareDialog()
                     }
                     is AppEvent.MovePage -> {}
                     else -> {}

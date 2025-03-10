@@ -50,13 +50,22 @@ class MainViewModel @Inject constructor(
     //**********************************************************************************************
     fun syncRemoteData(){
         modelScope.launch {
-            if(networkUtil.networkState.first()){
-                val syncList = factoryRepository.localSync()
-                if(syncList.isEmpty())
-                    return@launch
-                val localList = factoryRepository.getTargetFactoryDao(syncList.map { it.id })
-                emitEvent(AppEvent.ShowCompareDialog(localList, syncList))
-            }
+            val gap = awaitEvent(AppEvent.ShowCompareDialog(emptyList(), emptyList()))?.let { resultList -> }
+            gap
+
         }
+
+//        modelScope.launch {
+//            // 서버 데이터
+//            val syncList = factoryRepository.localSync()
+//            if (syncList.isNotEmpty()) {
+//                // 서버 데이터에 대응되는 로컬 데이터
+//                val localList = factoryRepository.getTargetFactoryDao(syncList.map { it.id })
+//                awaitEvent(AppEvent.ShowCompareDialog(localList, syncList))?.let { resultList ->
+//                    factoryRepository.upsertFactoryListDao(resultList)
+//                }
+//
+//            }
+//        }
     }
 }

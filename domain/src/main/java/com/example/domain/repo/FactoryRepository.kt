@@ -13,6 +13,8 @@ interface FactoryRepository {
 
     suspend fun upsertFactoryDao(data: FactoryInfo)
 
+    suspend fun upsertFactoryListDao(data: List<FactoryInfo>)
+
     suspend fun deleteFactoryDao(id: Int)
 
     suspend fun deleteAllFactoryDao()

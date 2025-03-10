@@ -1,7 +1,6 @@
 package com.example.data.remote.model
 
 import com.example.data.local.entity.ReceiveEntity
-import com.example.domain.model.FactoryInfo
 
 data class FactoryResponse(
     val userCode: String = "",
@@ -10,7 +9,7 @@ data class FactoryResponse(
 
 fun Pair<String, FactoryResponse>.toEntity(): ReceiveEntity =
     ReceiveEntity(
-        id = 0,
+        receiveId = 0,
         remoteId = this.first,
         factory = this.second.factory.toDomain(),
         userCode = this.second.userCode,

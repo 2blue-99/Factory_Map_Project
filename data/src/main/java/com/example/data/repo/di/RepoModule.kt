@@ -25,12 +25,14 @@ object RepoModule {
     @Provides
     @Singleton
     fun provideRepo(
-        fireStoreRepository: FireStoreRepository,
+        fireStoreDataSource: FireStoreDataSource,
+        userDataStore: UserDataStore,
         factoryDao: FactoryDao,
         filterDao: FilterDao,
-        userDataStore: UserDataStore,
+        sendDao: SendDao,
+        receiveDao: ReceiveDao,
         networkUtil: NetworkInterface
-    ): FactoryRepository = FactoryRepositoryImpl(fireStoreRepository, factoryDao, filterDao, userDataStore, networkUtil)
+    ): FactoryRepository = FactoryRepositoryImpl(fireStoreDataSource, userDataStore, factoryDao, filterDao, sendDao, receiveDao, networkUtil)
 
     @Provides
     @Singleton
@@ -45,6 +47,6 @@ object RepoModule {
         receiveDao: ReceiveDao,
         sendDao: SendDao,
         userDataStore: UserDataStore
-    ): FireStoreRepository = FireStoreRepositoryImpl(fireStoreDataSource, receiveDao, sendDao, userDataStore)
+    ): FireStoreRepository = FireStoreRepositoryImpl()
 
 }
