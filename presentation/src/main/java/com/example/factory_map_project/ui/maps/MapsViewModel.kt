@@ -1,15 +1,18 @@
 package com.example.factory_map_project.ui.maps
 
+import android.os.Bundle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import com.example.data.datastore.UserDataStore
 import com.example.data.util.NetworkInterface
+import com.example.domain.model.FactoryInfo
 import com.example.domain.repo.FactoryRepository
 import com.example.domain.repo.FireStoreRepository
 import com.example.domain.type.AreaType
 import com.example.domain.type.ClusterTriggerType
 import com.example.factory_map_project.R
 import com.example.factory_map_project.ui.base.BaseViewModel
+import com.example.factory_map_project.util.ARG_CONTENT
 import com.example.factory_map_project.util.CommonUtil.toCluster
 import com.example.factory_map_project.util.CommonUtil.toDoubleRange
 import com.example.factory_map_project.util.InitialMutableLiveData
@@ -18,6 +21,7 @@ import com.example.factory_map_project.util.event.AppEvent
 import com.example.factory_map_project.util.map.FactoryCluster
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -31,7 +35,7 @@ class MapsViewModel @Inject constructor(
     private val factoryRepo: FactoryRepository,
     private val fireStoreRepository: FireStoreRepository,
     private val userData: UserDataStore,
-    private val networkUtil: NetworkInterface
+    private val networkUtil: NetworkInterface,
 ) : BaseViewModel() {
     //**********************************************************************************************
     // Mark: Variable
@@ -136,4 +140,20 @@ class MapsViewModel @Inject constructor(
         }
     }
 
+    suspend fun syncRemoteData() {
+        // 서버 데이터
+        val syncList = factoryRepo.localSync()
+        Timber.d("syncList :$syncList")
+//        if (syncList.isNotEmpty()) {
+        if (true) {
+            val localList = ioScope.async { factoryRepo.getTargetFactoryDao(syncList.map { it.id }) }.await()
+            val input = Bundle().apply {
+//                putSerializable(ARG_CONTENT, syncList.toTypedArray())
+//                putSerializable(ARG_CONTENT, localList.toTypedArray())
+                putSerializable(ARG_CONTENT, listOf(FactoryInfo.testData(), FactoryInfo.testData()).toTypedArray())
+                putSerializable(ARG_CONTENT, listOf(FactoryInfo.testData(), FactoryInfo.testData()).toTypedArray())
+            }
+            emitEvent(AppEvent.MovePage(R.id.moveToCompare, input))
+        }
+    }
 }

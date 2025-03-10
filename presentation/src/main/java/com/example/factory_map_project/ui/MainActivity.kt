@@ -27,6 +27,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -80,13 +81,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         checkMapPermission()
-
-
-
-        lifecycleScope.launch {
-            Timber.d("syncRemoteData")
-            viewModel.syncRemoteData()
-        }
     }
 
     override fun setObserver() {
@@ -99,9 +93,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                     is AppEvent.ShowLoading -> {
                         Timber.d("loading state : ${event.state}")
                         setLoading(event.state)
-                    }
-                    is AppEvent.ShowCompareDialog -> {
-                        showCompareDialog()
                     }
                     is AppEvent.MovePage -> {}
                     else -> {}

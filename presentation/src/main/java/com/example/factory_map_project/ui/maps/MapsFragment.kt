@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -79,6 +80,12 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         MapsInitializer.initialize(requireContext(), MapsInitializer.Renderer.LATEST){}
         mapFragment?.getMapAsync(callback)
+
+        // 서버 데이터 동기화 처리
+        lifecycleScope.launch {
+            delay(500)
+            val gap = viewModel.syncRemoteData()
+        }
     }
 
     override fun setObserver() {
@@ -96,7 +103,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                         )
                     }
                     is AppEvent.MovePage -> {
-                        findNavController().navigate(event.id)
+                        findNavController().navigate(event.id, event.data)
                     }
                     is AppEvent.Action<*> -> {
                         when(event.type){

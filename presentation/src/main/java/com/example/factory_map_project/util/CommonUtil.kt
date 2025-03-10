@@ -30,6 +30,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
 const val ARG_CONTENT = "argument.content"
+const val ARG_SECOND_CONTENT = "argument.second.content"
 
 const val MARKER_UNKNOWN = 0
 const val MARKER_HOTEL = 1
