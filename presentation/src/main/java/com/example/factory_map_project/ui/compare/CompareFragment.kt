@@ -37,7 +37,7 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
         // RecyclerView 세팅
         setRecyclerView(binding.remoteList, viewModel.remoteList.value, {})
         setRecyclerView(binding.localeList, viewModel.localList.value, {})
-        setRecyclerView(binding.checkList, viewModel.remoteList.value, {})
+//        setRecyclerView(binding.checkList, viewModel.remoteList.value, {})
     }
 
     override fun setObserver() {}
