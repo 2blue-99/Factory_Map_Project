@@ -73,19 +73,17 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     // Mark: Lifecycle
     //**********************************************************************************************
     override fun setData() {
-        viewModel.factoryData
+        // 서버 데이터 동기화 처리
+        lifecycleScope.launch {
+            delay(500)
+            viewModel.syncRemoteData()
+        }
     }
 
     override fun setUI() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         MapsInitializer.initialize(requireContext(), MapsInitializer.Renderer.LATEST){}
         mapFragment?.getMapAsync(callback)
-
-        // 서버 데이터 동기화 처리
-        lifecycleScope.launch {
-            delay(500)
-            val gap = viewModel.syncRemoteData()
-        }
     }
 
     override fun setObserver() {

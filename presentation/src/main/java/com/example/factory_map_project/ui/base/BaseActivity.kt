@@ -4,11 +4,11 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.example.domain.model.FactoryInfo
 import com.example.factory_map_project.BR
 import com.example.factory_map_project.ui.MainViewModel
 import com.example.factory_map_project.ui.bottomDialog.DownloadBottomDialog
@@ -52,6 +52,9 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate [${this::class.simpleName}]")
         super.onCreate(savedInstanceState)
+
+        // status bar 투명처리
+        enableEdgeToEdge()
 
         binding = DataBindingUtil.setContentView(this, layoutRes)
         binding.apply {

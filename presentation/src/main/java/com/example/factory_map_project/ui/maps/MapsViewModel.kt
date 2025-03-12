@@ -13,6 +13,7 @@ import com.example.domain.type.ClusterTriggerType
 import com.example.factory_map_project.R
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.ARG_CONTENT
+import com.example.factory_map_project.util.ARG_SECOND_CONTENT
 import com.example.factory_map_project.util.CommonUtil.toCluster
 import com.example.factory_map_project.util.CommonUtil.toDoubleRange
 import com.example.factory_map_project.util.InitialMutableLiveData
@@ -148,10 +149,8 @@ class MapsViewModel @Inject constructor(
         if (true) {
             val localList = ioScope.async { factoryRepo.getTargetFactoryDao(syncList.map { it.id }) }.await()
             val input = Bundle().apply {
-//                putSerializable(ARG_CONTENT, syncList.toTypedArray())
-//                putSerializable(ARG_CONTENT, localList.toTypedArray())
-                putSerializable(ARG_CONTENT, listOf(FactoryInfo.testData(), FactoryInfo.testData()).toTypedArray())
-                putSerializable(ARG_CONTENT, listOf(FactoryInfo.testData(), FactoryInfo.testData()).toTypedArray())
+                putSerializable(ARG_CONTENT, arrayOf(FactoryInfo.testData(), FactoryInfo.testData()))
+                putSerializable(ARG_SECOND_CONTENT, arrayOf(FactoryInfo.testData(), FactoryInfo.testData()))
             }
             emitEvent(AppEvent.MovePage(R.id.moveToCompare, input))
         }

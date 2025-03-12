@@ -1,5 +1,7 @@
 package com.example.domain.model
 
+import java.io.Serializable
+
 data class FactoryInfo(
     val id: Int,
 
@@ -32,7 +34,7 @@ data class FactoryInfo(
     val isDeleted: Boolean, // 삭제 여부
 
     val lastTime: String
-){
+): Serializable {
     companion object {
         fun testData() = FactoryInfo(
             id = 0,

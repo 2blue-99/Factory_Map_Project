@@ -30,7 +30,6 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
     override fun setData() {
         viewModel.remoteList.value = arguments?.getData<Array<FactoryInfo>>(ARG_CONTENT)?.toList() ?: emptyList()
         viewModel.localList.value = arguments?.getData<Array<FactoryInfo>>(ARG_SECOND_CONTENT)?.toList() ?: emptyList()
-        Timber.d("remoteList : ${viewModel.remoteList.value}")
     }
 
     override fun setUI() {

@@ -96,6 +96,7 @@
                         android:layout_height="28dp"
                         android:background="@drawable/button_custom_check"
                         android:button="@drawable/icon_check_box"
+                        android:clickable="false"
                         android:checked="@{data.isCheck}" />
 
                     <TextView
@@ -116,12 +117,12 @@
                     android:id="@+id/memo"
                     android:layout_marginTop="4dp"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/edit_text_memo"
                     android:hint="메모 사항을 입력해주세요."
                     android:textColorHint="@color/light_gray"
                     android:text="@{data.memo}"
-                    android:clickable="false"
+                    android:enabled="false"
                     android:gravity="top|start"
                     android:padding="12dp"
                     android:scrollbars="vertical"
