@@ -148,9 +148,10 @@ class MapsViewModel @Inject constructor(
 //        if (syncList.isNotEmpty()) {
         if (true) {
             val localList = ioScope.async { factoryRepo.getTargetFactoryDao(syncList.map { it.id }) }.await()
+            // TODO 두 개 사이즈가 같아야 넘기기
             val input = Bundle().apply {
-                putSerializable(ARG_CONTENT, arrayOf(FactoryInfo.testData(), FactoryInfo.testData()))
-                putSerializable(ARG_SECOND_CONTENT, arrayOf(FactoryInfo.testData(), FactoryInfo.testData()))
+                putSerializable(ARG_CONTENT, arrayOf(FactoryInfo.testData(), FactoryInfo.testData(), FactoryInfo.testData(), FactoryInfo.testData()))
+                putSerializable(ARG_SECOND_CONTENT, arrayOf(FactoryInfo.testData(), FactoryInfo.testData(), FactoryInfo.testData(), FactoryInfo.testData()))
             }
             emitEvent(AppEvent.MovePage(R.id.moveToCompare, input))
         }

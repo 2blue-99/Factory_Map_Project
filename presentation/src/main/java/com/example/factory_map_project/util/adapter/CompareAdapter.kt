@@ -1,7 +1,5 @@
 package com.example.factory_map_project.util.adapter
 
-import android.graphics.Color
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -9,19 +7,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.model.FactoryInfo
 import com.example.factory_map_project.R
 import com.example.factory_map_project.databinding.ItemCompareBinding
-import com.example.factory_map_project.databinding.ItemSpinnerBinding
 
 class CompareAdapter(
-    private val list: List<FactoryInfo>,
-    private val onSelect: (Int) -> Unit
+    private val list: List<Pair<FactoryInfo, FactoryInfo>>,
+    private val onSelect: (Int, FactoryInfo) -> Unit
 ): RecyclerView.Adapter<CompareAdapter.BindViewHolder>() {
 
     inner class BindViewHolder(private val binding: ItemCompareBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int){
-            binding.root.setOnClickListener {
-                binding.root.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.dark_gray))
+            binding.serverLayout.setOnClickListener {
+                binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.more_light_gray))
+                binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
+                onSelect(position, list[position].first)
             }
-            binding.data = list[position]
+
+            binding.localLayout.setOnClickListener {
+                binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.more_light_gray))
+                binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
+                onSelect(position, list[position].second)
+            }
+
+            binding.serverData = list[position].first
+            binding.localData = list[position].second
         }
     }
 

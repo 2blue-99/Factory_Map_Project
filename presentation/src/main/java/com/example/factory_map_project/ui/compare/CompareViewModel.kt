@@ -16,9 +16,10 @@ class CompareViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
-    var remoteList = InitialMutableLiveData<List<FactoryInfo>>(emptyList())
+    var compareList = InitialMutableLiveData<List<Pair<FactoryInfo, FactoryInfo>>>(emptyList())
 
-    var localList = InitialMutableLiveData<List<FactoryInfo>>(emptyList())
+    var selectList =  InitialMutableLiveData<List<F>>
+
 
     //**********************************************************************************************
     // Mark: DataBinding
