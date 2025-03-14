@@ -46,7 +46,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     // Mark: Variable
     //**********************************************************************************************
     override val viewModel: MapsViewModel by viewModels()
-    val mainViewModel: MainViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<FactoryCluster>
