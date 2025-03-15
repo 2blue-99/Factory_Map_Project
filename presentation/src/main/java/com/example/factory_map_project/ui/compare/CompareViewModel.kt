@@ -18,13 +18,14 @@ class CompareViewModel @Inject constructor(
     //**********************************************************************************************
     var compareList = InitialMutableLiveData<List<Pair<FactoryInfo, FactoryInfo>>>(emptyList())
 
-    var selectList =  InitialMutableLiveData<List<F>>
+    lateinit var selectList:  InitialMutableLiveData<Array<FactoryInfo>>
 
 
     //**********************************************************************************************
     // Mark: DataBinding
     //**********************************************************************************************
     fun onClickNegative() {
+        selectList = InitialMutableLiveData(Array(10){FactoryInfo.testData()})
         modelScope.launch {
             emitEvent(AppEvent.Action(ActionType.NEGATIVE, null))
         }
