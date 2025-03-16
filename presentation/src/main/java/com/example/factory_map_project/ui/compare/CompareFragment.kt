@@ -32,12 +32,12 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
         val remoteList = arguments?.getData<Array<FactoryInfo>>(ARG_CONTENT)?.toList() ?: emptyList()
         val localList = arguments?.getData<Array<FactoryInfo>>(ARG_SECOND_CONTENT)?.toList() ?: emptyList()
 
-        viewModel.compareList.value = remoteList.zip(localList)
+        viewModel.setData(remoteList.zip(localList).toTypedArray())
     }
 
     override fun setUI() {
         // RecyclerView 세팅
-        setCompareRecyclerView(binding.compareRecyclerview, viewModel.compareList.value, {})
+        setCompareRecyclerView(binding.compareRecyclerview, viewModel.compareList.value.toList(), {})
         setIndicatorRecyclerView(binding.checkRecyclerview, viewModel.compareList.value.size)
     }
 
