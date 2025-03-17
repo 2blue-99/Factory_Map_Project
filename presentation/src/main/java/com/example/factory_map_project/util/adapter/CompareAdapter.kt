@@ -16,13 +16,13 @@ class CompareAdapter(
     inner class BindViewHolder(private val binding: ItemCompareBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int){
             binding.serverLayout.setOnClickListener {
-                binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.more_light_gray))
+                binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.light_red))
                 binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
                 onSelect(position, list[position].first)
             }
 
             binding.localLayout.setOnClickListener {
-                binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.more_light_gray))
+                binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.light_primary))
                 binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
                 onSelect(position, list[position].second)
             }

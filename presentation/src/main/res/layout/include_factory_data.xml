@@ -85,7 +85,7 @@
                     android:id="@+id/check_box"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:background="@drawable/button_custom_check"
+                    android:background="@drawable/check_box_primary"
                     android:button="@drawable/icon_check_box"
                     android:clickable="false"
                     android:checked="@{data.isCheck}" />

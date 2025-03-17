@@ -6,15 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.factory_map_project.databinding.ItemIndicatorBinding
 import timber.log.Timber
 
-class IndicatorAdapter(
-    val array: Array<Boolean>,
-): RecyclerView.Adapter<IndicatorAdapter.BindViewHolder>() {
+class IndicatorAdapter: RecyclerView.Adapter<IndicatorAdapter.BindViewHolder>() {
+
+    var list: List<Boolean> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     inner class BindViewHolder(private val binding: ItemIndicatorBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int){
-            binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-                Timber.d("isChecked : $isChecked")
-            }
+            binding.checkBox.isChecked = list[position]
         }
     }
 
@@ -28,5 +30,5 @@ class IndicatorAdapter(
         holder.bind(position)
     }
 
-    override fun getItemCount(): Int = array.size
+    override fun getItemCount(): Int = list.size
 }

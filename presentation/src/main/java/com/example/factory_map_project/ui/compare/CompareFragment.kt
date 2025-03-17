@@ -1,5 +1,6 @@
 package com.example.factory_map_project.ui.compare
 
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.example.factory_map_project.util.CommonUtil.getData
 import com.example.factory_map_project.util.adapter.CompareAdapter
 import com.example.factory_map_project.util.adapter.IndicatorAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
@@ -24,6 +26,8 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
     //**********************************************************************************************
     override val viewModel: CompareViewModel by viewModels()
 
+    private val indicatorAdapter = IndicatorAdapter()
+
 
     //**********************************************************************************************
     // Mark: Lifecycle
@@ -32,17 +36,21 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
         val remoteList = arguments?.getData<Array<FactoryInfo>>(ARG_CONTENT)?.toList() ?: emptyList()
         val localList = arguments?.getData<Array<FactoryInfo>>(ARG_SECOND_CONTENT)?.toList() ?: emptyList()
 
-        viewModel.setData(remoteList.zip(localList).toTypedArray())
+        viewModel.setData(remoteList.zip(localList))
     }
 
     override fun setUI() {
         // RecyclerView 세팅
         setCompareRecyclerView(binding.compareRecyclerview, viewModel.compareList.value.toList(), {})
         setIndicatorRecyclerView(binding.checkRecyclerview, viewModel.compareList.value.size)
+        setScrollLayout(binding.scrollLayout)
     }
 
     override fun setObserver() {
-
+        viewModel.selectList.observe(viewLifecycleOwner){
+            val gap = it.map { it != null }
+            indicatorAdapter.list = gap
+        }
     }
 
 
@@ -55,15 +63,23 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
         recyclerView.adapter = CompareAdapter(
             list = list,
             onSelect = { postion, data ->
-
+                viewModel.selectList.value = viewModel.selectList.value.apply {
+                    viewModel.selectList.value[postion] = data
+                }
             }
         )
     }
 
     private fun setIndicatorRecyclerView(recyclerView: RecyclerView, count: Int){
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), count, GridLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = IndicatorAdapter(
-            array = Array(count){false},
-        )
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = indicatorAdapter
+    }
+
+    /**
+     * 비교 뷰 높이 = 전체 높이의 70%
+     */
+    private fun setScrollLayout(scrollView: NestedScrollView){
+        val height = resources.displayMetrics.heightPixels
+        scrollView.layoutParams.height = (height * 0.7).toInt()
     }
 }

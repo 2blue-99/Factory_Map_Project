@@ -7,6 +7,7 @@ import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,7 +17,14 @@ class CompareViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: Variable
     //**********************************************************************************************
-    lateinit var compareList: InitialMutableLiveData<Array<Pair<FactoryInfo, FactoryInfo>>>
+    /**
+     * 비교 데이터
+     */
+    var compareList = InitialMutableLiveData<List<Pair<FactoryInfo, FactoryInfo>>>(emptyList())
+    /**
+     * 체크 여부
+     */
+    var selectList = InitialMutableLiveData<Array<FactoryInfo?>>(emptyArray())
 
 
 
@@ -42,7 +50,9 @@ class CompareViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    fun setData(list: Array<Pair<FactoryInfo, FactoryInfo>>){
-        compareList = InitialMutableLiveData(list)
+    fun setData(list: List<Pair<FactoryInfo, FactoryInfo>>){
+        Timber.d("list : $list")
+        compareList.value = list
+        selectList.value = Array(list.size){ null }
     }
 }
