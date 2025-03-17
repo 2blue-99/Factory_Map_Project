@@ -48,7 +48,6 @@
                 android:background="@color/light_gray" />
 
             <androidx.core.widget.NestedScrollView
-                android:visibility="gone"
                 android:id="@+id/scrollLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

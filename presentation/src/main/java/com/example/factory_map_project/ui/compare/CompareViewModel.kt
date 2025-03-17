@@ -39,7 +39,11 @@ class CompareViewModel @Inject constructor(
 
     fun onClickConfirm() {
         modelScope.launch {
-            emitEvent(AppEvent.Action(ActionType.CONFIRM, null))
+            if(selectList.value.contains(null)){
+                emitEvent(AppEvent.ShowToast("데이터를 모두 선택해주세요."))
+            }else{
+                emitEvent(AppEvent.Action(ActionType.CONFIRM, null))
+            }
         }
     }
 

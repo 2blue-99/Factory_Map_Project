@@ -2,6 +2,7 @@ package com.example.factory_map_project.ui.compare
 
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -12,8 +13,12 @@ import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.ARG_CONTENT
 import com.example.factory_map_project.util.ARG_SECOND_CONTENT
 import com.example.factory_map_project.util.CommonUtil.getData
+import com.example.factory_map_project.util.CommonUtil.repeatOnFragmentStarted
+import com.example.factory_map_project.util.CommonUtil.repeatOnStarted
 import com.example.factory_map_project.util.adapter.CompareAdapter
 import com.example.factory_map_project.util.adapter.IndicatorAdapter
+import com.example.factory_map_project.util.event.ActionType
+import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -47,10 +52,32 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
     }
 
     override fun setObserver() {
+        repeatOnFragmentStarted {
+            viewModel.eventFlow.collect { event ->
+                Timber.d("event : $event")
+                when(event){
+                    is AppEvent.MovePage -> {
+                        findNavController().navigate(event.id, event.data)
+                    }
+                    is AppEvent.ShowToast -> {
+                        mainActivity().showToast(event.message)
+                    }
+                    is AppEvent.Action<*> -> {
+                        when(event.type){
+                            ActionType.CONFIRM -> onClickPositive()
+                            else -> {}
+                        }
+                    }
+                    else -> {}
+                }
+            }
+        }
+
         viewModel.selectList.observe(viewLifecycleOwner){
             val gap = it.map { it != null }
             indicatorAdapter.list = gap
         }
+
     }
 
 
@@ -81,5 +108,9 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
     private fun setScrollLayout(scrollView: NestedScrollView){
         val height = resources.displayMetrics.heightPixels
         scrollView.layoutParams.height = (height * 0.7).toInt()
+    }
+
+    private fun onClickPositive(){
+        findNavController().popBackStack()
     }
 }
