@@ -39,6 +39,10 @@ const val MARKER_RESORT = 2
 const val CHECK_ALPHA = 0.95f
 const val NONE_CHECK_ALPHA = 0.6f
 
+const val SELECT_NONE = 0
+const val SELECT_SERVER = 1
+const val SELECT_LOCAL = 2
+
 
 object CommonUtil {
 

@@ -14,7 +14,7 @@ import com.example.factory_map_project.util.ARG_CONTENT
 import com.example.factory_map_project.util.ARG_SECOND_CONTENT
 import com.example.factory_map_project.util.CommonUtil.getData
 import com.example.factory_map_project.util.CommonUtil.repeatOnFragmentStarted
-import com.example.factory_map_project.util.CommonUtil.repeatOnStarted
+import com.example.factory_map_project.util.SELECT_NONE
 import com.example.factory_map_project.util.adapter.CompareAdapter
 import com.example.factory_map_project.util.adapter.IndicatorAdapter
 import com.example.factory_map_project.util.event.ActionType
@@ -46,7 +46,7 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
 
     override fun setUI() {
         // RecyclerView 세팅
-        setCompareRecyclerView(binding.compareRecyclerview, viewModel.compareList.value.toList(), {})
+        setCompareRecyclerView(binding.compareRecyclerview, viewModel.compareList.value.toList())
         setIndicatorRecyclerView(binding.checkRecyclerview, viewModel.compareList.value.size)
         setScrollLayout(binding.scrollLayout)
     }
@@ -73,18 +73,22 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
             }
         }
 
-        viewModel.selectList.observe(viewLifecycleOwner){
-            val gap = it.map { it != null }
-            indicatorAdapter.list = gap
-        }
+        viewModel.selectList.observe(viewLifecycleOwner){ list ->
+            // 하단 인디케이터 데이터 업데이트
+            indicatorAdapter.list = list.map { it.first }
 
+            // 모두 선택했을 경우, 확인 버튼 활성화
+            if(!list.map { it.first }.contains(SELECT_NONE)){
+                viewModel.isSelectAll.value = true
+            }
+        }
     }
 
 
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    private fun setCompareRecyclerView(recyclerView: RecyclerView, list: List<Pair<FactoryInfo,FactoryInfo>>, onSelect: (Int) -> Unit) {
+    private fun setCompareRecyclerView(recyclerView: RecyclerView, list: List<Pair<FactoryInfo,FactoryInfo>>) {
         PagerSnapHelper().attachToRecyclerView(recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = CompareAdapter(
@@ -103,7 +107,7 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
     }
 
     /**
-     * 비교 뷰 높이 = 전체 높이의 70%
+     * 비교 Recyclerview 높이 = 전체 높이의 70%
      */
     private fun setScrollLayout(scrollView: NestedScrollView){
         val height = resources.displayMetrics.heightPixels
