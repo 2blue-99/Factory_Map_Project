@@ -145,14 +145,17 @@ class MapsViewModel @Inject constructor(
         // 서버 데이터
         val syncList = factoryRepo.localSync()
         Timber.d("syncList :$syncList")
-//        if (syncList.isNotEmpty()) {
-        if (true) {
+        if (syncList.isNotEmpty()) {
             val localList = ioScope.async { factoryRepo.getTargetFactoryDao(syncList.map { it.id }) }.await()
-            // TODO 두 개 사이즈가 같아야 넘기기
-            val input = Bundle().apply {
-                putSerializable(ARG_CONTENT, arrayOf(FactoryInfo(), FactoryInfo(), FactoryInfo(), FactoryInfo()))
-                putSerializable(ARG_SECOND_CONTENT, arrayOf(FactoryInfo(), FactoryInfo(), FactoryInfo(), FactoryInfo()))
-            }
+            // TODO 추가된 마커의 경우, 로컬에 없을수도 있음
+            // TODO 여기서 짝지어서 내보내야 함
+
+            val pairList: List<Pair<FactoryInfo, FactoryInfo?>> =
+
+//            val input = Bundle().apply {
+//                putSerializable(ARG_CONTENT, arrayOf(FactoryInfo(), FactoryInfo(), FactoryInfo(), FactoryInfo()))
+//                putSerializable(ARG_SECOND_CONTENT, arrayOf(FactoryInfo(), FactoryInfo(), FactoryInfo(), FactoryInfo()))
+//            }
             emitEvent(AppEvent.MovePage(R.id.moveToCompare, input))
         }
     }

@@ -154,8 +154,8 @@ class FactoryRepositoryImpl @Inject constructor(
      * Remote 변경사항을 Receive DB와 비교하여 업데이트 리스트 반환
      *
      * 0. 네트워크 미연결 시, emptyList 반환
-     * 1. Remote DB 전체 조회
-     * 2. Receive DB 전체 조회
+     * 1. Receive DB 전체 조회
+     * 2. Remote DB 전체 조회
      * 3. 사이즈가 같을 경우 emptyList 반환 (동기화 불필요)
      * 4. 사이즈가 다를 경우 Remote ID != Receive DB ID 필터링
      * 5. 필터링 데이터 Receive DB 에 업데이트
