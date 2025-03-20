@@ -13,7 +13,6 @@ import com.example.domain.type.ClusterTriggerType
 import com.example.factory_map_project.R
 import com.example.factory_map_project.ui.base.BaseViewModel
 import com.example.factory_map_project.util.ARG_CONTENT
-import com.example.factory_map_project.util.ARG_SECOND_CONTENT
 import com.example.factory_map_project.util.CommonUtil.toCluster
 import com.example.factory_map_project.util.CommonUtil.toDoubleRange
 import com.example.factory_map_project.util.InitialMutableLiveData
@@ -143,19 +142,24 @@ class MapsViewModel @Inject constructor(
 
     suspend fun syncRemoteData() {
         // 서버 데이터
-        val syncList = factoryRepo.localSync()
-        Timber.d("syncList :$syncList")
-        if (syncList.isNotEmpty()) {
-            val localList = ioScope.async { factoryRepo.getTargetFactoryDao(syncList.map { it.id }) }.await()
-            // TODO 추가된 마커의 경우, 로컬에 없을수도 있음
-            // TODO 여기서 짝지어서 내보내야 함
+        factoryRepo.localSync()?.let { remoteList ->
+            Timber.d("remoteList :$remoteList")
+            val localList = ioScope.async {
+                factoryRepo.getTargetFactoryDao(remoteList.map { it.id }).toMutableSet()
+            }.await()
+            val pairList = arrayListOf<Pair<FactoryInfo, FactoryInfo?>>()
 
-            val pairList: List<Pair<FactoryInfo, FactoryInfo?>> =
-
+            for(remote in remoteList){
+                val localOrNull = localList.firstOrNull { remote.id == it.id }
+                pairList.add(remote to localOrNull)
+            }
 //            val input = Bundle().apply {
-//                putSerializable(ARG_CONTENT, arrayOf(FactoryInfo(), FactoryInfo(), FactoryInfo(), FactoryInfo()))
-//                putSerializable(ARG_SECOND_CONTENT, arrayOf(FactoryInfo(), FactoryInfo(), FactoryInfo(), FactoryInfo()))
+//                putSerializable(ARG_CONTENT, pairList)
 //            }
+            val input = Bundle().apply {
+                val test = arrayOf(FactoryInfo() to FactoryInfo(), FactoryInfo() to null, FactoryInfo() to null, FactoryInfo() to FactoryInfo())
+                putSerializable(ARG_CONTENT, test)
+            }
             emitEvent(AppEvent.MovePage(R.id.moveToCompare, input))
         }
     }

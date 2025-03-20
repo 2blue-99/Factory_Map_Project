@@ -22,7 +22,7 @@ class CompareViewModel @Inject constructor(
     /**
      * 비교 데이터
      */
-    var compareList = InitialMutableLiveData<List<Pair<FactoryInfo, FactoryInfo>>>(emptyList())
+    var compareList = InitialMutableLiveData<List<Pair<FactoryInfo, FactoryInfo?>>>(emptyList())
     /**
      * 체크 여부
      */
@@ -58,7 +58,7 @@ class CompareViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    fun setData(list: List<Pair<FactoryInfo, FactoryInfo>>){
+    fun setData(list: List<Pair<FactoryInfo, FactoryInfo?>>){
         Timber.d("list : $list")
         compareList.value = list
         selectList.value = Array(list.size){ Pair(SELECT_NONE, FactoryInfo()) }

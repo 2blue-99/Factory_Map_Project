@@ -14,7 +14,7 @@ import com.example.factory_map_project.util.SELECT_SERVER
  * @param onSelect : 선택 위치, Pair(서버 or 로컬 여부, 선택 데이터)
  */
 class CompareAdapter(
-    private val list: List<Pair<FactoryInfo, FactoryInfo>>,
+    private val list: List<Pair<FactoryInfo, FactoryInfo?>>,
     private val onSelect: (Int, Pair<Int,FactoryInfo>) -> Unit
 ): RecyclerView.Adapter<CompareAdapter.BindViewHolder>() {
 
@@ -27,9 +27,11 @@ class CompareAdapter(
             }
 
             binding.localLayout.setOnClickListener {
-                binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.light_primary))
-                binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
-                onSelect(position, Pair(SELECT_LOCAL, list[position].second))
+                if(list[position].second != null){
+                    binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.light_primary))
+                    binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
+                    onSelect(position, Pair(SELECT_LOCAL, list[position].second!!))
+                }
             }
 
             binding.serverData = list[position].first

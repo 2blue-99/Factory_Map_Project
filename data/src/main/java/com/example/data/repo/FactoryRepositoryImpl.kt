@@ -162,9 +162,9 @@ class FactoryRepositoryImpl @Inject constructor(
      * 6. FactoryInfo 로 형변환 후 반환
      * --> 사용자 데이터 지정 후 Local DB에 반영
      */
-    override suspend fun localSync(): List<FactoryInfo> {
+    override suspend fun localSync(): List<FactoryInfo>? {
         if(!networkUtil.networkState.value){
-            return emptyList()
+            return null
         }
 
         val existDataList = receiveDao.getAllData().first()
@@ -174,7 +174,7 @@ class FactoryRepositoryImpl @Inject constructor(
 
         if (existIdList.size == remoteList.size) {
             Timber.d("동기화 할 항목이 없습니다.")
-            return emptyList()
+            return null
         }
 
         val filterRemoteList = remoteList.filter { !existIdList.contains(it.first) }

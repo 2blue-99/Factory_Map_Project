@@ -12,6 +12,8 @@
             name="localData"
             type="com.example.domain.model.FactoryInfo" />
 
+        <import type="android.view.View"/>
+
     </data>
 
     <LinearLayout
@@ -62,20 +64,43 @@
             android:background="@drawable/base_round_button"
             >
 
-            <TextView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:text="나의 데이터"
-                android:textColor="@color/primary"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                android:layout_height="match_parent">
 
-            <include
-                layout="@layout/include_factory_data"
-                app:data="@{localData}"
-                />
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:text="나의 데이터"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp"
+                    android:visibility="@{localData != null ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <include
+                    layout="@layout/include_factory_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="@{localData != null ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    app:data="@{localData}"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="다른 사용자가 추가한 데이터에요."
+                    android:textColor="@color/red"
+                    android:visibility="@{localData == null ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </LinearLayout>
 

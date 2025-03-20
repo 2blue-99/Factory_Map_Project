@@ -23,5 +23,5 @@ interface FactoryRepository {
 
     suspend fun remoteSync(factoryInfo: FactoryInfo)
 
-    suspend fun localSync(): List<FactoryInfo>
+    suspend fun localSync(): List<FactoryInfo>?
 }

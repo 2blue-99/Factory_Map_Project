@@ -11,7 +11,6 @@ import com.example.domain.model.FactoryInfo
 import com.example.factory_map_project.databinding.FragmentCompareBinding
 import com.example.factory_map_project.ui.base.BaseFragment
 import com.example.factory_map_project.util.ARG_CONTENT
-import com.example.factory_map_project.util.ARG_SECOND_CONTENT
 import com.example.factory_map_project.util.CommonUtil.getData
 import com.example.factory_map_project.util.CommonUtil.repeatOnFragmentStarted
 import com.example.factory_map_project.util.SELECT_NONE
@@ -38,10 +37,9 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
     // Mark: Lifecycle
     //**********************************************************************************************
     override fun setData() {
-        val remoteList = arguments?.getData<Array<FactoryInfo>>(ARG_CONTENT)?.toList() ?: emptyList()
-        val localList = arguments?.getData<Array<FactoryInfo>>(ARG_SECOND_CONTENT)?.toList() ?: emptyList()
+        val compareList = arguments?.getData<Array<Pair<FactoryInfo, FactoryInfo?>>>(ARG_CONTENT)?.toList() ?: emptyList()
 
-        viewModel.setData(remoteList.zip(localList))
+        viewModel.setData(compareList)
     }
 
     override fun setUI() {
@@ -88,7 +86,7 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    private fun setCompareRecyclerView(recyclerView: RecyclerView, list: List<Pair<FactoryInfo,FactoryInfo>>) {
+    private fun setCompareRecyclerView(recyclerView: RecyclerView, list: List<Pair<FactoryInfo,FactoryInfo?>>) {
         PagerSnapHelper().attachToRecyclerView(recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = CompareAdapter(
