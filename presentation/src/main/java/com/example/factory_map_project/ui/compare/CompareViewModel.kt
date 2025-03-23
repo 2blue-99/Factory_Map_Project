@@ -8,7 +8,9 @@ import com.example.factory_map_project.util.SELECT_NONE
 import com.example.factory_map_project.util.event.ActionType
 import com.example.factory_map_project.util.event.AppEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -37,19 +39,22 @@ class CompareViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: DataBinding
     //**********************************************************************************************
-    fun onClickNegative() {
-        modelScope.launch {
-            emitEvent(AppEvent.Action(ActionType.NEGATIVE, null))
-        }
-    }
+//    fun onClickNegative() {
+//        modelScope.launch {
+//            emitEvent(AppEvent.Action(ActionType.NEGATIVE, null))
+//        }
+//    }
 
     fun onClickConfirm() {
         modelScope.launch {
             if(!isSelectAll.value){
-                emitEvent(AppEvent.ShowToast("데이터를 모두 선택해주세요."))
+                emitEvent(AppEvent.ShowToast("두 개의 데이터 중 하나를 선택해주세요."))
             }else{
-                factoryRepository.upsertFactoryListDao(selectList.value.map { it.second })
-                emitEvent(AppEvent.Action(ActionType.CONFIRM, null))
+                Timber.d("selectList.value : ${selectList.value.contentToString()}")
+                withContext(Dispatchers.IO) {
+                    factoryRepository.upsertFactoryListDao(selectList.value.map { it.second })
+                    emitEvent(AppEvent.Action(ActionType.CONFIRM, null))
+                }
             }
         }
     }

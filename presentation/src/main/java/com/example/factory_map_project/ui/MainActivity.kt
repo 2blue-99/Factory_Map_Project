@@ -97,6 +97,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                 }
             }
         }
+
+        viewModel.isLogin.observe(this){
+            Timber.d("로그인 상태 : $it")
+            if(!it){
+                findNavController(R.id.nav_host).navigate(R.id.loginFragment)
+            }
+        }
     }
 
     override fun setListener() {  }

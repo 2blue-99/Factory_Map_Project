@@ -48,7 +48,7 @@ class UserDataStoreImpl @Inject constructor(
         dataStore.data.map { dataStore -> dataStore[PreferencesKey.CONNECTED_STATE] ?:true }
 
     override val userCodeFlow: Flow<String> =
-        dataStore.data.map { dataStore -> dataStore[PreferencesKey.USER_CODE] ?: "1234" }
+        dataStore.data.map { dataStore -> dataStore[PreferencesKey.USER_CODE] ?: "" }
 
 
     override suspend fun setDownload(state: Boolean) {

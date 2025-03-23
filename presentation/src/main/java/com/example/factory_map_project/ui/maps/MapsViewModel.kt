@@ -147,19 +147,20 @@ class MapsViewModel @Inject constructor(
             val localList = ioScope.async {
                 factoryRepo.getTargetFactoryDao(remoteList.map { it.id }).toMutableSet()
             }.await()
+
             val pairList = arrayListOf<Pair<FactoryInfo, FactoryInfo?>>()
 
             for(remote in remoteList){
                 val localOrNull = localList.firstOrNull { remote.id == it.id }
                 pairList.add(remote to localOrNull)
             }
-//            val input = Bundle().apply {
-//                putSerializable(ARG_CONTENT, pairList)
-//            }
             val input = Bundle().apply {
-                val test = arrayOf(FactoryInfo() to FactoryInfo(), FactoryInfo() to null, FactoryInfo() to null, FactoryInfo() to FactoryInfo())
-                putSerializable(ARG_CONTENT, test)
+                putSerializable(ARG_CONTENT, pairList)
             }
+//            val input = Bundle().apply {
+//                val test = arrayOf(FactoryInfo() to FactoryInfo(), FactoryInfo() to null, FactoryInfo() to null, FactoryInfo() to FactoryInfo())
+//                putSerializable(ARG_CONTENT, test)
+//            }
             emitEvent(AppEvent.MovePage(R.id.moveToCompare, input))
         }
     }

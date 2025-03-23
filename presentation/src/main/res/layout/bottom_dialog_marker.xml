@@ -339,6 +339,7 @@
 
         <include
             layout="@layout/include_button_dialog"
+            app:positiveEnable="@{true}"
             app:onNegativeClick="@{() -> viewModel.onClickNegative()}"
             app:onPositiveClick="@{() -> viewModel.onClickConfirm()}"
             />

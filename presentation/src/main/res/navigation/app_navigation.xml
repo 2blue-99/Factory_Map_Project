@@ -37,4 +37,8 @@
         android:id="@+id/compareFragment"
         android:name="com.example.factory_map_project.ui.compare.CompareFragment"
         android:label="CompareFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.factory_map_project.ui.login.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>

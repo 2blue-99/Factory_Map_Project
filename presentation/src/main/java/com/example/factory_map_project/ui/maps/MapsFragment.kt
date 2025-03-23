@@ -53,7 +53,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     private var currentMarker: Marker? = null
     private var longClickItem: Boolean = false
 
-    var isInit:Boolean = false
+    private var isInit:Boolean = false
 
     private val callback = OnMapReadyCallback { map ->
         googleMap = map

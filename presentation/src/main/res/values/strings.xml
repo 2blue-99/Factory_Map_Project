@@ -27,4 +27,8 @@
     <string name="filter_dialog_title">필터 추가</string>
     <string name="filter_dialog_sub_title">■ 제외 필터를 추가할 수 있어요.\n■ 길게 눌러 삭제가 가능해요.\n■ 방문 체크된 데이터는 필터에 영향을 받지 않아요.</string>
 
+    <!-- Compare -->
+<!--    <string name="compare_not_choice">서버의 데이터와 나의 데이터 중, 하나를 선택해주세요.</string>-->
+
+
 </resources>
