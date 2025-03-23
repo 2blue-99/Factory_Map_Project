@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -20,7 +21,10 @@ class UserDataStoreImpl @Inject constructor(
         val CLUSTER_TRIGGER_TYPE_POSITION = intPreferencesKey("CLUSTER_TRIGGER_TYPE_POSITION")
         val CURRENT_POSITION = stringPreferencesKey("CURRENT_POSITION")
         val CONNECTED_STATE = booleanPreferencesKey("CONNECTED_STATE")
-        val USER_CODE = stringPreferencesKey("USER_CODE")
+
+        // 로그인 관련
+        val USER_CODE = stringPreferencesKey("user_code")
+        val AUTO_LOGIN = booleanPreferencesKey("auto_login")
     }
 
     override val downloadFlow: Flow<Boolean> =
@@ -41,14 +45,18 @@ class UserDataStoreImpl @Inject constructor(
             }
         }
 
-
-
-
     override val connectedStateFlow: Flow<Boolean> =
         dataStore.data.map { dataStore -> dataStore[PreferencesKey.CONNECTED_STATE] ?:true }
 
+    // autoLogin 값을 수정하면 userCode 값을 관측하고있는 곳에 알림이 감. 대체 왜?
     override val userCodeFlow: Flow<String> =
-        dataStore.data.map { dataStore -> dataStore[PreferencesKey.USER_CODE] ?: "" }
+        dataStore.data.map { dataStore -> dataStore[PreferencesKey.USER_CODE] ?: "" }.distinctUntilChanged()
+
+
+    override val autoLoginFlow: Flow<Boolean> =
+        dataStore.data.map {dataStore -> dataStore[PreferencesKey.AUTO_LOGIN] ?: false}
+
+
 
 
     override suspend fun setDownload(state: Boolean) {
@@ -84,6 +92,12 @@ class UserDataStoreImpl @Inject constructor(
     override suspend fun setUserCode(state: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.USER_CODE] = state
+        }
+    }
+
+    override suspend fun setAutoLogin(state: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.AUTO_LOGIN] = state
         }
     }
 }

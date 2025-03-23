@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="60dp"
-            android:paddingBottom="60dp"
+            android:paddingBottom="220dp"
             android:orientation="vertical"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:hint="아이디를 입력해주세요."
                 app:hintTextColor="@color/dark_gray"
+                app:boxStrokeColor="@color/primary"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -43,6 +44,9 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/icon_user"
                     android:drawablePadding="4dp"
+                    android:text="@={viewModel.userId}"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -53,6 +57,7 @@
                 android:hint="비밀번호를 입력해주세요."
                 android:layout_marginTop="10dp"
                 app:hintTextColor="@color/dark_gray"
+                app:boxStrokeColor="@color/primary"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -60,6 +65,9 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/icon_password"
                     android:drawablePadding="4dp"
+                    android:text="@={viewModel.userPassword}"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionDone"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -72,7 +80,11 @@
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="자동 로그인"/>
+                    android:text="자동 로그인"
+                    android:checked="@{viewModel.autoLogin}"
+                    android:onCheckedChanged="@{(button, isChecked) -> viewModel.onClickAutoLogin(isChecked)}"
+                    app:buttonTint="@color/checkbox_tint"
+                    />
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton

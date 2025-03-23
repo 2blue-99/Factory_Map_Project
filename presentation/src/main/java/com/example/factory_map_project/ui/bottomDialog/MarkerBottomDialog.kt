@@ -125,16 +125,3 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
     }
 }
 
-fun main(){
-    val data = AA("1",1)
-    val data2 = AA("1",1)
-
-    println(data == data2)
-    println(data === data2)
-    println(data.hashCode() == data2.hashCode())
-}
-
-data class AA(
-    val gap: String,
-    val gap2: Int
-)

@@ -75,8 +75,10 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     override fun setData() {
         // 서버 데이터 동기화 처리
         lifecycleScope.launch {
-            delay(500)
-            viewModel.syncRemoteData()
+            if(mainViewModel.isLogin.value == true){
+                delay(500)
+                viewModel.syncRemoteData()
+            }
         }
     }
 

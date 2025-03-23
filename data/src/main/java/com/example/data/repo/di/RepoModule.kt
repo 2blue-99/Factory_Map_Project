@@ -44,9 +44,7 @@ object RepoModule {
     @Singleton
     fun provideFireStoreRepo(
         fireStoreDataSource: FireStoreDataSource,
-        receiveDao: ReceiveDao,
-        sendDao: SendDao,
         userDataStore: UserDataStore
-    ): FireStoreRepository = FireStoreRepositoryImpl()
+    ): FireStoreRepository = FireStoreRepositoryImpl(fireStoreDataSource, userDataStore)
 
 }

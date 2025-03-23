@@ -1,8 +1,13 @@
 package com.example.factory_map_project.ui
 
+import android.content.Context
 import android.content.pm.ActivityInfo
+import android.graphics.Rect
 import android.location.Geocoder
 import android.os.Build
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -14,6 +19,7 @@ import com.example.factory_map_project.databinding.ActivityMainBinding
 import com.example.factory_map_project.ui.base.BaseActivity
 import com.example.factory_map_project.util.CommonUtil.moveSettingIntent
 import com.example.factory_map_project.util.CommonUtil.repeatOnStarted
+import com.example.factory_map_project.util.CommonUtil.slideRightBaseNavOptions
 import com.example.factory_map_project.util.DialogUtil
 import com.example.factory_map_project.util.PermissionUtil
 import com.example.factory_map_project.util.PopupContent
@@ -26,7 +32,9 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -101,7 +109,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         viewModel.isLogin.observe(this){
             Timber.d("로그인 상태 : $it")
             if(!it){
-                findNavController(R.id.nav_host).navigate(R.id.loginFragment)
+                findNavController(R.id.nav_host).navigate(resId = R.id.loginFragment, null, navOptions =  slideRightBaseNavOptions())
             }
         }
     }
@@ -196,6 +204,29 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             }else{
                 locationPermissionLauncher.launch(locationPermission)
             }
+        }
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val view = currentFocus
+            if (view is EditText) {
+                val outRect = Rect()
+                view.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    hideKeyboard()
+                    view.clearFocus()
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
+    private fun hideKeyboard() {
+        val view = currentFocus
+        if (view != null) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 }
