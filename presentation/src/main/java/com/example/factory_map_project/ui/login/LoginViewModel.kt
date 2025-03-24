@@ -68,8 +68,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onClickAutoLogin(state: Boolean){
-        Timber.d("onClickAutoLogin : $state")
-        ioScope.launch {
+        modelScope.launch {
             userDataStore.setAutoLogin(state)
         }
     }

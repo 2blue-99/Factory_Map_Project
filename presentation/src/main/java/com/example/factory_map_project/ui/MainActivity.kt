@@ -141,15 +141,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
     private fun setBackPressListener(){
         onBackPressedDispatcher.addCallback(this) {
-            var gap = findNavController(R.id.nav_host).currentDestination
-            Timber.d("gap : $gap")
-            if(findNavController(R.id.nav_host).currentDestination?.id == R.id.mapsFragment){
+            val currentDestinationId = findNavController(R.id.nav_host).currentDestination?.id
+            Timber.d("currentDestinationId : $currentDestinationId")
+            if(currentDestinationId == R.id.mapsFragment || currentDestinationId == R.id.loginFragment){
                 onBackPressedFinish()
             }else{
                 findNavController(R.id.nav_host).popBackStack()
             }
-            gap = findNavController(R.id.nav_host).currentDestination
-            Timber.d("gap : $gap")
         }
     }
 
