@@ -16,6 +16,7 @@
     <string name="setting_cluster_trigger_sub_title">높은 감도일수록 그룹화가 쉽게 돼요.</string>
     <string name="setting_exclusive_title">제거 키워드</string>
     <string name="setting_exclusive_sub_title">표시되는 데이터의 필터 키워드를 지정할 수 있어요.</string>
+    <string name="setting_logout_title">로그아웃</string>
 
 
     <!-- download dialog -->

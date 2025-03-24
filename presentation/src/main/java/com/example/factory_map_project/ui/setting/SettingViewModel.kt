@@ -44,6 +44,12 @@ class SettingViewModel @Inject constructor(
         emitEvent(AppEvent.Action(ActionType.EXCLUSION, null))
     }
 
+    fun onClickLogout(){
+        modelScope.launch {
+            userDataStore.setUserCode("")
+        }
+    }
+
 
     //**********************************************************************************************
     // Mark: Function
