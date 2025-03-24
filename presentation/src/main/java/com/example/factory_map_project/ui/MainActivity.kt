@@ -32,9 +32,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -108,8 +106,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
         viewModel.isLogin.observe(this){
             Timber.d("로그인 상태 : $it")
-            if(!it){
-                findNavController(R.id.nav_host).navigate(resId = R.id.loginFragment, null, navOptions =  slideRightBaseNavOptions())
+            lifecycleScope.launch {
+                if(!it){
+                    findNavController(R.id.nav_host).navigate(resId = R.id.loginFragment, null, navOptions =  slideRightBaseNavOptions())
+                }
             }
         }
     }

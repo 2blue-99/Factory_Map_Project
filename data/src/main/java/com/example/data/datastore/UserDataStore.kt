@@ -11,6 +11,7 @@ interface UserDataStore {
     val connectedStateFlow: Flow<Boolean> // 위도, 경도, Zoom
     val userCodeFlow: Flow<String>
     val autoLoginFlow: Flow<Boolean>
+    val isLogin: Flow<Boolean>
 
     suspend fun setDownload(state: Boolean)
     suspend fun setArea(position: Int)
@@ -18,6 +19,7 @@ interface UserDataStore {
     suspend fun setCurrentLocation(location: Triple<Double, Double, Double>)
     suspend fun setConnectedState(state: Boolean)
     suspend fun setUserCode(state: String)
+    suspend fun setAutoLogin(state: Boolean)
     suspend fun setAutoLogin(state: Boolean)
 
 }

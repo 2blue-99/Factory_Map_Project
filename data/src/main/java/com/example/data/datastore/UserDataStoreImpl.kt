@@ -25,6 +25,7 @@ class UserDataStoreImpl @Inject constructor(
         // 로그인 관련
         val USER_CODE = stringPreferencesKey("user_code")
         val AUTO_LOGIN = booleanPreferencesKey("auto_login")
+        val IS_LOGIN = booleanPreferencesKey("is_login")
     }
 
     override val downloadFlow: Flow<Boolean> =
@@ -52,9 +53,15 @@ class UserDataStoreImpl @Inject constructor(
     override val userCodeFlow: Flow<String> =
         dataStore.data.map { dataStore -> dataStore[PreferencesKey.USER_CODE] ?: "" }.distinctUntilChanged()
 
-
     override val autoLoginFlow: Flow<Boolean> =
         dataStore.data.map {dataStore -> dataStore[PreferencesKey.AUTO_LOGIN] ?: false}
+
+    /**
+     * 로그인 시 true,
+     * 앱 종료 또는 로그아웃 시 false
+     */
+    override val isLogin: Flow<Boolean> =
+        dataStore.data.map {dataStore -> dataStore[PreferencesKey.IS_LOGIN] ?: false}
 
 
 
@@ -92,6 +99,12 @@ class UserDataStoreImpl @Inject constructor(
     override suspend fun setUserCode(state: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.USER_CODE] = state
+        }
+    }
+
+    override suspend fun setAutoLogin(state: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.AUTO_LOGIN] = state
         }
     }
 
