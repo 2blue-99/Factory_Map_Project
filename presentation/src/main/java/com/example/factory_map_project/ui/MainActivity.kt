@@ -105,11 +105,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         }
 
         viewModel.isLogin.observe(this){
-            Timber.d("로그인 상태 : $it")
-            lifecycleScope.launch {
-                if(!it){
-                    findNavController(R.id.nav_host).navigate(resId = R.id.loginFragment, null, navOptions =  slideRightBaseNavOptions())
-                }
+            if(!it){
+                findNavController(R.id.nav_host).navigate(resId = R.id.loginFragment, null, navOptions =  slideRightBaseNavOptions())
             }
         }
     }

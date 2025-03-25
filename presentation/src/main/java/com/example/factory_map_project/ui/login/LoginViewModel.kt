@@ -51,17 +51,14 @@ class LoginViewModel @Inject constructor(
                 emitEvent(AppEvent.ShowToast("아이디 또는 비밀번호를 입력해주세요."))
             }else{
                 emitEvent(AppEvent.ShowLoading(true))
-                withContext(Dispatchers.IO) {
-                    val isSuccess = fireStoreRepository.login(userId.value!!, userPassword.value!!)
-
-                    if(isSuccess){
-                        emitEvent(AppEvent.ShowToast("로그인 성공"))
-                        emitEvent(AppEvent.Action(ActionType.CONFIRM, null))
-                    }else{
-                        emitEvent(AppEvent.ShowToast("존재하지 않는 계정이에요."))
-                    }
-                    emitEvent(AppEvent.ShowLoading(false))
+                val isSuccess = fireStoreRepository.login(userId.value!!, userPassword.value!!)
+                if(isSuccess){
+                    emitEvent(AppEvent.ShowToast("로그인 성공"))
+                    emitEvent(AppEvent.Action(ActionType.CONFIRM, null))
+                }else{
+                    emitEvent(AppEvent.ShowToast("존재하지 않는 계정이에요."))
                 }
+                emitEvent(AppEvent.ShowLoading(false))
             }
         }
 

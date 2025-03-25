@@ -20,6 +20,4 @@ interface UserDataStore {
     suspend fun setConnectedState(state: Boolean)
     suspend fun setUserCode(state: String)
     suspend fun setAutoLogin(state: Boolean)
-    suspend fun setAutoLogin(state: Boolean)
-
 }

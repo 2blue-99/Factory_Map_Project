@@ -107,10 +107,4 @@ class UserDataStoreImpl @Inject constructor(
             preferences[PreferencesKey.AUTO_LOGIN] = state
         }
     }
-
-    override suspend fun setAutoLogin(state: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKey.AUTO_LOGIN] = state
-        }
-    }
 }
