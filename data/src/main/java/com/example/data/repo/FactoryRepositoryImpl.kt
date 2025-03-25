@@ -16,12 +16,14 @@ import com.example.domain.model.FactoryInfo
 import com.example.domain.repo.FactoryRepository
 import com.example.domain.type.AreaType
 import com.example.domain.type.SelectType
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -165,13 +167,14 @@ class FactoryRepositoryImpl @Inject constructor(
     override suspend fun localSync(): List<FactoryInfo>? {
         if(!networkUtil.networkState.value){
 //            return emptyList()
+            Timber.d("네트워크 미연결")
             return null
         }
 
         val existDataList = receiveDao.getAllData().first()
         val existIdList = existDataList.map { it.remoteId }
 
-        val remoteList = fireStoreDataSource.getAllData()
+        val remoteList = fireStoreDataSource.getAllData(userDataSource.userCodeFlow.first())
 
         Timber.d("remoteList : $remoteList")
 
@@ -184,9 +187,11 @@ class FactoryRepositoryImpl @Inject constructor(
         val filterRemoteList = remoteList.filter { !existIdList.contains(it.first) }
 
         filterRemoteList.forEach { data ->
-            receiveDao.upsertData(data.toEntity())
+            withContext(Dispatchers.IO){
+                receiveDao.upsertData(data.toEntity())
+            }
         }
 
-        return filterRemoteList.map { it.second.factory.toDomain() }
+        return filterRemoteList.map { it.second.factory!!.toDomain() }
     }
 }

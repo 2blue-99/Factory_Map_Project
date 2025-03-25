@@ -72,15 +72,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     //**********************************************************************************************
     // Mark: Lifecycle
     //**********************************************************************************************
-    override fun setData() {
-        // 서버 데이터 동기화 처리
-        lifecycleScope.launch {
-            if(mainViewModel.isLogin.value == true){
-                delay(500)
-                viewModel.syncRemoteData()
-            }
-        }
-    }
+    override fun setData() {}
 
     override fun setUI() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
@@ -132,8 +124,18 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
             }
         }
 
+        // 네트워크 미연결 아이콘 클릭
         binding.disconnectIcon.setOnClickListener {
             mainActivity().showSnackBar(it, PopupContent.MAP_DISCONNECT.content)
+        }
+
+        // 서버 데이터 동기화 처리
+        mainViewModel.isLogin.observe(viewLifecycleOwner){
+            Timber.d("isLogin : ${it}")
+            lifecycleScope.launch {
+                delay(500)
+                viewModel.syncRemoteData()
+            }
         }
     }
 

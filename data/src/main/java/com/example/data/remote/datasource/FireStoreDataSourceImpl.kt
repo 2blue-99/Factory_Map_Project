@@ -1,6 +1,5 @@
 package com.example.data.remote.datasource
 
-import com.example.data.remote.model.FactoryInfoResponse
 import com.example.data.remote.model.FactoryResponse
 import com.example.data.remote.model.UserResponse
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,11 +30,13 @@ class FireStoreDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAllData(): List<Pair<String,FactoryResponse>> {
+    override suspend fun getAllData(userCode: String): List<Pair<String,FactoryResponse>> {
+        Timber.d("userCode : $userCode")
         val result = fireStore.collection("factory")
-            .whereNotEqualTo("user_code", "1234")
+            .whereNotEqualTo("user_code", userCode)
             .get()
             .await()
+        Timber.d("result : $result")
         return result.map { Pair(it.id, it.toObject(FactoryResponse::class.java)) }
     }
 
