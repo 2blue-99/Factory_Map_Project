@@ -34,8 +34,8 @@ class FireStoreRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getRemoteFactory(): Boolean {
-        return true
+    override suspend fun getRemoteFactory() {
+        fireStoreDataSource.getAllData(userDataStore.userCodeFlow.first())
     }
 
 }

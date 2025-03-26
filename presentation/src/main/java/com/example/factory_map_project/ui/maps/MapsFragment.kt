@@ -53,12 +53,18 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     private var currentMarker: Marker? = null
     private var longClickItem: Boolean = false
 
-    private var isInit:Boolean = false
+    private var isInit: Boolean = false
+    /**
+     * 앱 최초 진입 시, 동기화 여부 체크
+     */
+    private var isSync: Boolean = false
 
     private val callback = OnMapReadyCallback { map ->
         googleMap = map
         setClusterManager()
         setDaoListener()
+        // 맵 로드가 완료된 후 이동
+        setCompareObserver()
 
         if(!isInit) { // 최초 진입 한정하여 설정
             setUserMarker()
@@ -95,6 +101,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                         )
                     }
                     is AppEvent.MovePage -> {
+                        Timber.d("AppEvent.MovePage : ${event.id}")
                         findNavController().navigate(event.id, event.data)
                     }
                     is AppEvent.Action<*> -> {
@@ -127,15 +134,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         // 네트워크 미연결 아이콘 클릭
         binding.disconnectIcon.setOnClickListener {
             mainActivity().showSnackBar(it, PopupContent.MAP_DISCONNECT.content)
-        }
-
-        // 서버 데이터 동기화 처리
-        mainViewModel.isLogin.observe(viewLifecycleOwner){
-            Timber.d("isLogin : ${it}")
-            lifecycleScope.launch {
-                delay(500)
-                viewModel.syncRemoteData()
-            }
         }
     }
 
@@ -360,6 +358,19 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         googleMap.setLatLngBoundsForCameraTarget(koreaRange)
         googleMap.setMinZoomPreference(7.1f)
         googleMap.setMaxZoomPreference(19.5f)
+    }
+
+    private fun setCompareObserver(){
+        // 서버 데이터 동기화 처리
+        mainViewModel.isLogin.observe(viewLifecycleOwner){
+            Timber.d("isLogin : $it")
+            if(it && !isSync) {
+                lifecycleScope.launch {
+                    viewModel.syncRemoteData()
+                    isSync = true
+                }
+            }
+        }
     }
 }
 

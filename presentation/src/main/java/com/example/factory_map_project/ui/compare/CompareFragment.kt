@@ -96,7 +96,7 @@ class CompareFragment : BaseFragment<FragmentCompareBinding, CompareViewModel>(
                     viewModel.selectList.value[postion] = data
                 }
             }
-        )
+        ).apply { selectedArray = Array(list.size){0} }
     }
 
     private fun setIndicatorRecyclerView(recyclerView: RecyclerView, count: Int){

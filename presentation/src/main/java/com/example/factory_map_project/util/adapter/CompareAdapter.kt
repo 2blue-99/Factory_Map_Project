@@ -18,24 +18,44 @@ class CompareAdapter(
     private val onSelect: (Int, Pair<Int,FactoryInfo>) -> Unit
 ): RecyclerView.Adapter<CompareAdapter.BindViewHolder>() {
 
+    /**
+     * 선택 여부 배열
+     *
+     * 재활용되어 데이터가 남아 있거나, 날아간 상태 방지
+     */
+    lateinit var selectedArray: Array<Int>
+
     inner class BindViewHolder(private val binding: ItemCompareBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int){
+            binding.serverData = list[position].first
+            binding.localData = list[position].second
+
+            if(selectedArray[position] == SELECT_SERVER){
+                binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.light_red))
+                binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
+            }else if(selectedArray[position] == SELECT_LOCAL){
+                binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
+                binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.light_primary))
+            }else{
+                binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
+                binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
+            }
+
             binding.serverLayout.setOnClickListener {
                 binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.light_red))
                 binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
                 onSelect(position, Pair(SELECT_SERVER, list[position].first))
+                selectedArray[position] = SELECT_SERVER
             }
 
             binding.localLayout.setOnClickListener {
                 if(list[position].second != null){
-                    binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.light_primary))
                     binding.serverLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
+                    binding.localLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.light_primary))
                     onSelect(position, Pair(SELECT_LOCAL, list[position].second!!))
+                    selectedArray[position] = SELECT_LOCAL
                 }
             }
-
-            binding.serverData = list[position].first
-            binding.localData = list[position].second
         }
     }
 

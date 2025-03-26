@@ -58,9 +58,6 @@ class MapsViewModel @Inject constructor(
      */
     init {
         loadFactoryData()
-        modelScope.launch {
-            fireStoreRepository.getRemoteFactory()
-        }
     }
 
 
@@ -154,8 +151,11 @@ class MapsViewModel @Inject constructor(
                 val localOrNull = localList.firstOrNull { remote.id == it.id }
                 pairList.add(remote to localOrNull)
             }
+
+            Timber.d("pairList = $pairList")
+
             val input = Bundle().apply {
-                putSerializable(ARG_CONTENT, pairList)
+                putSerializable(ARG_CONTENT, pairList.toTypedArray())
             }
 //            val input = Bundle().apply {
 //                val test = arrayOf(FactoryInfo() to FactoryInfo(), FactoryInfo() to null, FactoryInfo() to null, FactoryInfo() to FactoryInfo())

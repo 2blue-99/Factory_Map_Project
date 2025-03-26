@@ -125,6 +125,7 @@ class FactoryRepositoryImpl @Inject constructor(
      * 5. 성공 시, Send DB Update = true 처리
      */
     override suspend fun remoteSync(factoryInfo: FactoryInfo) {
+        Timber.d("remoteSync")
         sendDao.upsertData(
             SendEntity(
                 sendId = 0,
@@ -176,6 +177,7 @@ class FactoryRepositoryImpl @Inject constructor(
 
         val remoteList = fireStoreDataSource.getAllData(userDataSource.userCodeFlow.first())
 
+        Timber.d("existIdList : $existIdList")
         Timber.d("remoteList : $remoteList")
 
         if (existIdList.size == remoteList.size) {

@@ -33,7 +33,7 @@ class FireStoreDataSourceImpl @Inject constructor(
     override suspend fun getAllData(userCode: String): List<Pair<String,FactoryResponse>> {
         Timber.d("userCode : $userCode")
         val result = fireStore.collection("factory")
-            .whereNotEqualTo("user_code", userCode)
+            .whereNotEqualTo("userCode", userCode)
             .get()
             .await()
         Timber.d("result : $result")
