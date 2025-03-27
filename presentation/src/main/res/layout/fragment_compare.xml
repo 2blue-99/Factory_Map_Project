@@ -66,7 +66,8 @@
                         android:layout_gravity="center"
                         android:clipToPadding="false"
                         android:paddingHorizontal="20dp"
-                        tools:listitem="@layout/item_compare" />
+                        tools:listitem="@layout/item_compare"
+                        tools:itemCount="1"/>
 
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>

@@ -36,7 +36,6 @@ class FireStoreDataSourceImpl @Inject constructor(
             .whereNotEqualTo("userCode", userCode)
             .get()
             .await()
-        Timber.d("result : $result")
         return result.map { Pair(it.id, it.toObject(FactoryResponse::class.java)) }
     }
 

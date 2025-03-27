@@ -110,7 +110,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/check_box_primary"
-                        android:button="@drawable/icon_check_box"
+                        android:button="@null"
                         android:checked="@{viewModel.uiData.isCheck}" />
 
                     <!--                    <ImageView-->

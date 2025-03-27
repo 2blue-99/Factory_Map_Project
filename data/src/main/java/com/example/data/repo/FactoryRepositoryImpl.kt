@@ -143,6 +143,8 @@ class FactoryRepositoryImpl @Inject constructor(
             )
         }
 
+        Timber.d("sendList : $sendList")
+
         if (fireStoreDataSource.insertData(sendList)) {
             Timber.d("Remote Update 성공")
             notUpdateList.forEach {

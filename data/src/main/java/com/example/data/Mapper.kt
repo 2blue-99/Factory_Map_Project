@@ -60,10 +60,10 @@ object Mapper {
             loadAddress = loadAddress,
             latitude = latitude,
             longitude = longitude,
-            isCheck = isCheck,
+            check = isCheck,
             memo = memo,
             category = category,
-            isDeleted = isDeleted,
+            deleted = isDeleted,
             lastTime = lastTime
         )
 }

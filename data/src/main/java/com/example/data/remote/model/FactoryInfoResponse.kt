@@ -25,13 +25,13 @@ data class FactoryInfoResponse(
 
     val longitude: Double = 0.0, // 정제 경도
 
-    val isCheck: Boolean = false, // 0 : Unknown, 1 : Success, 2: Fail
+    val check: Boolean = false, // 0 : Unknown, 1 : Success, 2: Fail
 
     val memo: String = "",
 
     val category: Int = 0, // 아이콘 카테고리
 
-    val isDeleted: Boolean = false, // 삭제 여부
+    val deleted: Boolean = false, // 삭제 여부
 
     val lastTime: String = ""
 ) {
@@ -48,10 +48,10 @@ data class FactoryInfoResponse(
             loadAddress = loadAddress,
             latitude = latitude,
             longitude = longitude,
-            isCheck = isCheck,
+            isCheck = check,
             memo = memo,
             category = category,
-            isDeleted = isDeleted,
+            isDeleted = deleted,
             lastTime = lastTime
         )
 
@@ -68,10 +68,10 @@ data class FactoryInfoResponse(
                 loadAddress = "김포시",
                 latitude = 0.0,
                 longitude = 0.0,
-                isCheck = false,
+                check = false,
                 memo = "memo",
                 category = 0,
-                isDeleted = false,
+                deleted = false,
                 lastTime = "lastTime"
             )
     }
