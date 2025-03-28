@@ -33,7 +33,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MapsViewModel @Inject constructor(
     private val factoryRepo: FactoryRepository,
-    private val fireStoreRepository: FireStoreRepository,
     private val userData: UserDataStore,
     private val networkUtil: NetworkInterface,
 ) : BaseViewModel() {
@@ -139,8 +138,19 @@ class MapsViewModel @Inject constructor(
 
     suspend fun syncRemoteData() {
         // 서버 데이터
+        emitEvent(AppEvent.ShowLoading(true))
         factoryRepo.localSync()?.let { remoteList ->
             Timber.d("remoteList :$remoteList")
+
+            // 최초 1회에 한정하여 서버값 모두 적용
+            if(!userData.isInitFlow.first()){
+                withContext(Dispatchers.IO){
+                    factoryRepo.upsertFactoryListDao(remoteList)
+                    userData.setInit(true)
+                }
+                return@let
+            }
+
             val localList = ioScope.async {
                 factoryRepo.getTargetFactoryDao(remoteList.map { it.id }).toMutableSet()
             }.await()
@@ -162,6 +172,9 @@ class MapsViewModel @Inject constructor(
 //                putSerializable(ARG_CONTENT, test)
 //            }
             emitEvent(AppEvent.MovePage(R.id.moveToCompare, input))
+        }.runCatching {
+            emitEvent(AppEvent.ShowLoading(false))
         }
+        emitEvent(AppEvent.ShowLoading(false))
     }
 }

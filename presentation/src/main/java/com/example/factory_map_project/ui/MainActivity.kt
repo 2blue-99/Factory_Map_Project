@@ -117,30 +117,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
-    private fun geoTest(list: List<AllAreaInfo>){
-        val geo = Geocoder(this)
-        lifecycleScope.launch {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val start = System.currentTimeMillis()
-                for(data in list){
-                    val address = data.roadAddress
-                    if(address.isNotBlank()){
-                        geo.getFromLocationName(address, 1){
-                            Timber.d("geo : ${it[0]}")
-                        }
-                    }
-                }
-                val end = System.currentTimeMillis()
-                Timber.d("결과 ${end - start}ms")
-            }
-        }
-    }
-
     private fun setBackPressListener(){
         onBackPressedDispatcher.addCallback(this) {
             val currentDestinationId = findNavController(R.id.nav_host).currentDestination?.id
             Timber.d("currentDestinationId : $currentDestinationId")
-            if(currentDestinationId == R.id.mapsFragment || currentDestinationId == R.id.loginFragment){
+            if(currentDestinationId == R.id.mapsFragment ||
+                currentDestinationId == R.id.loginFragment ||
+                currentDestinationId == R.id.compareFragment
+                ){
                 onBackPressedFinish()
             }else{
                 findNavController(R.id.nav_host).popBackStack()
