@@ -35,8 +35,8 @@ const val MARKER_UNKNOWN = 0
 const val MARKER_HOTEL = 1
 const val MARKER_RESORT = 2
 
-const val CHECK_ALPHA = 0.75f
-const val NONE_CHECK_ALPHA = 0.6f
+const val CHECK_ALPHA = 0.85f
+const val NONE_CHECK_ALPHA = 0.7f
 
 const val SELECT_NONE = 0
 const val SELECT_SERVER = 1
