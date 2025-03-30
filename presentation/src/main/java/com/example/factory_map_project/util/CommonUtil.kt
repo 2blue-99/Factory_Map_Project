@@ -91,18 +91,31 @@ object CommonUtil {
         context.startActivity(Intent(Intent.ACTION_VIEW,uri))
     }
 
-    fun moveTMap(context: Context, data: FactoryCluster) {
-        val packageName = "com.skt.tmap.ku"
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("tmap://route?goalx=${data.longitude}&goaly=${data.latitude}&goalname=${data.companyName}"))
-            context.startActivity(intent)
-        }catch (e: Exception){
-            context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=${packageName}")
-                )
+    fun moveTMap(context: Context, data: FactoryCluster, err: () -> Unit = {}) {
+        val tMapPackage = "com.skt.tmap.ku"
+        val marketPackage = "com.android.vending"
+        if(context.isContainsApp(tMapPackage)){
+            val tMapIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("tmap://route?goalx=${data.longitude}&goaly=${data.latitude}&goalname=${data.companyName}")
             )
+            context.startActivity(tMapIntent)
+        }else if(context.isContainsApp(marketPackage)) {
+            val marketIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${tMapPackage}"))
+            context.startActivity(marketIntent)
+        } else err()
+    }
+
+    /**
+     * 휴대폰에 앱이 있는지 확인 여부 체크
+     */
+    private fun Context.isContainsApp(packageName: String): Boolean {
+        try {
+            packageManager.getPackageInfo(packageName, 0)
+            return true
+        }catch (e: Exception){
+            Timber.d("e: $e")
+            return false
         }
     }
 

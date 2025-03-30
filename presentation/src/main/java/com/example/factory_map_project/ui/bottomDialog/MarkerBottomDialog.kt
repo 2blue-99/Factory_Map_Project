@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import com.example.factory_map_project.databinding.BottomDialogMarkerBinding
 import com.example.factory_map_project.ui.base.BaseBottomDialog
 import com.example.factory_map_project.util.ARG_CONTENT
-import com.example.factory_map_project.util.CommonUtil
 import com.example.factory_map_project.util.CommonUtil.getData
 import com.example.factory_map_project.util.CommonUtil.moveCall
 import com.example.factory_map_project.util.CommonUtil.moveTMap
@@ -60,7 +59,7 @@ class MarkerBottomDialog: BaseBottomDialog<BottomDialogMarkerBinding, MarkerView
                             }
                             ActionType.MAP -> {
                                 if(event.input is FactoryCluster){
-                                    moveTMap(requireContext(), event.input)
+                                    moveTMap(requireContext(), event.input, { mainActivity().showToast("앱을 실행할 수 없습니다.") })
                                 }
                             }
                             ActionType.NEGATIVE -> onClickNegative()
