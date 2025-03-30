@@ -289,6 +289,7 @@
                 android:orientation="horizontal"
                 android:layout_marginVertical="4dp"
                 android:onClick="@{() -> viewModel.onClickContact(viewModel.uiData.contact)}"
+                android:onLongClick="@{() -> viewModel.onLongClickContact()}"
                 >
                 <TextView
                     android:layout_weight="2"
@@ -303,10 +304,9 @@
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.uiData.contact, default = `전화번호`}"
                     android:textSize="16sp"
-                    app:underline="@{true}"
                     android:textColorHint="@color/light_gray"
                     android:hint="@string/marker_dialog_empty"
-                    android:onLongClick="@{() -> viewModel.onLongClickContact()}"
+                    app:underline="@{true}"
                     />
             </LinearLayout>
 
