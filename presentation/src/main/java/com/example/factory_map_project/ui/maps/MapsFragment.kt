@@ -178,6 +178,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         }
 
         googleMap.setOnMapLongClickListener {
+            viewModel.onClickRefresh()
             mainActivity().dialogManager.showMessageDialog(PopupContent.MAP_ADD_ITEM){
                 addItemHandler(it)
             }
