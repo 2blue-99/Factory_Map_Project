@@ -1,7 +1,10 @@
 package com.example.factory_map_project.util
 
+import android.content.Context
 import android.graphics.Paint
-import android.widget.ImageView
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -31,20 +34,6 @@ fun setRecyclerViewDivider(recyclerView: RecyclerView, divider: Boolean){
 /**
  *
  */
-//@BindingAdapter("setCheckBackground")
-//fun setCheckBackground(view: ImageView, state: Int){
-//    view.setImageResource(
-//        when(state){
-//            STATE_UNKNOWN -> R.drawable.icon_check_box
-//            STATE_CHECK -> R.drawable.icon_check_box
-//            else -> R.drawable.icon_fail_marker
-//        }
-//    )
-//}
-
-/**
- *
- */
 @BindingAdapter("setSelectPicker")
 fun setSelectPicker(picker: NumberPicker, list: List<String>){
     Timber.d("list : $list")
@@ -52,6 +41,31 @@ fun setSelectPicker(picker: NumberPicker, list: List<String>){
     picker.maxValue = list.size-1
     picker.displayedValues = list.toTypedArray()
 }
+
+/**
+ * 키보드 Search 액션 버튼 이벤트 처리
+ */
+@BindingAdapter("setEditTextActionButton")
+fun setEditTextActionButton(editText: EditText, onClick: () -> Unit){
+    editText.setOnEditorActionListener { v, actionId, event ->
+        if(actionId == EditorInfo.IME_ACTION_SEARCH){
+            // 키보드 내리기
+            val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(v.windowToken, 0)
+            onClick()
+            true
+        }else{
+            false
+        }
+    }
+}
+
+
+
+
+
+
+
 
 private fun addRecyclerViewDivider(recyclerView: RecyclerView){
     Timber.d("addRecyclerViewDivider 생성")

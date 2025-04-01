@@ -1,13 +1,13 @@
 package com.example.factory_map_project.ui.maps
 
 import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import com.example.data.datastore.UserDataStore
 import com.example.data.util.NetworkInterface
 import com.example.domain.model.FactoryInfo
 import com.example.domain.repo.FactoryRepository
-import com.example.domain.repo.FireStoreRepository
 import com.example.domain.type.AreaType
 import com.example.domain.type.ClusterTriggerType
 import com.example.factory_map_project.R
@@ -45,6 +45,11 @@ class MapsViewModel @Inject constructor(
 
     private var _factoryData = MutableStateFlow<List<FactoryCluster>>(emptyList())
     val factoryData: StateFlow<List<FactoryCluster>> = _factoryData
+
+    /**
+     * 회사이름 입력 EditText
+     */
+    var companyNameEditText = MutableLiveData("")
 
     var connectedState = networkUtil.networkState.asLiveData().map { InitialMutableLiveData(it) }
 
@@ -98,6 +103,10 @@ class MapsViewModel @Inject constructor(
                 userData.setCurrentLocation(Triple(latLng.latitude, latLng.longitude, zoom.toDoubleRange()))
             }
         }
+    }
+
+    fun onClickSearch(){
+        Timber.d("ㅇㅇ")
     }
 
 
