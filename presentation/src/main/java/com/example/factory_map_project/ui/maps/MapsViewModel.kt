@@ -171,7 +171,7 @@ class MapsViewModel @Inject constructor(
                 pairList.add(remote to localOrNull)
             }
 
-            Timber.d("pairList = $pairList")
+            Timber.d("pairList : $pairList")
 
             val input = Bundle().apply {
                 putSerializable(ARG_CONTENT, pairList.toTypedArray())
