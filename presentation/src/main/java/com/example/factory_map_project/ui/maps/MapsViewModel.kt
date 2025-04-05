@@ -153,7 +153,7 @@ class MapsViewModel @Inject constructor(
 
             // 최초 1회에 한정하여 서버값 모두 적용
             if(!userData.isInitFlow.first()){
-                withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO){   
                     factoryRepo.upsertFactoryListDao(remoteList)
                     userData.setInit(true)
                 }
