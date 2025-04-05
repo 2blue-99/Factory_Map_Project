@@ -7,6 +7,7 @@ import com.example.factory_map_project.ui.base.BaseViewModel
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -41,8 +42,16 @@ class MainViewModel @Inject constructor(
     //**********************************************************************************************
 
 
-
     //**********************************************************************************************
     // Mark: Function
     //**********************************************************************************************
+    /**
+     * 앱 초기세팅 : 전체 지역
+     */
+    override fun onCleared() {
+        super.onCleared()
+        modelScope.launch {
+            userDataStore.setArea(0)
+        }
+    }
 }
