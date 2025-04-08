@@ -67,7 +67,7 @@
                     android:background="@null"
                     android:paddingVertical="8dp"
                     android:textColorHint="@color/dark_gray"
-                    android:text="@={viewModel.companyNameEditText}"
+                    android:text="@={viewModel.inputText}"
                     android:maxLines="1"
                     android:imeOptions="actionSearch"
                     android:inputType="text"

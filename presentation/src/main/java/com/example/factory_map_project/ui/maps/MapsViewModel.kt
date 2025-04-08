@@ -49,7 +49,7 @@ class MapsViewModel @Inject constructor(
     /**
      * 회사이름 입력 EditText
      */
-    var companyNameEditText = MutableLiveData("")
+    var inputText = MutableLiveData("")
 
     var connectedState = networkUtil.networkState.asLiveData().map { InitialMutableLiveData(it) }
 
@@ -96,6 +96,7 @@ class MapsViewModel @Inject constructor(
     }
 
     fun onClickRefresh(){
+        inputText.value = ""
         modelScope.launch {
             isRefresh.value = false
             awaitEvent(AppEvent.GetLocation)?.let { (latLng, zoom) ->
@@ -106,7 +107,22 @@ class MapsViewModel @Inject constructor(
     }
 
     fun onClickSearch(){
-        Timber.d("ㅇㅇ")
+        // 1. 업체 이름을 통해 개수 체크
+        // 2. 1개일 경우, 네임 플로우 변경처리, 해당 위치로 이동
+        // 3. 2개 이상일 경우, 네임 플로우 변경처리, 지도 축소 처리
+        // 4. 0개일 경우 토스트 메시지
+        modelScope.launch {
+            if(inputText.value.isNullOrBlank()) {
+                // 토스트
+            } else {
+                val targetList = factoryRepo.getTargetFactoryDao(inputText.value!!)
+                when(targetList.size){
+                    0 -> {} // 토스트 메시지
+                    1 -> {} //
+                    else -> {} //
+                }
+            }
+        }
     }
 
 

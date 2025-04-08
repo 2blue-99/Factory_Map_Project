@@ -4,8 +4,10 @@ import com.example.domain.model.FactoryInfo
 import kotlinx.coroutines.flow.Flow
 
 interface FactoryRepository {
-    // DAO
-    fun getFactoryAllDao(): Flow<List<FactoryInfo>>
+    /**
+     * 목표 업체 이름 검색
+     */
+    suspend fun getTargetFactoryDao(targetName: String): List<FactoryInfo>
 
     suspend fun getFactoryDao(): Flow<List<FactoryInfo>>
 

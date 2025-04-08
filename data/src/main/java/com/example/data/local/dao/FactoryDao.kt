@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FactoryDao {
 
-    @Query("SELECT * FROM factory")
-    fun getAllData(): Flow<List<FactoryEntity>>
+    @Query("SELECT * FROM factory WHERE companyName = :targetName")
+    fun getTargetFactoryDao(targetName: String): List<FactoryEntity>
 
     @Query(
         """

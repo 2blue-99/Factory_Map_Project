@@ -36,8 +36,9 @@ class FactoryRepositoryImpl @Inject constructor(
     private val receiveDao: ReceiveDao,
     private val networkUtil: NetworkInterface,
 ): FactoryRepository {
-    override fun getFactoryAllDao(): Flow<List<FactoryInfo>> {
-        return factoryDao.getAllData().map { it.map { it.toDomain() } }
+
+    override suspend fun getTargetFactoryDao(targetName: String): List<FactoryInfo> {
+        return factoryDao.getTargetFactoryDao(targetName).map { it.toDomain() }
     }
 
     override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {

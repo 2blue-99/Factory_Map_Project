@@ -193,7 +193,8 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                     clusterManager.addItems(list)
                     clusterManager.cluster()
 
-                    // 롱클릭 추가로 인한 변경일 경우 리스트 마지막 값을 바텀 시트에 노출
+                    // 롱클릭 추가로 인한 변경일 경우,
+                    // 새로운 값 추가이기 때문에 리스트 마지막 값을 바텀 시트에 노출
                     if(longClickItem){
                         onClickMarker(list.last())
                         longClickItem = false
@@ -329,7 +330,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
 
     /**
      * 업체 추가 | 선택 위치에 벗어날 경우 다이알로그
-     *
      */
     private fun addItem(itemAddress: String, latLng: LatLng){
         val selectedOptionArea = viewModel.selectedAreaType.value?.title ?: AreaType.ALL.title
