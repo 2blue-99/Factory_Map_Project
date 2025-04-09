@@ -21,6 +21,7 @@ class UserDataStoreImpl @Inject constructor(
         val CLUSTER_TRIGGER_TYPE_POSITION = intPreferencesKey("CLUSTER_TRIGGER_TYPE_POSITION")
         val CURRENT_POSITION = stringPreferencesKey("CURRENT_POSITION")
         val CONNECTED_STATE = booleanPreferencesKey("CONNECTED_STATE")
+        val SEARCH_NAME = stringPreferencesKey("SEARCH_NAME")
 
         // 로그인 관련
         val USER_CODE = stringPreferencesKey("user_code")
@@ -42,12 +43,15 @@ class UserDataStoreImpl @Inject constructor(
         get() {
             return dataStore.data.map { dataStore -> dataStore[PreferencesKey.CURRENT_POSITION] ?: "36.658,127.8766,0.1" }.map {
                 val data = it.split(",")
-                Triple(data[0].toDouble(), data[1].toDouble(), data[2].toDouble())
+                Triple(data[0].toDouble(), data[1].toDouble(), data[2].toDouble()) // 위도, 경도, Zoom
             }
         }
 
     override val connectedStateFlow: Flow<Boolean> =
         dataStore.data.map { dataStore -> dataStore[PreferencesKey.CONNECTED_STATE] ?:true }
+
+    override val searchNameFlow: Flow<String> =
+        dataStore.data.map { dataStore -> dataStore[PreferencesKey.SEARCH_NAME] ?: "" }
 
     // autoLogin 값을 수정하면 userCode 값을 관측하고있는 곳에 알림이 감. 대체 왜?
     override val userCodeFlow: Flow<String> =
@@ -63,6 +67,9 @@ class UserDataStoreImpl @Inject constructor(
      */
     override val isInitFlow: Flow<Boolean> =
         dataStore.data.map {dataStore -> dataStore[PreferencesKey.IS_INIT] ?: false}
+
+
+
 
 
     override suspend fun setDownload(state: Boolean) {
@@ -92,6 +99,12 @@ class UserDataStoreImpl @Inject constructor(
     override suspend fun setConnectedState(state: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.CONNECTED_STATE] = state
+        }
+    }
+
+    override suspend fun setSearchName(name: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.SEARCH_NAME] = name
         }
     }
 

@@ -120,6 +120,9 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                         Timber.d("googleMap.cameraPosition.zoom : ${googleMap.cameraPosition.zoom}")
                         event.tryEmit(Pair(gap, googleMap.cameraPosition.zoom))
                     }
+                    is AppEvent.ShowToast -> {
+                        mainActivity().showToast(event.message)
+                    }
                     else -> {}
                 }
             }
@@ -257,7 +260,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
     }
 
     private fun addUserMarker(location: LatLng): Marker? {
-        Timber.d("addUserMarker : $currentMarker")
         currentMarker?.remove()
         return googleMap.addMarker(
             MarkerOptions()

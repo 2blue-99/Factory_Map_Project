@@ -52,6 +52,7 @@ class MainViewModel @Inject constructor(
         super.onCleared()
         modelScope.launch {
             userDataStore.setArea(0)
+            userDataStore.setSearchName("")
         }
     }
 }

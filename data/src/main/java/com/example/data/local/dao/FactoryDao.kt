@@ -11,8 +11,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FactoryDao {
 
-    @Query("SELECT * FROM factory WHERE companyName = :targetName")
-    fun getTargetFactoryDao(targetName: String): List<FactoryEntity>
+    @Query("""
+        SELECT COUNT(*) FROM factory 
+        WHERE companyName LIKE '%' || :targetName || '%'
+        """)
+    fun getTargetFactoryDao(targetName: String): Int
 
     @Query(
         """
@@ -21,9 +24,10 @@ interface FactoryDao {
         AND isDeleted = 0
         AND latitude BETWEEN (:lat - :range) AND (:lat + :range)
         AND longitude BETWEEN (:lon - :range) AND (:lon + :range)
+        AND companyName LIKE '%' || :searchName || '%'
         """
     )
-    fun getTargetData(area: String, lat: Double, lon: Double, range: Double): Flow<List<FactoryEntity>>
+    fun getTargetData(area: String, lat: Double, lon: Double, range: Double, searchName: String): Flow<List<FactoryEntity>>
 
     @Query("SELECT * FROM factory WHERE id in (:id)")
     fun getTargetIdData(id: List<Int>): List<FactoryEntity>

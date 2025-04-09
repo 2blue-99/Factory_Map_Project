@@ -12,6 +12,7 @@ import com.example.data.remote.datasource.FireStoreDataSource
 import com.example.data.remote.model.FactoryResponse
 import com.example.data.remote.model.toEntity
 import com.example.data.util.NetworkInterface
+import com.example.data.util.FactoryCombine
 import com.example.domain.model.FactoryInfo
 import com.example.domain.repo.FactoryRepository
 import com.example.domain.type.AreaType
@@ -37,21 +38,29 @@ class FactoryRepositoryImpl @Inject constructor(
     private val networkUtil: NetworkInterface,
 ): FactoryRepository {
 
-    override suspend fun getTargetFactoryDao(targetName: String): List<FactoryInfo> {
-        return factoryDao.getTargetFactoryDao(targetName).map { it.toDomain() }
+    override suspend fun getTargetFactoryDao(targetName: String): Int {
+        return factoryDao.getTargetFactoryDao(targetName)
     }
 
     override suspend fun getFactoryDao(): Flow<List<FactoryInfo>> {
         return combine(
             userDataSource.areaPositionFlow,
             userDataSource.currentLocationFlow,
-            filterDao.getAllData()
-        ) { areaPosition, mapInfo, filterList ->
-            Timber.d("areaPosition : $areaPosition / mapInfo : $mapInfo, filterList : $filterList")
-            Triple(AreaType.toType(areaPosition).title, mapInfo, filterList)
+            filterDao.getAllData(),
+            userDataSource.searchNameFlow
+        ) { areaPosition, mapInfo, filterList, searchName ->
+            Timber.d("areaPosition : $areaPosition / mapInfo : $mapInfo, filterList : $filterList, searchName : $searchName")
+            FactoryCombine(
+                areaTitle = AreaType.toType(areaPosition).title,
+                longitude = mapInfo.first,
+                latitude = mapInfo.second,
+                zoomLevel = mapInfo.third,
+                filterList = filterList,
+                searchName = searchName
+            )
         }.distinctUntilChanged()
-            .flatMapLatest { (areaTitle, mapInfo, filterList) ->
-                Timber.d("areaPosition : $areaTitle / mapInfo : $mapInfo, filterList : $filterList")
+            .flatMapLatest { (areaTitle, longitude, latitude, zoomLevel, filterList, searchName) ->
+
                 val excludeCompany =
                     filterList.filter { it.target == SelectType.COMPANY.title }.map { it.keyword }
                 val excludeBusinessType =
@@ -63,14 +72,15 @@ class FactoryRepositoryImpl @Inject constructor(
                 Timber.d("excludeCompany : $excludeCompany")
                 Timber.d("excludeCategory : $excludeBusinessType")
                 Timber.d("excludeProduct : $excludeProduct")
-                Timber.d("location.first : ${mapInfo.first}")
-                Timber.d("location.second : ${mapInfo.second}")
-                Timber.d("location.second : ${mapInfo.third}")
+                Timber.d("longitude : ${longitude}") // 위도
+                Timber.d("latitude : ${latitude}") // 경도
+                Timber.d("zoomLevel : ${zoomLevel}") // 줌 레벨
+                Timber.d("searchName : ${searchName}") // 줌 레벨
 
-                val range = if (areaTitle == AreaType.ALL.title) mapInfo.third else 5.0
+                val range = if (areaTitle == AreaType.ALL.title && searchName.isBlank()) zoomLevel else 5.0
                 val searchArea = if (areaTitle == AreaType.ALL.title) "" else areaTitle
 
-                factoryDao.getTargetData(searchArea, mapInfo.first, mapInfo.second, range)
+                factoryDao.getTargetData(searchArea, longitude, latitude, range, searchName)
                     .map { list ->
                         list.filter { data ->
                             excludeCompany.none { keyword -> data.companyName.contains(keyword) && !data.isCheck }

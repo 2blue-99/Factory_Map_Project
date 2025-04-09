@@ -7,7 +7,7 @@ interface FactoryRepository {
     /**
      * 목표 업체 이름 검색
      */
-    suspend fun getTargetFactoryDao(targetName: String): List<FactoryInfo>
+    suspend fun getTargetFactoryDao(targetName: String): Int
 
     suspend fun getFactoryDao(): Flow<List<FactoryInfo>>
 

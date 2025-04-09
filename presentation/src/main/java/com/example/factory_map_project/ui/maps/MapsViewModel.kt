@@ -96,7 +96,11 @@ class MapsViewModel @Inject constructor(
     }
 
     fun onClickRefresh(){
+        // 검색 Text 초기화
         inputText.value = ""
+        ioScope.launch {
+            userData.setSearchName("")
+        }
         modelScope.launch {
             isRefresh.value = false
             awaitEvent(AppEvent.GetLocation)?.let { (latLng, zoom) ->
@@ -111,15 +115,18 @@ class MapsViewModel @Inject constructor(
         // 2. 1개일 경우, 네임 플로우 변경처리, 해당 위치로 이동
         // 3. 2개 이상일 경우, 네임 플로우 변경처리, 지도 축소 처리
         // 4. 0개일 경우 토스트 메시지
-        modelScope.launch {
+        ioScope.launch {
             if(inputText.value.isNullOrBlank()) {
-                // 토스트
+                userData.setSearchName("")
             } else {
-                val targetList = factoryRepo.getTargetFactoryDao(inputText.value!!)
-                when(targetList.size){
-                    0 -> {} // 토스트 메시지
-                    1 -> {} //
-                    else -> {} //
+                val targetName = inputText.value ?: ""
+                val count = factoryRepo.getTargetFactoryDao(targetName)
+                Timber.d("count : $count")
+                if(count > 0){
+                    userData.setSearchName(targetName)
+                    emitEvent(AppEvent.Action(ActionType.POSITION_INIT, null))
+                }else{
+                    emitEvent(AppEvent.ShowToast("존재하지 않는 업체에요."))
                 }
             }
         }

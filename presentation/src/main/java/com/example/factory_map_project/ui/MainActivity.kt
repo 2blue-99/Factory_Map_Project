@@ -148,7 +148,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             override fun onLocationResult(result: LocationResult) {
                 lifecycleScope.launch {
                     result.lastLocation?.let { location ->
-                        Timber.i("location : $location")
                         viewModel.currentLocation.emit(
                             value = LatLng(location.latitude, location.longitude)
                         )
