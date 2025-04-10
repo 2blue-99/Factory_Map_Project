@@ -39,12 +39,6 @@ class CompareViewModel @Inject constructor(
     //**********************************************************************************************
     // Mark: DataBinding
     //**********************************************************************************************
-//    fun onClickNegative() {
-//        modelScope.launch {
-//            emitEvent(AppEvent.Action(ActionType.NEGATIVE, null))
-//        }
-//    }
-
     fun onClickConfirm() {
         modelScope.launch {
             if(!isSelectAll.value){
