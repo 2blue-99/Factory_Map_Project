@@ -25,6 +25,7 @@ class CompareViewModel @Inject constructor(
      * 비교 데이터
      */
     var compareList = InitialMutableLiveData<List<Pair<FactoryInfo, FactoryInfo?>>>(emptyList())
+
     /**
      * 체크 여부
      */
