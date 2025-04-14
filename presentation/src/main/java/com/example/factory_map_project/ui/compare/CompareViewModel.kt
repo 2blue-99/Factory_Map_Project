@@ -59,7 +59,6 @@ class CompareViewModel @Inject constructor(
     // Mark: Function
     //**********************************************************************************************
     fun setData(list: List<Pair<FactoryInfo, FactoryInfo?>>){
-        Timber.d("list : $list")
         compareList.value = list
         selectList.value = Array(list.size){ Pair(SELECT_NONE, FactoryInfo()) }
     }
