@@ -61,11 +61,6 @@ object CommonUtil {
         }
     }
 
-    fun GoogleMap.setMarker(latitude: Double, longitude: Double, name: String = ""): Marker? {
-        val location = LatLng(latitude, longitude)
-        return this.addMarker(MarkerOptions().position(location).title(name))
-    }
-
     fun FactoryInfo.toCluster(): FactoryCluster =
         FactoryCluster(
             id = id,
