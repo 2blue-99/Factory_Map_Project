@@ -96,12 +96,12 @@ class MapsViewModel @Inject constructor(
     }
 
     fun onClickRefresh(){
-        // 검색 Text 초기화
-        inputText.value = ""
         ioScope.launch {
             userData.setSearchName("")
         }
         modelScope.launch {
+            // 검색 Text 초기화
+            inputText.value = ""
             isRefresh.value = false
             awaitEvent(AppEvent.GetLocation)?.let { (latLng, zoom) ->
                 Timber.d("latLng : $latLng, zoom: $zoom")
@@ -117,7 +117,8 @@ class MapsViewModel @Inject constructor(
         // 4. 0개일 경우 토스트 메시지
         ioScope.launch {
             if(inputText.value.isNullOrBlank()) {
-                userData.setSearchName("")
+                Timber.d("null or blank")
+                onClickRefresh()
             } else {
                 val targetName = inputText.value ?: ""
                 val count = factoryRepo.getTargetFactoryDao(targetName)
