@@ -66,7 +66,8 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
         // 맵 로드가 완료된 후 이동
         setCompareObserver()
 
-        if(!isInit) { // 최초 진입 한정하여 설정
+        // 최초 진입 한정하여 설정
+        if(!isInit) {
             setUserMarker()
             initMap(false)
             initSetting()
