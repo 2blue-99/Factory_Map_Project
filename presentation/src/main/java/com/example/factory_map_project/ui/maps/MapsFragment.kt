@@ -118,7 +118,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                     }
                     is AppEvent.GetLocation -> {
                         val gap = googleMap.projection.visibleRegion.latLngBounds.center
-                        Timber.d("googleMap.cameraPosition.zoom : ${googleMap.cameraPosition.zoom}")
                         event.tryEmit(Pair(gap, googleMap.cameraPosition.zoom))
                     }
                     is AppEvent.ShowToast -> {
