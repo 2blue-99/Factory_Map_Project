@@ -102,7 +102,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding, MapsViewModel>(
                         )
                     }
                     is AppEvent.MovePage -> {
-                        Timber.d("AppEvent.MovePage : ${event.id}")
                         findNavController().navigate(event.id, event.data)
                     }
                     is AppEvent.Action<*> -> {
