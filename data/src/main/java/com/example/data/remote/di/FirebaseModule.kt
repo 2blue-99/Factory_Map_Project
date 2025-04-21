@@ -1,5 +1,6 @@
 package com.example.data.remote.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -16,4 +17,8 @@ object FirebaseModule {
     @Singleton
     @Provides
     fun provideFirebase(): FirebaseFirestore = Firebase.firestore
+
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 }

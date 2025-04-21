@@ -50,6 +50,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
 //            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY_RELEASE"))
         }
     }

@@ -2,6 +2,7 @@ package com.example.data.remote.di
 
 import com.example.data.remote.datasource.FireStoreDataSource
 import com.example.data.remote.datasource.FireStoreDataSourceImpl
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -16,7 +17,8 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideFireStoreDataSource(
-        fireStore: FirebaseFirestore
-    ): FireStoreDataSource = FireStoreDataSourceImpl(fireStore)
+        firestore: FirebaseFirestore,
+        firestoreAuth: FirebaseAuth
+    ): FireStoreDataSource = FireStoreDataSourceImpl(firestore, firestoreAuth)
 
 }

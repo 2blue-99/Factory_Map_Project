@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "155731842767",
+    "project_id": "factory-release",
+    "storage_bucket": "factory-release.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155731842767:android:caa95a59b0370d12de89ba",
+        "android_client_info": {
+          "package_name": "com.example.factory_map_project.release"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiUDQrr7OmRknmGzGKhymbAobnMo5cIGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

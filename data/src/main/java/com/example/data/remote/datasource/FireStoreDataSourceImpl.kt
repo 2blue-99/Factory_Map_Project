@@ -1,7 +1,7 @@
 package com.example.data.remote.datasource
 
 import com.example.data.remote.model.FactoryResponse
-import com.example.data.remote.model.UserResponse
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
@@ -9,24 +9,19 @@ import javax.inject.Inject
 
 
 class FireStoreDataSourceImpl @Inject constructor(
-    private val fireStore: FirebaseFirestore
+    private val fireStore: FirebaseFirestore,
+    private val firebaseAuth: FirebaseAuth
 ): FireStoreDataSource {
 
     override suspend fun login(id: String, passWord: String): String {
-        Timber.d("id : $id / passWord : $passWord")
-        val result = fireStore.collection("user")
-            .whereEqualTo("id", id)
-            .whereEqualTo("pass_word", passWord)
-            .get()
-            .await()
-
-        if(!result.isEmpty){
-            val accessCode = result.map { it.toObject(UserResponse::class.java) }.first()
-            Timber.d("accessCode : $accessCode")
-            return accessCode.user_code
-        }else{
-            Timber.d("no id")
-            return ""
+        return try {
+            val result = firebaseAuth.signInWithEmailAndPassword(id, passWord)
+                .await()
+            Timber.d("result : ${result.user?.uid}")
+            result.user?.uid ?: ""
+        }catch (e: Exception){
+            Timber.e("login err : $e")
+            ""
         }
     }
 
@@ -45,6 +40,7 @@ class FireStoreDataSourceImpl @Inject constructor(
             val batch = fireStore.batch()
 
             dataList.forEach { data ->
+                Timber.d("data : $data")
                 val docRef = fireStore.collection("factory").document()
                 batch.set(docRef, data)
             }
