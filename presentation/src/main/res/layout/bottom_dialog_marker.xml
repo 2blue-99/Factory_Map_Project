@@ -6,9 +6,9 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.factory_map_project.ui.bottomDialog.MarkerViewModel" />
+            type="com.factory.factory_map_project.ui.bottomDialog.MarkerViewModel" />
 
-        <import type="com.example.factory_map_project.util.CommonUtil"/>
+        <import type="com.factory.factory_map_project.util.CommonUtil"/>
 
         <import type="android.view.View"/>
     </data>

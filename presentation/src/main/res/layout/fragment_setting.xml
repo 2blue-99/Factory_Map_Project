@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.factory_map_project.ui.setting.SettingViewModel" />
+            type="com.factory.factory_map_project.ui.setting.SettingViewModel" />
     </data>
 
     <LinearLayout

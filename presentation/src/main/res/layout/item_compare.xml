@@ -6,11 +6,11 @@
 
         <variable
             name="serverData"
-            type="com.example.domain.model.FactoryInfo" />
+            type="com.factory.domain.model.FactoryInfo" />
 
         <variable
             name="localData"
-            type="com.example.domain.model.FactoryInfo" />
+            type="com.factory.domain.model.FactoryInfo" />
 
         <import type="android.view.View"/>
 

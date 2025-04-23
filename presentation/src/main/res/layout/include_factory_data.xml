@@ -7,7 +7,7 @@
     <data>
         <variable
             name="data"
-            type="com.example.domain.model.FactoryInfo" />
+            type="com.factory.domain.model.FactoryInfo" />
     </data>
 
     <LinearLayout

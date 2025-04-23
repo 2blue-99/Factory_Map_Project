@@ -6,11 +6,11 @@
     <data>
         <import type="android.view.View" />
 
-        <import type="com.example.domain.type.AreaType"/>
+        <import type="com.factory.domain.type.AreaType"/>
 
         <variable
             name="viewModel"
-            type="com.example.factory_map_project.ui.MainViewModel" />
+            type="com.factory.factory_map_project.ui.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

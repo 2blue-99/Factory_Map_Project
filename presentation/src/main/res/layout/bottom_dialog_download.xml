@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.example.factory_map_project.ui.bottomDialog.DownloadViewModel"/>
+            type="com.factory.factory_map_project.ui.bottomDialog.DownloadViewModel"/>
     </data>
 
     <LinearLayout

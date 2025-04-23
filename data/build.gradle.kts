@@ -13,7 +13,7 @@ val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
-    namespace = "com.example.data"
+    namespace = "com.factory.data"
     compileSdk = 34
 
     defaultConfig {

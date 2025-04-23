@@ -7,15 +7,15 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.example.factory_map_project.ui.MainActivity"
+        android:name="com.factory.factory_map_project.ui.MainActivity"
         android:label="MainActivity" />
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.factory_map_project.ui.setting.SettingFragment"
+        android:name="com.factory.factory_map_project.ui.setting.SettingFragment"
         android:label="SettingFragment" />
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.example.factory_map_project.ui.maps.MapsFragment"
+        android:name="com.factory.factory_map_project.ui.maps.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" >
         <action
@@ -35,10 +35,10 @@
     </fragment>
     <fragment
         android:id="@+id/compareFragment"
-        android:name="com.example.factory_map_project.ui.compare.CompareFragment"
+        android:name="com.factory.factory_map_project.ui.compare.CompareFragment"
         android:label="CompareFragment" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.factory_map_project.ui.login.LoginFragment"
+        android:name="com.factory.factory_map_project.ui.login.LoginFragment"
         android:label="LoginFragment" />
 </navigation>

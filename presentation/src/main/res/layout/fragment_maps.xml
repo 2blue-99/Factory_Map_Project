@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.example.domain.type.AreaType"/>
+        <import type="com.factory.domain.type.AreaType"/>
 
         <import type="android.view.View"/>
 
         <variable
             name="viewModel"
-            type="com.example.factory_map_project.ui.maps.MapsViewModel" />
+            type="com.factory.factory_map_project.ui.maps.MapsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

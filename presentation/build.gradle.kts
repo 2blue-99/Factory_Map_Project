@@ -13,7 +13,7 @@ val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
-    namespace = "com.example.factory_map_project"
+    namespace = "com.factory.factory_map_project"
     compileSdk = 34
 
     signingConfigs {
@@ -26,10 +26,10 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.factory_map_project"
+        applicationId = "com.factory.factory_map_project"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

@@ -5,10 +5,10 @@
 
     <data>
         <import type="android.view.View"/>
-        <import type="com.example.factory_map_project.util.CommonUtil"/>
+        <import type="com.factory.factory_map_project.util.CommonUtil"/>
         <variable
             name="viewModel"
-            type="com.example.factory_map_project.ui.bottomDialog.FilterViewModel"/>
+            type="com.factory.factory_map_project.ui.bottomDialog.FilterViewModel"/>
 
     </data>
 

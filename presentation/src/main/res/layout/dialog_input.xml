@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.factory_map_project.ui.dialog.InputDialogViewModel" />
+            type="com.factory.factory_map_project.ui.dialog.InputDialogViewModel" />
     </data>
 
 
