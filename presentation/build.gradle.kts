@@ -29,7 +29,7 @@ android {
         applicationId = "com.factory.factory_map_project"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
+        versionCode = 5
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

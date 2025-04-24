@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:505639045154:android:597ef9dddb81b2d56ce27b",
         "android_client_info": {
-          "package_name": "com.example.factory_map_project"
+          "package_name": "com.factory.factory_map_project.debug"
         }
       },
       "oauth_client": [],
@@ -28,7 +28,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:505639045154:android:9c62c37b83ec72a36ce27b",
         "android_client_info": {
-          "package_name": "com.example.factory_map_project.debug"
+          "package_name": "com.factory.factory_map_project.debug"
         }
       },
       "oauth_client": [],
